@@ -7,7 +7,7 @@ else()
     message(FATAL_ERROR "this porject use DirectX, it only support Win32 platform")
 endif()
 
-# SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
 # use c++11
 if(CMAKE_VERSION VERSION_LESS "3")
@@ -34,6 +34,7 @@ message("Build Type " ${CMAKE_BUILD_TYPE})
 include_directories(${PROJECT_SOURCE_DIR})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+add_subdirectory(TaoMath)
 add_subdirectory(HelloDx)
 
 if (NOT CMAKE_NO_BUILD_TEST) 
