@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Global.h"
 #include <cmath>
 #include <numeric>
 #include <limits>
@@ -8,11 +7,13 @@
 #include <type_traits>
 namespace TaoMath
 {
-class TAOMATH_EXPORT Point
+class Point
 {
   public:
-    Point() {}
+    Point() : mX(0), mY(0) {}
     Point(int x, int y) : mX(x), mY(y) {}
+    Point (const Point &o) : mX (o.mX), mY (o.mY) {}
+
     bool isNull() const
     {
         return mX == 0 && mY == 0;
@@ -26,8 +27,8 @@ class TAOMATH_EXPORT Point
     int &rx() { return mX; }
     int &ry() { return mY; }
 
-    template <class T, typename std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type = 0>
-    Point &operator+=(T add)
+    template <class T, typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
+    Point &operator+= (T add)
     {
         mX = std::round(mX + add);
         mY = std::round(mY + add);
@@ -39,7 +40,7 @@ class TAOMATH_EXPORT Point
         mY += o.mY;
         return *this;
     }
-    template <class T, typename std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type = 0>
+    template <class T, typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
     Point &operator-=(T dec)
     {
         mX = std::round(mX - dec);
@@ -53,14 +54,14 @@ class TAOMATH_EXPORT Point
         return *this;
     }
 
-    template <class T, typename std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type = 0>
-    Point &operator*=(T factor)
+    template <class T, typename  = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
+    Point &operator*= (T factor)
     {
         mX = std::round( mX * factor);
         mY = std::round( mY * factor);
         return *this;
     }
-    template <class T, typename std::enable_if<std::is_floating_point<T>::value>::type = 0>
+    template <class T, typename = std::enable_if<std::is_floating_point<T>::value>::type>
     Point &operator/=(T divisor)
     {
         mX = std::round(mX / divisor);
@@ -77,9 +78,9 @@ class TAOMATH_EXPORT Point
 
     static int dotProduct(const Point &p1, const Point &p2)
     {
-        return p1.x() * p2.x() + p2.y() * p2.y();
+        return p1.x() * p2.x() + p1.y() * p2.y();
     }
-    
+
     friend bool operator==(const Point &p1, const Point &p2)
     {
         return p1.x() == p2.x() && p1.y() == p2.y();
@@ -96,9 +97,10 @@ class TAOMATH_EXPORT Point
     {
         return Point(p1.x() - p2.x(), p1.y() - p2.y());
     }
-    //     friend const Point operator* (const Point &p1, const Point &p2) {
-    //     return Point(p1.x() + p2.x(), p1.y() + p2.y());
-    // }
+    template <class T, typename = std::enable_if<std::is_floating_point<T>::value>::type>
+    friend const Point operator* (const Point &p1, T factor) {
+         return Point(p1.x() * factor, p1.y() * factor);
+     }
   private:
     int mX, mY;
 };

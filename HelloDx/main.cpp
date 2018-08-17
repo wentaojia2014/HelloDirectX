@@ -1,4 +1,4 @@
-#include "Core/System.h"
+#include "System.h"
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmd, int nShowCmd) {
     System *s = new System ();
     if (!s) {
