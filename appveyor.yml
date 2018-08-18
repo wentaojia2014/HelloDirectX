@@ -11,7 +11,7 @@ environment:
 install:
   - git clone https://github.com/google/googletest.git googletest
 build_script:
-  - set GTEST_SOURCE_DIR=%cd%\googletest
+  - set GTEST_SOURCE_DIR=%cd%\googletest\googletest
   - mkdir build
   - cd build
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
