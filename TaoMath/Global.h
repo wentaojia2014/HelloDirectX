@@ -10,7 +10,7 @@
 #endif
 
 #ifdef TAOMATHLIBRARY
-#define TAOMATH_EXPORT TAO_EXPORT
+#define TAOAPI TAO_EXPORT
 #else
-#define TAOMATH_EXPORT TAO_IMPORT
+#define TAOAPI TAO_IMPORT
 #endif

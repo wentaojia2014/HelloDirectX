@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Global.h"
 
 #include <cassert>
 #include <cmath>
@@ -7,7 +8,7 @@
 #include <type_traits>
 namespace TaoMath {
 using Integer = int;
-class Point {
+class TAOAPI Point {
 public:
     Point()
         : mX(0)
@@ -123,24 +124,24 @@ private:
     Integer mX, mY;
 };
 template <class T, class S = std::enable_if<std::is_floating_point<T>::value>::type>
-const Point operator/(const Point& p1, T divisor)
+const Point TAOAPI operator/(const Point& p1, T divisor)
 {
     return Point(static_cast<Integer>(p1.x() / divisor), static_cast<Integer>(p1.x() / divisor));
 }
 template <class T = Integer, class S = Integer>
-const Point operator/(const Point& p1, Integer divisor)
+const Point TAOAPI operator/(const Point& p1, Integer divisor)
 {
     assert(divisor != 0);
     return Point(static_cast<Integer>(p1.x() / divisor), static_cast<Integer>(p1.y() / divisor));
 }
 template <class T, class S = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-const Point operator*(const Point& p1, T factor)
+const Point TAOAPI operator*(const Point& p1, T factor)
 {
     return Point(static_cast<Integer>(p1.x() * factor), static_cast<Integer>(p1.y() * factor));
 }
 
 template <class T, class S = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-const Point operator*(T factor, const Point& p1)
+const Point TAOAPI operator*(T factor, const Point& p1)
 {
     return Point(static_cast<Integer>(p1.x() * factor), static_cast<Integer>(p1.y() * factor));
 }
