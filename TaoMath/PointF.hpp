@@ -42,7 +42,7 @@ public:
     }
     Point toPoint() const
     {
-        return Point(mX, mY);
+        return Point(static_cast<Integer>(mX), static_cast<Integer>(mY));
     }
     bool isNull() const { return isZero(mX) && isZero(mY); }
     real x() const { return mX; }
