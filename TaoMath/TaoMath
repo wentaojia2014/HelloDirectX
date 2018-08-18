@@ -1,5 +1,6 @@
-#pragma once
+﻿#pragma once
 #include "TaoMath/Point.hpp"
 #include "TaoMath/Vector2D.hpp"
 #include "TaoMath/Vector3D.hpp"
 #include "TaoMath/PointF.hpp"
+

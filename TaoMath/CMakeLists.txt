@@ -1,4 +1,4 @@
-set (TAR TaoMath)
+﻿set (TAR TaoMath)
 add_definitions(-DTAOMATHLIBRARY)
 
 file(GLOB_RECURSE CURRENT_HEADERS  *.h *.hpp)
