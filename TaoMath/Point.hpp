@@ -4,7 +4,7 @@
 
 namespace TaoMath {
 
-class TAOAPI Point {
+class TAOEXPORT Point {
 public:
     constexpr inline Point()
         : mX(0)

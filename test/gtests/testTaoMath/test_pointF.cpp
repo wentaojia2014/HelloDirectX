@@ -20,6 +20,11 @@ TEST(testPointF, test1)
     ASSERT_EQ(p3.x(), 2);
     p3.ry()++;
     ASSERT_EQ(p3.y(), 3);
+
+    p3.setX (p3.x () + 1.1);
+    ASSERT_EQ (p3.x (), 3.1);
+    p3.setY (p3.y () + 1.3);
+    ASSERT_EQ (p3.y (), 4.3);
 }
 TEST(testPointF, test2)
 {

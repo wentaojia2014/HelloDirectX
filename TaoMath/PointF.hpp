@@ -3,7 +3,7 @@
 #include "Common.hpp"
 namespace TaoMath {
 class Point;
-class TAOAPI PointF {
+class TAOEXPORT PointF {
 public:
     constexpr inline PointF()
         : mX(0.0)

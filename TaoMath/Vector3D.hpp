@@ -3,8 +3,10 @@
 #include "Common.hpp"
 namespace TaoMath {
 
-class TAOAPI Vector3D {
+class TAOEXPORT Vector3D {
 public:
+    constexpr inline Vector3D () : mX (0), mY (0), mZ (0) {}
+    constexpr inline Vector3D (real x, real y, real z) : mX (x), mY (y), mZ (z) {}
     constexpr inline real x () const { return mX; }
     constexpr inline real y () const { return mY; }
     constexpr inline real z () const { return mZ; }

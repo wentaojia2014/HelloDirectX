@@ -4,6 +4,8 @@
 namespace TaoMath {
 class Vector4D {
 public:
+    constexpr inline Vector4D () : mX (0), mY (0), mZ (0), mW(0) {}
+    constexpr inline Vector4D (real x, real y, real z, real w) : mX (x), mY (y), mZ (z), mW(w) {}
     constexpr inline real x () const { return mX; }
     constexpr inline real y () const { return mY; }
     constexpr inline real z () const { return mZ; }
