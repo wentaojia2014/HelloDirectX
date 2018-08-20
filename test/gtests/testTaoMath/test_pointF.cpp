@@ -1,5 +1,7 @@
-#include "TaoMath/PointF.hpp"
 #include <gtest/gtest.h>
+#include "TaoMath/Point.hpp"
+#include "TaoMath/PointF.hpp"
+
 using namespace TaoMath;
 TEST(testPointF, test1)
 {

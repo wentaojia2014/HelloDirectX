@@ -1,104 +1,77 @@
 ﻿#pragma once
-#include "Point.hpp"
-
-#include <algorithm>
-
+#include "Global.h"
+#include "Common.hpp"
 namespace TaoMath {
-
-using real = double;
-
-template <class T,
-    class S = std::enable_if<std::is_floating_point<T>::value>::type>
-bool isZero(T v)
-{
-    return std::abs(v) < std::numeric_limits<T>::epsilon();
-}
-
-bool fuzzyCompare(float p1, float p2)
-{
-    return std::abs(p1 - p2) * 100000.0f <= std::min(std::abs(p1), std::abs(p2));
-}
-bool fuzzyCompare(double p1, double p2)
-{
-    return std::abs(p1 - p2) * 1000000000000. <= std::min(std::abs(p1), std::abs(p2));
-}
-
-class PointF {
+class Point;
+class TAOAPI PointF {
 public:
-    PointF()
+    constexpr inline PointF()
         : mX(0.0)
         , mY(0.0)
     {
     }
-    PointF(real x, real y)
+    constexpr inline PointF(real x, real y)
         : mX(x)
         , mY(y)
     {
     }
-    PointF(const PointF& o)
+    constexpr inline PointF(const PointF& o)
         : mX(o.mX)
         , mY(o.mY)
     {
     }
-    Point toPoint() const
-    {
-        return Point(static_cast<Integer>(mX), static_cast<Integer>(mY));
-    }
-    bool isNull() const { return isZero(mX) && isZero(mY); }
-    real x() const { return mX; }
-    real y() const { return mY; }
-    void setX(real x) { mX = x; }
-    void setY(real y) { mY = y; }
-    real& rx() { return mX; }
-    real& ry() { return mY; }
-    real manhattanLength() const { return std::abs(x()) + std::abs(y()); }
+    constexpr inline Point toPoint() const;
+    inline bool isNull() const { return isZero(mX) && isZero(mY); }
+    constexpr inline real x() const { return mX; }
+    constexpr inline real y() const { return mY; }
+    constexpr inline void setX(real x) { mX = x; }
+    constexpr inline void setY(real y) { mY = y; }
+    constexpr inline real& rx() { return mX; }
+    constexpr inline real& ry() { return mY; }
+    inline real manhattanLength() const { return std::abs(x()) + std::abs(y()); }
 
-    template <class T,
-        typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
-    PointF& operator+=(T add)
+    template <class T, typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
+    constexpr inline PointF& operator+=(T add)
     {
         mX += add;
         mY += add;
         return *this;
     }
-    PointF& operator+=(const PointF& o)
+    constexpr inline PointF& operator+=(const PointF& o)
     {
         mX += o.mX;
         mY += o.mY;
         return *this;
     }
-    template <class T,
-        typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
-    PointF& operator-=(T dec)
+    template <class T, typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
+    constexpr inline PointF& operator-=(T dec)
     {
         mX -= dec;
         mY -= dec;
         return *this;
     }
-    PointF& operator-=(const PointF& o)
+    constexpr inline PointF& operator-=(const PointF& o)
     {
         mX -= o.mX;
         mY -= o.mY;
         return *this;
     }
 
-    template <class T,
-        typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
-    PointF& operator*=(T factor)
+    template <class T, typename = std::enable_if<std::is_integral<T>::value || std::is_floating_point<T>::value>::type>
+    constexpr inline PointF& operator*=(T factor)
     {
         mX *= factor;
         mY *= factor;
         return *this;
     }
-    template <class T,
-        typename = std::enable_if<std::is_floating_point<T>::value>::type>
-    PointF& operator/=(T divisor)
+    template <class T, typename = std::enable_if<std::is_floating_point<T>::value>::type>
+    constexpr inline PointF& operator/=(T divisor)
     {
         mX /= divisor;
         mY /= divisor;
         return *this;
     }
-    PointF& operator/=(int divisor)
+    constexpr inline PointF& operator/=(int divisor)
     {
         assert(divisor != 0);
         mX /= divisor;
@@ -106,58 +79,57 @@ public:
         return *this;
     }
 
-    static real dotProduct(const PointF& p1, const PointF& p2)
+    constexpr inline static real dotProduct(const PointF& p1, const PointF& p2)
     {
         return p1.x() * p2.x() + p1.y() * p2.y();
     }
 
-    friend bool operator==(const PointF& p1, const PointF& p2)
+    friend inline bool operator==(const PointF& p1, const PointF& p2)
     {
         return fuzzyCompare(p1.x(), p2.x()) && fuzzyCompare(p1.y(), p2.y());
     }
-    friend bool operator!=(const PointF& p1, const PointF& p2)
+    friend inline bool operator!=(const PointF& p1, const PointF& p2)
     {
         return !fuzzyCompare(p1.x(), p2.x()) || !fuzzyCompare(p1.y(), p2.y());
     }
-    friend const PointF operator+(const PointF& p1, const PointF& p2)
+    friend constexpr inline const PointF operator+(const PointF& p1, const PointF& p2)
     {
         return PointF(p1.x() + p2.x(), p1.y() + p2.y());
     }
-    friend const PointF operator-(const PointF& p1, const PointF& p2)
+    friend constexpr inline const PointF operator-(const PointF& p1, const PointF& p2)
     {
         return PointF(p1.x() - p2.x(), p1.y() - p2.y());
     }
     template <class T, class S>
-    friend const PointF operator/(const PointF& p1, T divisor);
+    friend constexpr inline const PointF operator/(const PointF& p1, T divisor);
 
     template <class T, class S>
-    friend const PointF operator*(const PointF& p1, T factor);
+    friend constexpr inline const PointF operator*(const PointF& p1, T factor);
     template <class T, class S>
-    friend const PointF operator*(T factor, const PointF& p1);
+    friend constexpr inline const PointF operator*(T factor, const PointF& p1);
 
 private:
     real mX, mY;
 };
-template <class T,
-    class S = std::enable_if<std::is_floating_point<T>::value>::type>
-const PointF operator/(const PointF& p1, T divisor)
+template <class T, class S = std::enable_if<std::is_floating_point<T>::value>::type>
+constexpr inline const PointF operator/(const PointF& p1, T divisor)
 {
     return PointF(p1.x() / divisor, p1.x() / divisor);
 }
 template <class T = int, class S = int>
-const PointF operator/(const PointF& p1, int divisor)
+constexpr inline const PointF operator/(const PointF& p1, int divisor)
 {
     assert(divisor != 0);
     return PointF(p1.x() / divisor, p1.y() / divisor);
 }
 template <class T, class S = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-const PointF operator*(const PointF& p1, T factor)
+constexpr inline const PointF operator*(const PointF& p1, T factor)
 {
     return PointF(p1.x() * factor, p1.y() * factor);
 }
 
 template <class T, class S = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-const PointF operator*(T factor, const PointF& p1)
+constexpr inline const PointF operator*(T factor, const PointF& p1)
 {
     return PointF(p1.x() * factor, p1.y() * factor);
 }
