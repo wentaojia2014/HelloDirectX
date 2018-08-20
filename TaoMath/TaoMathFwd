@@ -1,0 +1,9 @@
+#pragma once
+namespace TaoMath {
+class Point;
+class PointF;
+class Vector2D;
+class Vector3D;
+class Vector4D;
+class Quaternion;
+}
