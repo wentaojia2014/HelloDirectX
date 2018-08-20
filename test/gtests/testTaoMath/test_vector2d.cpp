@@ -108,14 +108,15 @@ TEST(testVector2D, test4)
         Vector2D v(1., 2);
         auto v1 = v * 3;
         auto v2 = 3 * v;
-        ASSERT_EQ (v1, Vector2D( 3, 6));
-        ASSERT_EQ (v2, Vector2D (3, 6));
+        ASSERT_EQ(v1, Vector2D(3, 6));
+        ASSERT_EQ(v2, Vector2D(3, 6));
     }
     {
-        Vector2D v (12, 9);
+        Vector2D v(12, 9);
         auto v1 = v / 3;
-        ASSERT_EQ (v1, Vector2D (4, 3));
+        ASSERT_EQ(v1, Vector2D(4, 3));
         auto v0 = v / 1.0;
+        ASSERT_EQ(v1, Vector2D(4, 3));
     }
 }
 TEST(testVector2D, test5)
@@ -125,7 +126,7 @@ TEST(testVector2D, test5)
     ASSERT_EQ(Point(1, 2), p);
 
     auto p2 = v.toPointF();
-    ASSERT_EQ(Vector2D(1.3, 2.4), p2);
+    ASSERT_EQ(PointF(1.3, 2.4), p2);
 
     auto v3 = v.toVector3D();
     ASSERT_EQ(Vector3D(1.3, 2.4, 0), v3);
@@ -161,15 +162,15 @@ TEST(testVector2D, test7)
     Vector2D v(3., 4.);
     ASSERT_EQ(1.0, v.distanceToPoint({ 4., 4. }));
     ASSERT_EQ(1.0, v.distanceToLine({ 4., 4. }, { 0.0, 10.0 }));
-    ASSERT_EQ (5., v.distanceToPoint (Vector2D ()));
+    ASSERT_EQ(5., v.distanceToPoint(Vector2D()));
     Vector2D v0;
     ASSERT_EQ(5.0, v0.distanceToPoint({ 3., 4. }));
     ASSERT_EQ(4.0, v0.distanceToLine({ 3., 4. }, { 10.0, 0.0 }));
 
     Vector2D v3(1, 1);
     ASSERT_EQ(v3.distanceToLine({ 2, 2 }, { -1, 1 }), 1.4142135623730951);
-    Vector2D v4 (1, 1);
-    ASSERT_EQ (v4.distanceToLine ({ 2, 2 }, { }), 1.4142135623730951);
+    Vector2D v4(1, 1);
+    ASSERT_EQ(v4.distanceToLine({ 2, 2 }, {}), 1.4142135623730951);
 }
 TEST(testVector2D, test8)
 {
@@ -177,30 +178,31 @@ TEST(testVector2D, test8)
     auto vn = v.normalized();
     v.normalize();
     ASSERT_EQ(v, vn);
-    ASSERT_EQ (Vector2D (0.6, 0.8), v);
+    ASSERT_EQ(Vector2D(0.6, 0.8), v);
     {
-        Vector2D v2 (0.6, 0.8);
-        auto vn2 = v2.normalized ();
-        ASSERT_EQ (v2, vn2);
+        Vector2D v2(0.6, 0.8);
+        auto vn2 = v2.normalized();
+        ASSERT_EQ(v2, vn2);
     }
     {
         Vector2D v;
-        v = v.normalized ();
-        ASSERT_TRUE (v.isNull ());
+        v = v.normalized();
+        ASSERT_TRUE(v.isNull());
     }
     {
         Vector2D v;
-        v.normalize ();
-        ASSERT_TRUE (v.isNull ());
+        v.normalize();
+        ASSERT_TRUE(v.isNull());
     }
     {
         Vector2D v(1.2, 1.6);
-        v.normalize ();
-        ASSERT_EQ (v, Vector2D(0.6, 0.8));
+        v.normalize();
+        ASSERT_EQ(v, Vector2D(0.6, 0.8));
     }
 }
-TEST (testVector2D, test9) {
-    Vector2D v (3., 4.);
-    ASSERT_EQ (25, v.lengthSquared ());
-    ASSERT_EQ (5, v.length ());
+TEST(testVector2D, test9)
+{
+    Vector2D v(3., 4.);
+    ASSERT_EQ(25, v.lengthSquared());
+    ASSERT_EQ(5, v.length());
 }
