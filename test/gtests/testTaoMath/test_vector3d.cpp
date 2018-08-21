@@ -177,38 +177,45 @@ TEST(testVector3D, test7)
 
     Vector3D v5;
     ASSERT_TRUE (fuzzyCompare (v5.distanceToPlane ({ 1, 1, 1 }, { 0, 1, 0 }), -1));
+    Vector3D v6(1,1,1);
+    ASSERT_TRUE (fuzzyCompare (v6.distanceToPlane ({ 2,2,2 }, { 3,3,3, }, { 4,4,4 }), 0));
 }
 TEST(testVector3D, test8)
 {
-    // Vector3D v(3.3, 4.4, 5.5);
-    // auto vn = v.normalized();
-    // v.normalize();
-    // ASSERT_EQ(v, vn);
-    // ASSERT_EQ(Vector3D(0.6, 0.8), v);
-    // {
-    //     Vector3D v2(0.6, 0.8);
-    //     auto vn2 = v2.normalized();
-    //     ASSERT_EQ(v2, vn2);
-    // }
-    // {
-    //     Vector3D v;
-    //     v = v.normalized();
-    //     ASSERT_TRUE(v.isNull());
-    // }
-    // {
-    //     Vector3D v;
-    //     v.normalize();
-    //     ASSERT_TRUE(v.isNull());
-    // }
-    // {
-    //     Vector3D v(1.2, 1.6);
-    //     v.normalize();
-    //     ASSERT_EQ(v, Vector3D(0.6, 0.8));
-    // }
+     Vector3D v(3.3, 4.4, 5.5);
+     auto vn = v.normalized();
+     v.normalize();
+     ASSERT_EQ(v, vn);
+     ASSERT_EQ(Vector3D(0.42426406871192851464050661726291, 0.56568542494923801952067548968388, 0.70710678118654752440084436210485), v);
+     {
+         Vector3D v2(0.42426406871192851464050661726291, 0.56568542494923801952067548968388, 0.70710678118654752440084436210485);
+         auto vn2 = v2.normalized();
+         ASSERT_EQ(v2, vn2);
+     }
+     {
+         Vector3D v;
+         v = v.normalized();
+         ASSERT_TRUE(v.isNull());
+     }
+     {
+         Vector3D v;
+         v.normalize();
+         ASSERT_TRUE(v.isNull());
+     }
+     {
+         Vector3D v(1.2, 1.6, 1.8);
+         v.normalize();
+         ASSERT_EQ(v, Vector3D(0.44597648774829978951921830261338, 0.59463531699773305269229107015117, 0.66896473162244968427882745392007));
+     }
 }
 TEST(testVector3D, test9)
 {
     Vector3D v(3., 4., 5.);
     ASSERT_EQ(50, v.lengthSquared());
     ASSERT_TRUE(fuzzyCompare(7.071067811865475, v.length()));
+}
+TEST (testVector3D, test10) {
+    auto v = Vector3D::normal (Vector3D (1, 1, 1), Vector3D (2, 2, 2), Vector3D (3, 3, 3));
+    ASSERT_EQ (v, Vector3D ());
+
 }
