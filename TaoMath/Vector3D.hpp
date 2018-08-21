@@ -107,20 +107,20 @@ public:
     }
 
     template <typename T, typename = std::enable_if<std::is_floating_point<T>::value>::type>
-    constexpr inline Vector3D& operator/=(T factor)
+    constexpr inline Vector3D& operator/=(T divisor)
     {
-        mX /= factor;
-        mY /= factor;
-        mZ /= factor;
+        mX /= divisor;
+        mY /= divisor;
+        mZ /= divisor;
         return *this;
     }
 
-    constexpr inline Vector3D& operator/=(int factor)
+    constexpr inline Vector3D& operator/=(int divisor)
     {
-        assert(factor != 0);
-        mX /= factor;
-        mY /= factor;
-        mZ /= factor;
+        assert(divisor != 0);
+        mX /= divisor;
+        mY /= divisor;
+        mZ /= divisor;
         return *this;
     }
 
