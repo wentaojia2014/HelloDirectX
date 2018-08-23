@@ -11,7 +11,9 @@ namespace TaoMath {
 
 using Integer = int;
 using real = double;
-
+enum class State {
+    Uninitialized
+};
 static const auto PI = (3.14159265358979323846);
 static const auto PI_2 = 1.57079632679489661923;
 template <class T, class S = std::enable_if<std::is_floating_point<T>::value>::type>

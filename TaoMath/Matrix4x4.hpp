@@ -9,11 +9,12 @@ class TAOEXPORT Matrix4x4 {
     static constexpr int H = 4;
 
 public:
-    Matrix4x4()
+    constexpr inline Matrix4x4()
     {
         setToIdentity();
     }
-    Matrix4x4(real m00, real m01, real m02, real m03,
+    constexpr inline Matrix4x4(State) {}
+    constexpr inline Matrix4x4(real m00, real m01, real m02, real m03,
         real m10, real m11, real m12, real m13,
         real m20, real m21, real m22, real m23,
         real m30, real m31, real m32, real m33)
@@ -35,7 +36,15 @@ public:
         m[3][2] = m32;
         m[3][3] = m33;
     }
-    Matrix4x4(const Matrix4x4& o)
+    constexpr inline Matrix4x4(const real* values)
+    {
+        for (int i = 0; i < W; ++i) {
+            for (int j = 0; j < H; ++j) {
+                m[i][j] = values[i * H + j];
+            }
+        }
+    }
+    constexpr inline Matrix4x4(const Matrix4x4& o)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -43,7 +52,7 @@ public:
             }
         }
     }
-    void fill(real v)
+    constexpr inline void fill(real v)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -55,7 +64,17 @@ public:
     void setRow(int r, const Vector4D& v);
     const Vector4D column(int c) const;
     void setColumn(int c, const Vector4D& v);
-    void transpose()
+
+    constexpr inline const int rowCount() const
+    {
+        return W;
+    }
+    constexpr inline const int columnCount() const
+    {
+        return H;
+    }
+
+    constexpr inline void transpose()
     {
         for (int i = 0; i < W; ++i) {
             for (int j = i + 1; j < H; ++j) {
@@ -63,20 +82,20 @@ public:
             }
         }
     }
-    Matrix4x4 transposed() const
+    constexpr inline Matrix4x4 transposed() const
     {
         Matrix4x4 c = *this;
         c.transpose();
         return c;
     }
-    void setToIdentity()
+    constexpr inline void setToIdentity()
     {
         fill(0);
         for (int i = 0; i < W; ++i) {
             m[i][i] = 1;
         }
     }
-    bool isIdentity() const
+    constexpr inline bool isIdentity() const
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -101,35 +120,44 @@ public:
     //void inverse()
     //{
     //}
-    Matrix4x4 inversed() const
-    {
-        Matrix4x4 m;
-        return m;
-    }
-
-    Matrix4x4 operator=(const Matrix4x4& o)
-    {
-        Matrix4x4 m;
+    //Matrix4x4 inversed() const
+    //{
+    //    Matrix4x4 m;
+    //    return m;
+    //}
+    void copyDataTo (real* values) const {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
-                m.m[i][j] = o.m[i][j];
+                values[i * H + j] = m[i][j];
             }
         }
-        return m;
     }
-    const real& operator()(int row, int col) const
+    real* data() { return *m; }
+
+    const real* data() const { return *m; }
+    const real* constData() const { return *m; }
+    constexpr inline Matrix4x4 operator=(const Matrix4x4& o)
+    {
+        for (int i = 0; i < W; ++i) {
+            for (int j = 0; j < H; ++j) {
+                m[i][j] = o.m[i][j];
+            }
+        }
+        return *this;
+    }
+    constexpr inline const real& operator()(int row, int col) const
     {
         assert(row >= 0 && row < W);
         assert(col >= 0 && col < H);
         return m[row][col];
     }
-    real& operator()(int row, int col)
+    constexpr inline real& operator()(int row, int col)
     {
         assert(row >= 0 && row < W);
         assert(col >= 0 && col < H);
         return m[row][col];
     }
-    Matrix4x4& operator+=(real v)
+    constexpr inline Matrix4x4& operator+=(real v)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -138,7 +166,7 @@ public:
         }
         return *this;
     }
-    Matrix4x4& operator+=(const Matrix4x4& o)
+    constexpr inline Matrix4x4& operator+=(const Matrix4x4& o)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -147,7 +175,7 @@ public:
         }
         return *this;
     }
-    Matrix4x4& operator-=(const Matrix4x4& o)
+    constexpr inline Matrix4x4& operator-=(const Matrix4x4& o)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -156,7 +184,7 @@ public:
         }
         return *this;
     }
-    Matrix4x4& operator-=(real v)
+    constexpr inline Matrix4x4& operator-=(real v)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -165,7 +193,7 @@ public:
         }
         return *this;
     }
-    Matrix4x4& operator*=(real v)
+    constexpr inline Matrix4x4& operator*=(real v)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -174,7 +202,7 @@ public:
         }
         return *this;
     }
-    Matrix4x4& operator/=(real v)
+    constexpr inline Matrix4x4& operator/=(real v)
     {
         for (int i = 0; i < W; ++i) {
             for (int j = 0; j < H; ++j) {
@@ -185,23 +213,24 @@ public:
     }
     Matrix4x4& operator*=(const Matrix4x4& o);
 
-    friend bool operator==(const Matrix4x4& m1, const Matrix4x4& m2);
-    friend bool operator!=(const Matrix4x4& m1, const Matrix4x4& m2);
-    friend bool fuzzyCompare (const Matrix4x4& m1, const Matrix4x4& m2);
-    friend Matrix4x4 operator+(const Matrix4x4& m1, real v);
-    friend Matrix4x4 operator-(const Matrix4x4& m1, real v);
-    friend Matrix4x4 operator*(const Matrix4x4& m1, real v);
+    friend constexpr inline bool operator==(const Matrix4x4& m1, const Matrix4x4& m2);
+    friend constexpr inline bool operator!=(const Matrix4x4& m1, const Matrix4x4& m2);
+    friend constexpr inline bool fuzzyCompare(const Matrix4x4& m1, const Matrix4x4& m2);
+    friend constexpr inline Matrix4x4 operator+(const Matrix4x4& m1, real v);
+    friend constexpr inline Matrix4x4 operator-(const Matrix4x4& m1, real v);
+    friend constexpr inline Matrix4x4 operator*(const Matrix4x4& m1, real v);
 
-    friend Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2);
-    friend Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
-    friend Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
+    friend constexpr inline Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2);
+    friend constexpr inline Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
+    friend constexpr inline Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
 
-    friend Vector4D operator*(const Vector4D &v, const Matrix4x4 &m);
+    friend constexpr inline Vector4D operator*(const Vector4D& v, const Matrix4x4& m);
+
 private:
     real m[W][H] = { 0. };
 };
 
-bool operator==(const Matrix4x4& m1, const Matrix4x4& m2)
+constexpr inline bool operator==(const Matrix4x4& m1, const Matrix4x4& m2)
 {
     for (int i = 0; i < Matrix4x4::W; ++i) {
         for (int j = 0; j < Matrix4x4::H; ++j) {
@@ -212,7 +241,7 @@ bool operator==(const Matrix4x4& m1, const Matrix4x4& m2)
     }
     return true;
 }
-bool operator!=(const Matrix4x4& m1, const Matrix4x4& m2)
+constexpr inline bool operator!=(const Matrix4x4& m1, const Matrix4x4& m2)
 {
     for (int i = 0; i < Matrix4x4::W; ++i) {
         for (int j = 0; j < Matrix4x4::H; ++j) {
@@ -223,17 +252,18 @@ bool operator!=(const Matrix4x4& m1, const Matrix4x4& m2)
     }
     return false;
 }
-bool fuzzyCompare (const Matrix4x4 & m1, const Matrix4x4 & m2) {
+constexpr inline bool fuzzyCompare(const Matrix4x4& m1, const Matrix4x4& m2)
+{
     for (int i = 0; i < Matrix4x4::W; ++i) {
         for (int j = 0; j < Matrix4x4::H; ++j) {
-            if (!fuzzyCompare(m1 (i, j), m2 (i, j))) {
+            if (!fuzzyCompare(m1(i, j), m2(i, j))) {
                 return false;
             }
         }
     }
     return true;
 }
-Matrix4x4 operator+(const Matrix4x4& m1, real v)
+constexpr inline Matrix4x4 operator+(const Matrix4x4& m1, real v)
 {
     Matrix4x4 m;
     for (int i = 0; i < Matrix4x4::W; ++i) {
@@ -243,7 +273,7 @@ Matrix4x4 operator+(const Matrix4x4& m1, real v)
     }
     return m;
 }
-Matrix4x4 operator-(const Matrix4x4& m1, real v)
+constexpr inline Matrix4x4 operator-(const Matrix4x4& m1, real v)
 {
     Matrix4x4 m;
     for (int i = 0; i < Matrix4x4::W; ++i) {
@@ -253,7 +283,7 @@ Matrix4x4 operator-(const Matrix4x4& m1, real v)
     }
     return m;
 }
-Matrix4x4 operator*(const Matrix4x4& m1, real v)
+constexpr inline Matrix4x4 operator*(const Matrix4x4& m1, real v)
 {
     Matrix4x4 m;
     for (int i = 0; i < Matrix4x4::W; ++i) {
@@ -264,7 +294,7 @@ Matrix4x4 operator*(const Matrix4x4& m1, real v)
     return m;
 }
 
-Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2)
+constexpr inline Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2)
 {
     Matrix4x4 m;
     for (int i = 0; i < Matrix4x4::W; ++i) {
@@ -274,7 +304,7 @@ Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2)
     }
     return m;
 }
-Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2)
+constexpr inline Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2)
 {
     Matrix4x4 m;
     for (int i = 0; i < Matrix4x4::W; ++i) {

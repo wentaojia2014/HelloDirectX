@@ -5,4 +5,6 @@
 #include "TaoMath/Vector3D.hpp"
 #include "TaoMath/Vector4D.hpp"
 #include "TaoMath/Quaternion.hpp"
+#include "TaoMath/MatrixGeneric.hpp"
+#include "TaoMath/Matrix4x4.hpp"
 
