@@ -2,10 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 
 project (HelloDx C CXX)
 
-if(WIN32)
-else()
-    message(FATAL_ERROR "this porject use DirectX, it only support Win32 platform")
-endif()
+
 
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
@@ -35,7 +32,13 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory(TaoMath)
-add_subdirectory(HelloDx)
+
+if(WIN32)
+    add_subdirectory(HelloDx)
+else()
+    message("main porject 'HelloDx' use DirectX, it only support Win32 platform.")
+endif()
+
 
 if (NOT CMAKE_NO_BUILD_TEST) 
     add_subdirectory(test)
