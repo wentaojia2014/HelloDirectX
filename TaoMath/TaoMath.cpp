@@ -1,4 +1,5 @@
 #include "TaoMath"
+#ifdef _MSC_VER
 #include <windows.h>
 
 BOOL APIENTRY DllMain(HANDLE hModule,
@@ -7,3 +8,4 @@ BOOL APIENTRY DllMain(HANDLE hModule,
 {
     return TRUE;
 }
+#endif
