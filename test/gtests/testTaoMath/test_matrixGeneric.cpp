@@ -17,7 +17,7 @@ struct Tester {
         ASSERT_FALSE (m2.isIdentity ());
         ASSERT_NE (m1, m2);
         ASSERT_TRUE (m1 != m2);
-
+        ASSERT_FALSE (m1 == m2);
         const static real values[] = {
             0.1,
             0.2,
@@ -42,6 +42,11 @@ struct Tester {
                 ASSERT_EQ (m3 (i, j), values[i * m3.columnCount () + j]);
             }
         }
+        real values2[16];
+        m3.copyDataTo (values2);
+        MatrixType m0 (static_cast<const real *>(&values2[0]));
+        ASSERT_EQ (m0, m3);
+
         auto m4 = m3.transposed ();
         for (int i = 0; i < m3.rowCount (); ++i) {
             for (int j = 0; j < m3.columnCount (); ++j) {
@@ -55,6 +60,8 @@ struct Tester {
         m5 += m3;
         m5 -= m3;
         ASSERT_EQ (m5, m3);
+        ASSERT_TRUE (m5 == m3);
+        ASSERT_FALSE (m5 != m3);
 
         m5 *= 0.1f;
         ASSERT_NE (m5, m3);
@@ -72,6 +79,7 @@ struct Tester {
         ASSERT_EQ (m8, m3);
         m9 = m9 / 2.0f;
         ASSERT_EQ (m9, m3);
+        
     }
 };
 
