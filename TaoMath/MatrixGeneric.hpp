@@ -18,6 +18,7 @@ public:
 
     void fill(T value);
     GenericMatrix<M, N, T> transposed() const;
+    GenericMatrix<N, M, T>& operator=(const GenericMatrix<N, M, T>& o);
     GenericMatrix<N, M, T>& operator+=(const GenericMatrix<N, M, T>& o);
     GenericMatrix<N, M, T>& operator-=(const GenericMatrix<N, M, T>& o);
     GenericMatrix<N, M, T>& operator*=(T factor);
@@ -129,6 +130,15 @@ GenericMatrix<M, N, T> GenericMatrix<N, M, T>::transposed() const
         }
     }
     return result;
+}
+template <int N, int M, typename T>
+GenericMatrix<N, M, T>& GenericMatrix<N, M, T>::operator=(const GenericMatrix<N, M, T>& o) {
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < M; ++j) {
+            m[i][j] = o.m[i][j];
+        }
+    }
+    return *this;
 }
 template <int N, int M, typename T>
 GenericMatrix<N, M, T>& GenericMatrix<N, M, T>::operator+=(const GenericMatrix<N, M, T>& o)

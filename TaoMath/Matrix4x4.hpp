@@ -223,6 +223,37 @@ public:
     friend inline Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2);
     friend inline Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
     friend inline Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
+    
+    friend inline Matrix4x4 operator-(const Matrix4x4& m) {
+        Matrix4x4 result (State::Uninitialized);
+        for (int i = 0; i < W; ++i) {
+            for (int j = 0; j < H; ++j) {
+                result.m[i][j] = -m.m[i][j];
+            }
+        }
+        return result;
+    }
+
+    friend inline Matrix4x4 operator*(real factor, const Matrix4x4& m) {
+
+        Matrix4x4 result (State::Uninitialized);
+        for (int i = 0; i < W; ++i) {
+            for (int j = 0; j < H; ++j) {
+                result.m[i][j] = m.m[i][j] * factor;
+            }
+        }
+        return result;
+    }
+    
+    friend inline Matrix4x4 operator/(const Matrix4x4& m, real divisor) {
+        Matrix4x4 result (State::Uninitialized);
+        for (int i = 0; i < W; ++i) {
+            for (int j = 0; j < H; ++j) {
+                result.m[i][j] = m.m[i][j] / divisor;
+            }
+        }
+        return result;
+    }
 
     friend inline Vector4D operator*(const Vector4D& v, const Matrix4x4& m);
 
