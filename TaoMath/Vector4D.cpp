@@ -1,50 +1,50 @@
-#include "Vector4D.hpp"
+﻿#include "Vector4D.hpp"
 #include "Point.hpp"
 #include "PointF.hpp"
 #include "Vector2D.hpp"
 #include "Vector3D.hpp"
 namespace TaoMath {
-inline constexpr Vector4D::Vector4D(const Vector2D& o)
+Vector4D::Vector4D(const Vector2D& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(0)
     , mW(0)
 {
 }
-inline constexpr Vector4D::Vector4D(const Vector3D& o)
+Vector4D::Vector4D(const Vector3D& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(o.z())
     , mW(0)
 {
 }
-inline constexpr Vector4D::Vector4D(const Point& o)
+Vector4D::Vector4D(const Point& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(0)
     , mW(0)
 {
 }
-inline constexpr Vector4D::Vector4D(const PointF& o)
+Vector4D::Vector4D(const PointF& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(0)
     , mW(0)
 {
 }
-inline constexpr Point Vector4D::toPoint() const
+Point Vector4D::toPoint() const
 {
     return Point(static_cast<Integer>(mX), static_cast<Integer>(mY));
 }
-inline constexpr PointF Vector4D::toPointF() const
+PointF Vector4D::toPointF() const
 {
     return PointF(mX, mY);
 }
-inline constexpr Vector2D Vector4D::toVector2D() const
+Vector2D Vector4D::toVector2D() const
 {
     return Vector2D(mX, mY);
 }
-inline constexpr Vector3D Vector4D::toVector3D() const
+Vector3D Vector4D::toVector3D() const
 {
     return Vector3D(mX, mY, mZ);
 }
@@ -62,10 +62,10 @@ real Vector4D::lengthSquared() const
 }
 Vector4D Vector4D::normalized() const
 {
-    double len = lengthSquared ();
+    auto len = lengthSquared ();
     if (isZero (len)) {
         return {};
-    } else if (isZero (len - 1.0f)) {
+    } else if (isZero (len - 1)) {
         return *this;
     } else {
         len = std::sqrt (len);
@@ -73,8 +73,8 @@ Vector4D Vector4D::normalized() const
     }
 }
 void Vector4D::normalize() {
-    double len = lengthSquared ();
-    if (isZero (len) || isZero (len - 1.0f)) {
+    auto len = lengthSquared ();
+    if (isZero (len) || isZero (len - 1)) {
         return;
     } else {
         len = std::sqrt (len);

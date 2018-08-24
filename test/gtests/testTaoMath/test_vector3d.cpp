@@ -14,7 +14,7 @@ TEST(testVector3D, test1)
     ASSERT_TRUE(fuzzyCompare(p3.x(), 1));
     ASSERT_TRUE(fuzzyCompare(p3.y(), 2));
     ASSERT_TRUE(fuzzyCompare(p3.z(), 3));
-    ASSERT_TRUE(fuzzyCompare(p3.length(), 3.741657386773941));
+    ASSERT_TRUE(fuzzyCompare(p3.length(), 3.741657386773941f));
     p3.setX(p3.x() + 1);
     ASSERT_EQ(p3.x(), 2);
     p3.setY(p3.y() + 1);
@@ -164,16 +164,16 @@ TEST(testVector3D, test6)
 TEST(testVector3D, test7)
 {
     Vector3D v(3., 4., 5);
-    ASSERT_TRUE(fuzzyCompare(1.4142135623730951, v.distanceToPoint({ 4., 4., 4 })));
-    ASSERT_TRUE(fuzzyCompare(1.4142135623730951, v.distanceToLine({ 4., 4., 4. }, { 0.0, 1.0, 0.0 })));
-    ASSERT_TRUE(fuzzyCompare(7.071067811865475, v.distanceToPoint(Vector3D())));
+    ASSERT_TRUE(fuzzyCompare(1.4142135623730951f, v.distanceToPoint({ 4., 4., 4 })));
+    ASSERT_TRUE(fuzzyCompare(1.4142135623730951f, v.distanceToLine({ 4., 4., 4. }, { 0.0, 1.0, 0.0 })));
+    ASSERT_TRUE(fuzzyCompare(7.071067811865475f, v.distanceToPoint(Vector3D())));
     Vector3D v0;
-    ASSERT_TRUE(fuzzyCompare(297.069015550259, v0.distanceToLine({ 3., 4., 5. }, { 10.0, 0.0, 0. })));
+    ASSERT_TRUE(fuzzyCompare(297.069015550259f, v0.distanceToLine({ 3., 4., 5. }, { 10.0, 0.0, 0. })));
 
     Vector3D v3(1, 1, 1);
-    ASSERT_TRUE(fuzzyCompare(v3.distanceToLine({ 2, 2, 2 }, { -1, 1, 1 }), 2.));
+    ASSERT_TRUE(fuzzyCompare(v3.distanceToLine({ 2, 2, 2 }, { -1, 1, 1 }), 2.f));
     Vector3D v4(1, 1, 1);
-    ASSERT_TRUE(fuzzyCompare(v4.distanceToLine({ 2, 2, 2 }, {}), 1.732050807568877));
+    ASSERT_TRUE(fuzzyCompare(v4.distanceToLine({ 2, 2, 2 }, {}), 1.732050807568877f));
 
     Vector3D v5;
     ASSERT_TRUE (fuzzyCompare (v5.distanceToPlane ({ 1, 1, 1 }, { 0, 1, 0 }), -1));
@@ -212,7 +212,7 @@ TEST(testVector3D, test9)
 {
     Vector3D v(3., 4., 5.);
     ASSERT_EQ(50, v.lengthSquared());
-    ASSERT_TRUE(fuzzyCompare(7.071067811865475, v.length()));
+    ASSERT_TRUE(fuzzyCompare(7.071067811865475f, v.length()));
 }
 TEST (testVector3D, test10) {
     auto v = Vector3D::normal (Vector3D (1, 1, 1), Vector3D (2, 2, 2), Vector3D (3, 3, 3));

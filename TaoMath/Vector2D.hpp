@@ -25,83 +25,83 @@ public:
     {
     }
 
-    constexpr inline Vector2D(const Point& o);
-    constexpr inline Vector2D(const PointF& o);
-    constexpr inline Vector2D(const Vector3D& o);
-    constexpr inline Vector2D(const Vector4D& o);
+    Vector2D(const Point& o);
+    Vector2D(const PointF& o);
+    Vector2D(const Vector3D& o);
+    Vector2D(const Vector4D& o);
 
     constexpr inline real x() const { return mX; }
     constexpr inline real y() const { return mY; }
-    constexpr inline void setX(real x) { mX = x; }
-    constexpr inline void setY(real y) { mY = y; }
+    inline void setX(real x) { mX = x; }
+    inline void setY(real y) { mY = y; }
 
     real distanceToLine(const Vector2D& point, const Vector2D& direction) const;
     real distanceToPoint(const Vector2D& point) const;
-    inline bool isNull() const;
-    inline real length() const;
-    inline real lengthSquared() const;
-    inline void normalize();
-    inline Vector2D normalized() const;
+    bool isNull() const;
+    real length() const;
+    real lengthSquared() const;
+    void normalize();
+    Vector2D normalized() const;
 
-    constexpr inline Point toPoint() const;
-    constexpr inline PointF toPointF() const;
-    constexpr inline Vector3D toVector3D() const;
-    constexpr inline Vector4D toVector4D() const;
+    Point toPoint() const;
+    PointF toPointF() const;
+    Vector3D toVector3D() const;
+    Vector4D toVector4D() const;
 
-    constexpr inline Vector2D& operator+=(const Vector2D& o)
+    inline Vector2D& operator+=(const Vector2D& o)
     {
         mX += o.mX;
         mY += o.mY;
         return *this;
     }
-    constexpr inline Vector2D& operator-=(const Vector2D& o)
+    inline Vector2D& operator-=(const Vector2D& o)
     {
         mX -= o.mX;
         mY -= o.mY;
         return *this;
     }
-    constexpr inline Vector2D& operator*=(const Vector2D& o)
+    inline Vector2D& operator*=(const Vector2D& o)
     {
         mX *= o.mX;
         mY *= o.mY;
         return *this;
     }
-    constexpr inline Vector2D& operator/=(const Vector2D& o)
+    inline Vector2D& operator/=(const Vector2D& o)
     {
         mX /= o.mX;
         mY /= o.mY;
         return *this;
     }
 
-    template <typename T, typename = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-    constexpr inline Vector2D& operator+=(T v)
+    template <typename T, typename = typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
+    inline Vector2D& operator+=(T v)
     {
         mX += v;
         mY += v;
         return *this;
     }
-    template <typename T, typename = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-    constexpr inline Vector2D& operator-=(T v)
+    template <typename T, typename = typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
+    inline Vector2D& operator-=(T v)
     {
         mX -= v;
         mY -= v;
         return *this;
     }
-    template <typename T, typename = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-    constexpr inline Vector2D& operator*=(T v)
+    template <typename T, typename = typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
+    inline Vector2D& operator*=(T v)
     {
         mX *= v;
         mY *= v;
         return *this;
     }
-    template <typename T, typename = std::enable_if<std::is_floating_point<T>::value>::type>
-    constexpr inline Vector2D& operator/=(T v)
+    template <typename T, typename = typename std::enable_if<std::is_floating_point<T>::value>::type>
+    inline Vector2D& operator/=(T v)
     {
         mX /= v;
         mY /= v;
         return *this;
     }
-    constexpr inline Vector2D& operator/=(int v)
+    inline Vector2D& operator/=(int v)
     {
         assert(v != 0);
         mX /= v;
@@ -122,12 +122,26 @@ public:
     friend constexpr inline const Vector2D operator*(const Vector2D& v1, const Vector2D& v2);
     friend constexpr inline const Vector2D operator/(const Vector2D& v1, const Vector2D& v2);
 
-    template<typename T, typename S>
-    friend constexpr inline const Vector2D operator*(const Vector2D& v, T factor);
-    template<typename T, typename S>
-    friend constexpr inline const Vector2D operator*(T factor, const Vector2D& v1);
-    template<typename T, typename S>
-    friend constexpr inline const Vector2D operator/(const Vector2D& v1, T divisor);
+
+    template<typename T, typename = typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
+    friend constexpr const Vector2D operator*(const Vector2D & v, T factor) {
+        return Vector2D (v.x() * factor, v.y() * factor);
+    }
+    template<typename T, typename = typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
+    friend constexpr const Vector2D operator*(T factor, const Vector2D & v) {
+        return Vector2D (v.x () * factor, v.y () * factor);
+    }
+
+    template<typename T, typename = typename std::enable_if<std::is_floating_point<T>::value>::type>
+    friend constexpr const Vector2D operator/(const Vector2D & v, T divisor) {
+        return Vector2D (v.x() / divisor, v.y() / divisor);
+    }
+
+    template<typename T = int , typename S = int >
+    friend const Vector2D operator/(const Vector2D & v, int divisor) {
+        assert (divisor != 0);
+        return Vector2D (v.x () / divisor, v.y () / divisor);
+    }
 
 private:
     real mX, mY;
@@ -156,24 +170,5 @@ constexpr inline const Vector2D operator/(const Vector2D& v1, const Vector2D& v2
     return Vector2D (v1.x () / v2.x (), v1.y () / v2.y ());
 }
 
-template<typename T, typename = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-constexpr const Vector2D operator*(const Vector2D & v, T factor) {
-    return Vector2D (v.x() * factor, v.y() * factor);
-}
-template<typename T, typename = std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-constexpr const Vector2D operator*(T factor, const Vector2D & v) {
-    return Vector2D (v.x () * factor, v.y () * factor);
-}
-
-template<typename T, typename = std::enable_if<std::is_floating_point<T>::value>::type>
-constexpr const Vector2D operator/(const Vector2D & v, T divisor) {
-    return Vector2D (v.x() / divisor, v.y() / divisor);
-}
-
-template<typename T = int , typename S = int >
-constexpr const Vector2D operator/(const Vector2D & v, int divisor) {
-    assert (divisor != 0);
-    return Vector2D (v.x () / divisor, v.y () / divisor);
-}
 
 } // TaoMath

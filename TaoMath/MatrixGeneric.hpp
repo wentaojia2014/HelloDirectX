@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Common.hpp"
 namespace TaoMath {
@@ -8,13 +8,13 @@ class GenericMatrix {
 public:
     GenericMatrix();
     explicit GenericMatrix(const T* values);
-    explicit GenericMatrix(State) {};
+    explicit GenericMatrix(State) {}
     const T& operator()(int row, int column) const;
     T& operator()(int row, int column);
     bool isIdentity() const;
     void setToIdentity();
-    constexpr inline const int rowCount() const { return N; }
-    constexpr inline const int columnCount() const { return M; }
+    constexpr inline int rowCount() const { return N; }
+    constexpr inline int columnCount() const { return M; }
 
     void fill(T value);
     GenericMatrix<M, N, T> transposed() const;
@@ -232,7 +232,7 @@ GenericMatrix<NN, MM, TT> operator*(const GenericMatrix<NN, PP, TT>& m1, const G
     GenericMatrix<NN, MM, TT> result(State::Uninitialized);
     for (int i = 0; i < NN; ++i) {
         for (int j = 0; j < MM; ++j) {
-            T sum(0.0f);
+            TT sum(0);
             for (int k = 0; k < NN; ++k) {
                 sum += m1.m[i][k] * m2.m[k][j];
             }

@@ -1,48 +1,48 @@
-#include "Vector3D.hpp"
+﻿#include "Vector3D.hpp"
 #include "Point.hpp"
 #include "PointF.hpp"
 #include "Vector2D.hpp"
 #include "Vector4D.hpp"
 namespace TaoMath {
-inline constexpr Vector3D::Vector3D(const Vector2D& o)
+Vector3D::Vector3D(const Vector2D& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(0)
 {
 }
-inline constexpr Vector3D::Vector3D(const Vector4D& o)
+Vector3D::Vector3D(const Vector4D& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(o.z())
 {
 }
-inline constexpr Vector3D::Vector3D(const Point& o)
+Vector3D::Vector3D(const Point& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(0)
 {
 }
-inline constexpr Vector3D::Vector3D(const PointF& o)
+Vector3D::Vector3D(const PointF& o)
     : mX(o.x())
     , mY(o.y())
     , mZ(0)
 {
 }
-inline constexpr Point Vector3D::toPoint() const
+Point Vector3D::toPoint() const
 {
     return Point(static_cast<Integer>(mX), static_cast<Integer>(mY));
 }
-inline constexpr PointF Vector3D::toPointF() const
+PointF Vector3D::toPointF() const
 {
     return PointF(mX, mY);
 }
-inline constexpr Vector2D Vector3D::toVector2D() const
+Vector2D Vector3D::toVector2D() const
 {
     return Vector2D(mX, mY);
 }
-inline constexpr Vector4D Vector3D::toVector4D() const
+Vector4D Vector3D::toVector4D() const
 {
-    return Vector4D(mX, mY, mZ, 0.0);
+    return Vector4D(mX, mY, mZ, 0);
 }
 bool Vector3D::isNull() const
 {
@@ -56,10 +56,10 @@ real Vector3D::lengthSquared() const
 {
     return mX * mX + mY * mY + mZ * mZ;
 }
-inline void Vector3D::normalize()
+void Vector3D::normalize()
 {
-    double len = lengthSquared();
-    if (isZero(len) || isZero(len - 1.0f)) {
+    auto len = lengthSquared();
+    if (isZero(len) || isZero(len - 1)) {
         return;
     } else {
         len = std::sqrt(len);
@@ -68,12 +68,12 @@ inline void Vector3D::normalize()
         mZ /= len;
     }
 }
-inline Vector3D Vector3D::normalized() const
+Vector3D Vector3D::normalized() const
 {
-    double len = lengthSquared();
+    auto len = lengthSquared();
     if (isZero(len)) {
         return {};
-    } else if (isZero(len - 1.0f)) {
+    } else if (isZero(len - 1)) {
         return *this;
     } else {
         len = std::sqrt(len);
@@ -115,7 +115,7 @@ Vector3D Vector3D::crossProduct(const Vector3D& v1, const Vector3D& v2)
 }
 Vector3D Vector3D::normal(const Vector3D& v1, const Vector3D& v2)
 {
-    return crossProduct(v1, v1).normalized();
+    return crossProduct(v1, v2).normalized();
 }
 Vector3D Vector3D::normal(const Vector3D& v1, const Vector3D& v2, const Vector3D& v3)
 {

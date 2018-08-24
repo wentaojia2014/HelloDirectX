@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+﻿#include <gtest/gtest.h>
 #include "TaoMath/Point.hpp"
 #include "TaoMath/PointF.hpp"
 
@@ -21,10 +21,10 @@ TEST(testPointF, test1)
     p3.ry()++;
     ASSERT_EQ(p3.y(), 3);
 
-    p3.setX (p3.x () + 1.1);
-    ASSERT_EQ (p3.x (), 3.1);
-    p3.setY (p3.y () + 1.3);
-    ASSERT_EQ (p3.y (), 4.3);
+    p3.setX (p3.x () + 1.1f);
+    ASSERT_EQ (p3.x (), 3.1f);
+    p3.setY (p3.y () + 1.3f);
+    ASSERT_EQ (p3.y (), 4.3f);
 }
 TEST(testPointF, test2)
 {
@@ -32,29 +32,29 @@ TEST(testPointF, test2)
     p1 += 3;
     ASSERT_TRUE (PointF(13, 7) == p1);
     p1 += 1.5;
-    ASSERT_TRUE (PointF(14.5, 8.5) == p1);
+    ASSERT_TRUE (PointF(14.5f, 8.5f) == p1);
     p1 += PointF(1, 2);
-    ASSERT_TRUE (PointF(15.5, 10.5) == p1);
+    ASSERT_TRUE (PointF(15.5f, 10.5f) == p1);
 
     p1 -= 3;
-    ASSERT_TRUE (PointF(12.5, 7.5)== p1);
+    ASSERT_TRUE (PointF(12.5f, 7.5f)== p1);
     p1 -= 2.1;
-    ASSERT_TRUE (PointF(10.4, 5.4) == p1);
+    ASSERT_TRUE (PointF(10.4f, 5.4f) == p1);
 
     p1 -= PointF(1, 2);
    
-    ASSERT_TRUE(PointF(9.4, 3.4) == p1);
+    ASSERT_TRUE(PointF(9.4f, 3.4f) == p1);
 
     p1 *= 2;
-    ASSERT_EQ(PointF(18.8, 6.8), p1);
+    ASSERT_EQ(PointF(18.8f, 6.8f), p1);
     p1 *= 0.1;
-    ASSERT_EQ(PointF(1.88, 0.68), p1);
+    ASSERT_EQ(PointF(1.88f, 0.68f), p1);
 
     p1 /= 0.5;
-    ASSERT_EQ(PointF(3.76, 1.36), p1);
+    ASSERT_EQ(PointF(3.76f, 1.36f), p1);
 
     p1 /= 2;
-    ASSERT_EQ(PointF(1.88, 0.68), p1);
+    ASSERT_EQ(PointF(1.88f, 0.68f), p1);
 
     p1 /= 0.0;
 }
@@ -107,7 +107,7 @@ TEST(testPointF, test4)
     }
 }
 TEST (testPointF, test5) {
-    PointF pf (1.3, 2.4);
+    PointF pf (1.3f, 2.4f);
     auto p = pf.toPoint ();
     ASSERT_EQ (Point (1, 2), p);
 }

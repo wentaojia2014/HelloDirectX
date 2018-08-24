@@ -1,4 +1,4 @@
-#include <TaoMath/TaoMath>
+﻿#include <TaoMath/TaoMath>
 #include <gtest/gtest.h>
 #include <iostream>
 using namespace TaoMath;
@@ -16,7 +16,7 @@ TEST(testVector4D, test1)
     ASSERT_TRUE(fuzzyCompare(p3.y(), 2));
     ASSERT_TRUE(fuzzyCompare(p3.z(), 3));
     ASSERT_TRUE(fuzzyCompare(p3.w(), 4));
-    ASSERT_TRUE(fuzzyCompare(p3.length(), 5.477225575051661134569697828008));
+    ASSERT_TRUE(fuzzyCompare(p3.length(), 5.477225575051661134569697828008f));
     p3.setX(p3.x() + 1);
     ASSERT_EQ(p3.x(), 2);
     p3.setY(p3.y() + 1);
@@ -213,6 +213,6 @@ TEST(testVector4D, test9)
 {
     Vector4D v(3., 4., 5., 6.);
     ASSERT_EQ(86, v.lengthSquared());
-    ASSERT_TRUE(fuzzyCompare(9.2736184954957037525164160739902, v.length()));
+    ASSERT_TRUE(fuzzyCompare(9.2736184954957037525164160739902f, v.length()));
 }
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Global.h"
 #include <algorithm>
 #include <cassert>
@@ -10,13 +10,13 @@
 namespace TaoMath {
 
 using Integer = int;
-using real = double;
+using real = float;
 enum class State {
     Uninitialized
 };
-static const auto PI = (3.14159265358979323846);
-static const auto PI_2 = 1.57079632679489661923;
-template <class T, class S = std::enable_if<std::is_floating_point<T>::value>::type>
+#define PI (3.14159265358979323846)
+#define PI_2 (1.57079632679489661923)
+template <class T, class S = typename std::enable_if<std::is_floating_point<T>::value>::type>
 inline static bool isZero(T v)
 {
     return std::abs(v) < std::numeric_limits<T>::epsilon();

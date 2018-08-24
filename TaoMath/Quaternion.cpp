@@ -1,19 +1,19 @@
-#include "Quaternion.hpp"
+﻿#include "Quaternion.hpp"
 #include "Vector3D.hpp"
 #include "Vector4D.hpp"
 namespace TaoMath {
-inline constexpr Quaternion::Quaternion(real scalar, const Vector3D& v)
-    : mScalar(scalar)
-    , mX(v.x())
+constexpr Quaternion::Quaternion(real scalar, const Vector3D& v)
+    : mX(v.x())
     , mY(v.y())
     , mZ(v.z())
+    , mScalar(scalar)
 {
 }
-inline constexpr Quaternion::Quaternion(const Vector4D& v)
-    : mScalar(v.w())
-    , mX(v.x())
+constexpr Quaternion::Quaternion(const Vector4D& v)
+    : mX(v.x())
     , mY(v.y())
     , mZ(v.z())
+    , mScalar(v.w())
 {
 }
 Vector3D Quaternion::vector() const
@@ -49,15 +49,15 @@ void Quaternion::getAxisAndAngle(real& x, real& y, real& z, real& angle) const
         x = mX;
         y = mY;
         z = mZ;
-        if (!isZero(len - 1.0f)) {
+        if (!isZero(len - 1)) {
             len = std::sqrt(len);
             x /= len;
             y /= len;
             z /= len;
         }
-        angle = 2.0f * std::acos(mScalar);
+        angle = 2 * std::acos(mScalar);
     } else {
-        x = y = z = angle = 0.0f;
+        x = y = z = angle = 0;
     }
     angle = radiansToDegrees(angle);
 }
@@ -80,7 +80,7 @@ void Quaternion::getEulerAngles(real& pitch, real& yaw, real& roll) const
     real zw = mZ * mScalar;
 
     const real lengthSquared = xx + yy + zz + mScalar * mScalar;
-    if (!isZero(lengthSquared - 1.0f) && !isZero(lengthSquared)) {
+    if (!isZero(lengthSquared - 1) && !isZero(lengthSquared)) {
         xx /= lengthSquared;
         xy /= lengthSquared;
         xz /= lengthSquared;
@@ -91,18 +91,18 @@ void Quaternion::getEulerAngles(real& pitch, real& yaw, real& roll) const
         zz /= lengthSquared;
         zw /= lengthSquared;
     }
-    pitch = std::asin(-2.0f * (yz - xw));
+    pitch = std::asin(-2 * (yz - xw));
     if (pitch < PI_2) {
         if (pitch > -PI_2) {
-            yaw = std::atan2(2.0f * (xz + yw), 1.0f - 2.0f * (xx + yy));
-            roll = std::atan2(2.0f * (xy + zw), 1.0f - 2.0f * (xx + zz));
+            yaw = std::atan2(2 * (xz + yw), 1 - 2 * (xx + yy));
+            roll = std::atan2(2 * (xy + zw), 1 - 2 * (xx + zz));
         } else {
-            roll = 0.0f;
-            yaw = -std::atan2(-2.0f * (xy - zw), 1.0 - 2.0f * (yy + zz));
+            roll = 0;
+            yaw = -std::atan2(-2 * (xy - zw), 1 - 2 * (yy + zz));
         }
     } else {
-        roll = 0.0f;
-        yaw = std::atan2(-2.0f * (xy - zw), 1.0f - 2.0f * (yy + zz));
+        roll = 0.0;
+        yaw = std::atan2(-2 * (xy - zw), 1 - 2 * (yy + zz));
     }
     pitch = radiansToDegrees(pitch);
     yaw = radiansToDegrees(yaw);
@@ -111,26 +111,26 @@ void Quaternion::getEulerAngles(real& pitch, real& yaw, real& roll) const
 
 bool Quaternion::isNull() const
 {
-    return mScalar == 0.0f && mX == 0.0f && mY == 0.0f && mZ == 0.0f;
+    return mScalar == 0.0 && mX == 0.0 && mY == 0.0 && mZ == 0.0;
 }
-bool Quaternion::isIdentity() const
+constexpr bool Quaternion::isIdentity() const
 {
-    return mScalar == 1.0f && mX == 0.0f && mY == 0.0f && mZ == 0.0f;
+    return mScalar == 1.0 && mX == 0.0 && mY == 0.0 && mZ == 0.0;
 }
 real Quaternion::length() const
 {
     return std::sqrt(lengthSquared());
 }
-real Quaternion::lengthSquared() const
+constexpr real Quaternion::lengthSquared() const
 {
     return mScalar * mScalar + mX * mX + mY * mY + mZ * mZ;
 }
 Quaternion Quaternion::normalized() const
 {
-    double len = lengthSquared();
+    auto len = lengthSquared();
     if (isZero(len)) {
         return {};
-    } else if (isZero(len - 1.0f)) {
+    } else if (isZero(len - 1.0)) {
         return *this;
     } else {
         len = std::sqrt(len);
@@ -139,8 +139,8 @@ Quaternion Quaternion::normalized() const
 }
 void Quaternion::normalize()
 {
-    double len = lengthSquared();
-    if (isZero(len) || isZero(len - 1.0f)) {
+    auto len = lengthSquared();
+    if (isZero(len) || isZero(len - 1.0)) {
         return;
     } else {
         len = std::sqrt(len);
@@ -150,7 +150,7 @@ void Quaternion::normalize()
         mScalar /= len;
     }
 }
-inline const Quaternion Quaternion::inverted() const
+Quaternion Quaternion::inverted() const
 {
     auto len = lengthSquared();
     if (!isZero(len)) {
@@ -158,7 +158,7 @@ inline const Quaternion Quaternion::inverted() const
     }
     return Quaternion();
 }
-inline constexpr const Quaternion Quaternion::conjugated() const
+constexpr Quaternion Quaternion::conjugated() const
 {
     return Quaternion(mScalar, -mX, -mY, -mZ);
 }
@@ -169,12 +169,12 @@ Vector3D Quaternion::rotatedVector(const Vector3D& v) const
 Quaternion Quaternion::fromAxisAndAngle(real x, real y, real z, real angle)
 {
     auto len = std::sqrt(x * x + y * y + z * z);
-    if (!isZero(len - 1.0f) && !isZero(len)) {
+    if (!isZero(len - 1.0) && !isZero(len)) {
         x /= len;
         y /= len;
         z /= len;
     }
-    real a = degreesToRadians(angle / 2.0f);
+    real a = degreesToRadians(angle / 2.0);
     real s = std::sin(a);
     real c = std::cos(a);
     return Quaternion(c, x * s, y * s, z * s).normalized();
@@ -182,16 +182,16 @@ Quaternion Quaternion::fromAxisAndAngle(real x, real y, real z, real angle)
 Quaternion Quaternion::fromAxisAndAngle(const Vector3D& axis, real angle)
 {
     auto v = axis.normalized();
-    real a = degreesToRadians(angle / 2.0f);
+    real a = degreesToRadians(angle / 2.0);
     real s = std::sin(a);
     real c = std::cos(a);
     return Quaternion(c, v.x() * s, v.y() * s, v.z() * s).normalized();
 }
 Quaternion Quaternion::fromEulerAngles(real pitch, real yaw, real roll)
 {
-    pitch = degreesToRadians(pitch) * 0.5f;
-    yaw = degreesToRadians(yaw) * 0.5f;
-    roll = degreesToRadians(roll) * 0.5f;
+    pitch = degreesToRadians(pitch) * 0.5;
+    yaw = degreesToRadians(yaw) * 0.5;
+    roll = degreesToRadians(roll) * 0.5;
     real c1 = std::cos(yaw);
     real s1 = std::sin(yaw);
     real c2 = std::cos(roll);
@@ -295,7 +295,7 @@ real Quaternion::dotProduct(const Quaternion& q1, const Quaternion& q2)
 {
     return q1.mScalar * q2.mScalar + q1.mX * q2.mX + q1.mY * q2.mY + q1.mZ * q2.mZ;
 }
-inline constexpr Quaternion& Quaternion::operator+=(const Quaternion& q)
+Quaternion& Quaternion::operator+=(const Quaternion& q)
 {
     mX += q.mX;
     mY += q.mY;
@@ -303,7 +303,7 @@ inline constexpr Quaternion& Quaternion::operator+=(const Quaternion& q)
     mScalar += q.mScalar;
     return *this;
 }
-inline constexpr Quaternion& Quaternion::operator-=(const Quaternion& q)
+Quaternion& Quaternion::operator-=(const Quaternion& q)
 {
     mX -= q.mX;
     mY -= q.mY;
@@ -311,7 +311,7 @@ inline constexpr Quaternion& Quaternion::operator-=(const Quaternion& q)
     mScalar -= q.mScalar;
     return *this;
 }
-inline constexpr Quaternion& Quaternion::operator*=(const Quaternion& q)
+Quaternion& Quaternion::operator*=(const Quaternion& q)
 {
     mX *= q.mX;
     mY *= q.mY;

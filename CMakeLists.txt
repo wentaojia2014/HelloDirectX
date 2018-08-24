@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+﻿cmake_minimum_required(VERSION 3.2)
 
 project (HelloDx C CXX)
 
@@ -33,10 +33,10 @@ include_directories(${PROJECT_SOURCE_DIR})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory(TaoMath)
 
-if(WIN32)
+if(WIN32 AND (NOT CYGWIN) AND (NOT MINGW))
     add_subdirectory(HelloDx)
 else()
-    message("main porject 'HelloDx' use DirectX, it only support Win32 platform.")
+    message("main porject 'HelloDx' use DirectX, it only support MSVC platform.")
 endif()
 
 
