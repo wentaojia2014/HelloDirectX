@@ -1,8 +1,5 @@
 #include <TaoMath/TaoMath>
 #include <gtest/gtest.h>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 using namespace TaoMath;
 
@@ -106,29 +103,29 @@ TEST(test_matrixGeneric, test1)
         Matrix3x2, Matrix3x3, Matrix3x4,
         Matrix4x2, Matrix4x3, Matrix4x4>::iterator();
 }
-TEST (test_matrixGeneric, test2)     {
+TEST(test_matrixGeneric, test2)
+{
     Matrix2x3 m23;
-    m23 (0, 0) = 1;
-    m23 (0, 1) = 2;
-    m23 (0, 2) = 3;
+    m23(0, 0) = 1;
+    m23(0, 1) = 2;
+    m23(0, 2) = 3;
 
-    m23 (1, 0) = 2;
-    m23 (1, 1) = 2;
-    m23 (1, 2) = 1;
+    m23(1, 0) = 2;
+    m23(1, 1) = 2;
+    m23(1, 2) = 1;
 
     Matrix3x2 m32;
 
-    m32 (0, 0) = 2;
-    m32 (0, 1) = 3;
-    m32 (1, 0) = 1;
-    m32 (1, 1) = 2;
-    m32 (2, 0) = 2;
-    m32 (2, 1) = 2;
+    m32(0, 0) = 2;
+    m32(0, 1) = 3;
+    m32(1, 0) = 1;
+    m32(1, 1) = 2;
+    m32(2, 0) = 2;
+    m32(2, 1) = 2;
 
     auto ans = m23 * m32;
-    ASSERT_EQ (ans (0, 0), 10);
-    ASSERT_EQ (ans (0, 1), 13);
-    ASSERT_EQ (ans (1, 0), 8);
-    ASSERT_EQ (ans (1, 1), 12);
-
+    ASSERT_EQ(ans(0, 0), 10);
+    ASSERT_EQ(ans(0, 1), 13);
+    ASSERT_EQ(ans(1, 0), 8);
+    ASSERT_EQ(ans(1, 1), 12);
 }

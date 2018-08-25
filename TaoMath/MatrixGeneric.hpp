@@ -132,7 +132,8 @@ GenericMatrix<M, N, T> GenericMatrix<N, M, T>::transposed() const
     return result;
 }
 template <int N, int M, typename T>
-GenericMatrix<N, M, T>& GenericMatrix<N, M, T>::operator=(const GenericMatrix<N, M, T>& o) {
+GenericMatrix<N, M, T>& GenericMatrix<N, M, T>::operator=(const GenericMatrix<N, M, T>& o)
+{
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < M; ++j) {
             m[i][j] = o.m[i][j];

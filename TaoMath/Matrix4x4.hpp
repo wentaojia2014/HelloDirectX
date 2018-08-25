@@ -2,6 +2,7 @@
 #include "Common.hpp"
 #include "Global.h"
 #include "TaoMathFwd"
+#include "Vector4D.hpp"
 namespace TaoMath {
 
 class TAOEXPORT Matrix4x4 {
@@ -255,7 +256,9 @@ public:
         return result;
     }
 
-    friend inline Vector4D operator*(const Vector4D& v, const Matrix4x4& m);
+    friend Vector4D operator*(const Vector4D & v, const Matrix4x4 & m) {
+        return v.x () * m.row (0) + v.y () * m.row (1) + v.z () * m.row (2) + v.w () * m.row (3);
+    }
 
 private:
     real m[W][H] = { {0.} };
@@ -325,6 +328,15 @@ inline Matrix4x4 operator*(const Matrix4x4& m1, real v)
     return m;
 }
 
+inline Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2) {
+    Matrix4x4 m;
+    for (int i = 0; i < Matrix4x4::W; ++i) {
+        for (int j = 0; j < Matrix4x4::H; ++j) {
+            m (i, j) = Vector4D::dotProduct (m1.row (i), m2.column (j));
+        }
+    }
+    return m;
+}
 inline Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2)
 {
     Matrix4x4 m;
