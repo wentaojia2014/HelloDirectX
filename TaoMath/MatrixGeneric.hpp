@@ -243,7 +243,7 @@ GenericMatrix<NN, MM, TT> operator*(const GenericMatrix<NN, PP, TT>& m1, const G
     for (int i = 0; i < NN; ++i) {
         for (int j = 0; j < MM; ++j) {
             TT sum(0);
-            for (int k = 0; k < NN; ++k) {
+            for (int k = 0; k < PP; ++k) {
                 sum += m1.m[i][k] * m2.m[k][j];
             }
             result.m[i][j] = sum;
