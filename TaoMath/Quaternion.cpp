@@ -187,7 +187,7 @@ real Quaternion::length() const
 {
     return std::sqrt(lengthSquared());
 }
-constexpr real Quaternion::lengthSquared() const
+real Quaternion::lengthSquared() const
 {
     return mScalar * mScalar + mX * mX + mY * mY + mZ * mZ;
 }

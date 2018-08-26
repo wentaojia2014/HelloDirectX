@@ -57,7 +57,7 @@ public:
     bool isIdentity() const;
     void setToIdentity ();
     real length() const;
-    constexpr real lengthSquared() const;
+    real lengthSquared() const;
 
     Quaternion normalized() const;
     void normalize();
