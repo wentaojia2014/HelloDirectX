@@ -1,8 +1,13 @@
 ﻿#pragma once
 #include "Common.hpp"
 #include "Global.h"
-#include "TaoMathFwd"
+
+#include "MatrixGeneric.hpp"
+#include "Vector3D.hpp"
+#include "Vector4D.hpp"
+
 namespace TaoMath {
+
 class TAOEXPORT Quaternion {
 public:
     constexpr inline Quaternion()
@@ -19,8 +24,8 @@ public:
         , mScalar(scalar)
     {
     }
-    constexpr inline Quaternion(real scalar, const Vector3D& v);
-    constexpr inline Quaternion(const Vector4D& v);
+    constexpr Quaternion(real scalar, const Vector3D& v);
+    constexpr Quaternion(const Vector4D& v);
 
     real scalar() const { return mScalar; }
     real x() const { return mX; }
@@ -43,13 +48,14 @@ public:
     Vector3D toEulerAngles() const;
     void getEulerAngles(real& pitch, real& yaw, real& roll) const;
 
-    //QMatrix3x3 toRotationMatrix () const;
-    //static Quaternion fromRotationMatrix (const QMatrix3x3 &rotationMat);
+    Matrix3x3 toRotationMatrix () const;
+    static Quaternion fromRotationMatrix (const Matrix3x3 &rot3x3);
 
     void getAxes(Vector3D& xAxis, Vector3D& yAxis, Vector3D& zAxis) const;
 
     bool isNull() const;
     constexpr bool isIdentity() const;
+    void setToIdentity ();
     real length() const;
     constexpr real lengthSquared() const;
 
@@ -92,7 +98,7 @@ public:
         mX /= divisor;
         mY /= divisor;
         mZ /= divisor;
-        mZ /= divisor;
+        mScalar /= divisor;
         return *this;
     }
     inline Quaternion& operator/=(int divisor)
@@ -116,24 +122,24 @@ public:
     friend inline const Quaternion operator-(const Quaternion& q1);
 
     template <typename T, typename = typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-    friend constexpr const Quaternion operator*(const Quaternion& v, T factor)
+    friend constexpr Quaternion operator*(const Quaternion& v, T factor)
     {
         return Quaternion(v.scalar() * factor, v.x() * factor, v.y() * factor, v.z() * factor);
     }
     template <typename T, typename = typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type>
-    friend constexpr const Quaternion operator*(T factor, const Quaternion& v)
+    friend constexpr Quaternion operator*(T factor, const Quaternion& v)
     {
         return Quaternion(v.scalar() * factor, v.x() * factor, v.y() * factor, v.z() * factor);
     }
 
     template <typename T, typename = typename std::enable_if<std::is_floating_point<T>::value>::type>
-    friend constexpr const Quaternion operator/(const Quaternion& v, T divisor)
+    friend constexpr Quaternion operator/(const Quaternion& v, T divisor)
     {
         return Quaternion(v.scalar() / divisor, v.x() / divisor, v.y() / divisor, v.z() / divisor);
     }
 
     template <typename T = int, typename S = int>
-    friend const Quaternion operator/(const Quaternion& v, int divisor)
+    friend Quaternion operator/(const Quaternion& v, int divisor)
     {
         assert(divisor != 0);
         return Quaternion(v.scalar() / divisor, v.x() / divisor, v.y() / divisor, v.z() / divisor);

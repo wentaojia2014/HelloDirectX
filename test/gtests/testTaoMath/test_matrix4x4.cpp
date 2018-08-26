@@ -55,4 +55,35 @@ TEST(test_matrix4x4, test3)
     auto res = v * m44;
 
     ASSERT_EQ(res, Vector4D(16, 26, 21, 25));
+    real* p = m44.data ();
+    (void)p;
+    const real *pp = m44.data ();
+    (void)pp;
+    const real *ppp = m44.constData ();
+    (void)ppp;
+}
+
+TEST (test_matrix4x4, test4) {
+    Matrix4x4 m44 (1, 2, 3, 4,
+                   4, 3, 2, 1,
+                   1, 2, 2, 1,
+                   1, 3, 2, 4);
+    auto m2 = m44;
+    m44 += 1.0f;
+    m44 -= 1.0f;
+    ASSERT_EQ (m2, m44);
+}
+TEST (test_matrix4x4, test5) {
+    Matrix4x4 m44 (1, 2, 3, 4,
+                   4, 3, 2, 1,
+                   1, 2, 2, 1,
+                   1, 3, 2, 4);
+    auto m2 = m44 + 1;
+    auto m3 = m44 - 1;
+    ASSERT_TRUE (m2 != m3);
+    ASSERT_FALSE (fuzzyCompare (m2, m3));
+    m3 += 2;
+    ASSERT_EQ (m2, m3);
+    ASSERT_TRUE (fuzzyCompare (m2, m3));
+    
 }

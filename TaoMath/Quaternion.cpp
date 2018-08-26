@@ -1,6 +1,5 @@
 ﻿#include "Quaternion.hpp"
-#include "Vector3D.hpp"
-#include "Vector4D.hpp"
+
 namespace TaoMath {
 constexpr Quaternion::Quaternion(real scalar, const Vector3D& v)
     : mX(v.x())
@@ -109,6 +108,66 @@ void Quaternion::getEulerAngles(real& pitch, real& yaw, real& roll) const
     roll = radiansToDegrees(roll);
 }
 
+Matrix3x3 Quaternion::toRotationMatrix () const {
+    Matrix3x3 rot3x3 (State::Uninitialized);
+
+    const float f2x = mX + mX;
+    const float f2y = mY + mY;
+    const float f2z = mZ + mZ;
+    const float f2xw = f2x * mScalar;
+    const float f2yw = f2y * mScalar;
+    const float f2zw = f2z * mScalar;
+    const float f2xx = f2x * mX;
+    const float f2xy = f2x * mY;
+    const float f2xz = f2x * mZ;
+    const float f2yy = f2y * mY;
+    const float f2yz = f2y * mZ;
+    const float f2zz = f2z * mZ;
+
+    rot3x3 (0, 0) = 1.0f - (f2yy + f2zz);
+    rot3x3 (0, 1) = f2xy - f2zw;
+    rot3x3 (0, 2) = f2xz + f2yw;
+    rot3x3 (1, 0) = f2xy + f2zw;
+    rot3x3 (1, 1) = 1.0f - (f2xx + f2zz);
+    rot3x3 (1, 2) = f2yz - f2xw;
+    rot3x3 (2, 0) = f2xz - f2yw;
+    rot3x3 (2, 1) = f2yz + f2xw;
+    rot3x3 (2, 2) = 1.0f - (f2xx + f2yy);
+
+    return rot3x3;
+}
+
+Quaternion Quaternion::fromRotationMatrix (const Matrix3x3 & rot3x3) {
+    float scalar;
+    float axis[3];
+
+    const float trace = rot3x3 (0, 0) + rot3x3 (1, 1) + rot3x3 (2, 2);
+    if (trace > 0.00000001f) {
+        const float s = 2.0f * std::sqrt (trace + 1.0f);
+        scalar = 0.25f * s;
+        axis[0] = (rot3x3 (2, 1) - rot3x3 (1, 2)) / s;
+        axis[1] = (rot3x3 (0, 2) - rot3x3 (2, 0)) / s;
+        axis[2] = (rot3x3 (1, 0) - rot3x3 (0, 1)) / s;
+    } else {
+        static int s_next[3] = { 1, 2, 0 };
+        int i = 0;
+        if (rot3x3 (1, 1) > rot3x3 (0, 0))
+            i = 1;
+        if (rot3x3 (2, 2) > rot3x3 (i, i))
+            i = 2;
+        int j = s_next[i];
+        int k = s_next[j];
+
+        const float s = 2.0f * std::sqrt (rot3x3 (i, i) - rot3x3 (j, j) - rot3x3 (k, k) + 1.0f);
+        axis[i] = 0.25f * s;
+        scalar = (rot3x3 (k, j) - rot3x3 (j, k)) / s;
+        axis[j] = (rot3x3 (j, i) + rot3x3 (i, j)) / s;
+        axis[k] = (rot3x3 (k, i) + rot3x3 (i, k)) / s;
+    }
+
+    return Quaternion (scalar, axis[0], axis[1], axis[2]);
+}
+
 bool Quaternion::isNull() const
 {
     return mScalar == 0.0 && mX == 0.0 && mY == 0.0 && mZ == 0.0;
@@ -116,6 +175,13 @@ bool Quaternion::isNull() const
 constexpr bool Quaternion::isIdentity() const
 {
     return mScalar == 1.0 && mX == 0.0 && mY == 0.0 && mZ == 0.0;
+}
+void Quaternion::setToIdentity()
+{
+    mScalar = 1.0;
+    mX = 0.0;
+    mY = 0.0;
+    mZ = 0.0;
 }
 real Quaternion::length() const
 {
@@ -212,10 +278,25 @@ Quaternion Quaternion::fromEulerAngles(const Vector3D& eulerAngles)
 }
 Quaternion Quaternion::fromAxes(const Vector3D& xAxis, const Vector3D& yAxis, const Vector3D& zAxis)
 {
-    return Quaternion();
+    Matrix3x3 m (State::Uninitialized);
+    m (0, 0) = xAxis.x ();
+    m (1, 0) = xAxis.y ();
+    m (2, 0) = xAxis.z ();
+    m (0, 1) = yAxis.x ();
+    m (1, 1) = yAxis.y ();
+    m (2, 1) = yAxis.z ();
+    m (0, 2) = zAxis.x ();
+    m (1, 2) = zAxis.y ();
+    m (2, 2) = zAxis.z ();
+    return Quaternion::fromRotationMatrix(m);
 }
 void Quaternion::getAxes(Vector3D& xAxis, Vector3D& yAxis, Vector3D& zAxis) const
 {
+    Matrix3x3 m (toRotationMatrix ());
+    xAxis = Vector3D (m (0, 0), m (1, 0), m (2, 0));
+    yAxis = Vector3D (m (0, 1), m (1, 1), m (2, 1));
+    zAxis = Vector3D (m (0, 2), m (1, 2), m (2, 2));
+
 }
 Quaternion Quaternion::fromDirection(const Vector3D& direction, const Vector3D& up)
 {
