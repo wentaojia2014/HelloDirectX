@@ -64,8 +64,8 @@ TEST(test_quaternion, test2)
     real pitch, yaw, roll;
     q.getEulerAngles(pitch, yaw, roll);
     ASSERT_EQ(pitch, -9.89945698f);
-    ASSERT_EQ(yaw, 98.5307693f);
-    ASSERT_EQ(roll, 98.5307693f);
+    ASSERT_TRUE(fuzzyCompare(yaw, 98.5307693f));
+    ASSERT_TRUE(fuzzyCompare(roll, 98.5307693f));
 
     {
         Quaternion q(0, 0, 0, 0);
