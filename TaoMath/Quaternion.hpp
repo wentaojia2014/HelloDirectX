@@ -24,8 +24,8 @@ public:
         , mScalar(scalar)
     {
     }
-    constexpr Quaternion(real scalar, const Vector3D& v);
-    constexpr Quaternion(const Vector4D& v);
+    Quaternion(real scalar, const Vector3D& v);
+    Quaternion(const Vector4D& v);
 
     real scalar() const { return mScalar; }
     real x() const { return mX; }
@@ -54,7 +54,7 @@ public:
     void getAxes(Vector3D& xAxis, Vector3D& yAxis, Vector3D& zAxis) const;
 
     bool isNull() const;
-    constexpr bool isIdentity() const;
+    bool isIdentity() const;
     void setToIdentity ();
     real length() const;
     constexpr real lengthSquared() const;
@@ -62,7 +62,7 @@ public:
     Quaternion normalized() const;
     void normalize();
     Quaternion inverted() const;
-    constexpr Quaternion conjugated() const;
+    Quaternion conjugated() const;
     Vector3D rotatedVector(const Vector3D& v) const;
 
     static Quaternion fromAxisAndAngle(real x, real y, real z, real angle);

@@ -1,14 +1,14 @@
 ﻿#include "Quaternion.hpp"
 
 namespace TaoMath {
-constexpr Quaternion::Quaternion(real scalar, const Vector3D& v)
+Quaternion::Quaternion(real scalar, const Vector3D& v)
     : mX(v.x())
     , mY(v.y())
     , mZ(v.z())
     , mScalar(scalar)
 {
 }
-constexpr Quaternion::Quaternion(const Vector4D& v)
+Quaternion::Quaternion(const Vector4D& v)
     : mX(v.x())
     , mY(v.y())
     , mZ(v.z())
@@ -172,7 +172,7 @@ bool Quaternion::isNull() const
 {
     return mScalar == 0.0 && mX == 0.0 && mY == 0.0 && mZ == 0.0;
 }
-constexpr bool Quaternion::isIdentity() const
+bool Quaternion::isIdentity() const
 {
     return mScalar == 1.0 && mX == 0.0 && mY == 0.0 && mZ == 0.0;
 }
@@ -224,7 +224,7 @@ Quaternion Quaternion::inverted() const
     }
     return Quaternion();
 }
-constexpr Quaternion Quaternion::conjugated() const
+Quaternion Quaternion::conjugated() const
 {
     return Quaternion(mScalar, -mX, -mY, -mZ);
 }
