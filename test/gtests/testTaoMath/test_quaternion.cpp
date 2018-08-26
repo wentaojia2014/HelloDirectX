@@ -5,6 +5,9 @@ using namespace TaoMath;
 
 TEST(test_quaternion, test1)
 {
+    auto q0 = Quaternion();
+    ASSERT_TRUE(q0.isNull());
+
     Quaternion q1;
     ASSERT_TRUE(q1.isNull());
     Quaternion q2(2.0, 1, 3, 4);
@@ -66,7 +69,30 @@ TEST(test_quaternion, test2)
     ASSERT_EQ(pitch, -9.89945698f);
     ASSERT_TRUE(fuzzyCompare(yaw, 98.5307693f));
     ASSERT_TRUE(fuzzyCompare(roll, 98.5307693f));
-
+    {
+        Quaternion q = Quaternion::fromAxisAndAngle(Vector3D(1, 1, 1), 90);
+        real pitch, yaw, roll;
+        q.getEulerAngles(pitch, yaw, roll);
+        ASSERT_EQ(pitch, 14.1237478f);
+        ASSERT_EQ(yaw, 69.8960953f);
+        ASSERT_EQ(roll, 69.8960953f);
+    }
+    {
+        Quaternion q = Quaternion::fromAxisAndAngle(Vector3D(-14, -1, -1), 60);
+        real pitch, yaw, roll;
+        q.getEulerAngles(pitch, yaw, roll);
+        ASSERT_EQ(pitch, -59.7875748f);
+        ASSERT_EQ(yaw, -2.98362422f);
+        ASSERT_EQ(roll, -2.98362422f);
+    }
+    {
+        Matrix3x3 m;
+        m (0, 0) = -10;
+        m (1, 1) = -8;
+        m (2, 2) = -5;
+        auto q = Quaternion::fromRotationMatrix (m);
+        ASSERT_EQ (q, Quaternion (0, 0, 0, 1.87082875));
+    }
     {
         Quaternion q(0, 0, 0, 0);
         real x, y, z, angle;
@@ -89,10 +115,33 @@ TEST(test_quaternion, test2)
         auto p = Quaternion::fromAxisAndAngle(Vector3D(1, 1, 1), 60);
         real x, y, z, angle;
         q.getAxisAndAngle(x, y, z, angle);
-        ASSERT_TRUE (fuzzyCompare (x, 0.535287738f));
-        ASSERT_TRUE (fuzzyCompare (y, 0.535287738f));
-        ASSERT_TRUE (fuzzyCompare (z, 0.535287738f));
-        ASSERT_TRUE (fuzzyCompare (angle, 91.1459961f));
+        ASSERT_TRUE(fuzzyCompare(x, 0.535287738f));
+        ASSERT_TRUE(fuzzyCompare(y, 0.535287738f));
+        ASSERT_TRUE(fuzzyCompare(z, 0.535287738f));
+        ASSERT_TRUE(fuzzyCompare(angle, 91.1459961f));
+    }
+    {
+        Quaternion q;
+        auto nq = q.normalized ();
+        q.normalize ();
+        q.inverted ();
+        ASSERT_TRUE (q.isNull ());
+    }
+    {
+        auto q = Quaternion::fromDirection (Vector3D (), Vector3D ());
+        ASSERT_TRUE (q.isNull ());
+    }
+    {
+        auto q = Quaternion::fromDirection (Vector3D (0, 0, 1), Vector3D ());
+        ASSERT_TRUE (q.scalar() == 1.0f);
+    }
+    {
+        auto q = Quaternion::rotationTo (Vector3D (0, 0, 1), Vector3D (0, 0, -1));
+        ASSERT_EQ (q, Quaternion (0, 0, -1, 0));
+    }
+    {
+        auto q = Quaternion::rotationTo (Vector3D (-0.1, 1, 0), Vector3D (1, 0, 0));
+        ASSERT_TRUE (fuzzyCompare (q, Quaternion (0.671005368f, 0, 0, -0.741452575)));
     }
 }
 TEST(test_quaternion, test3)
@@ -215,6 +264,8 @@ TEST(test_quaternion, test3)
 
         auto p6 = p1 * 2;
         ASSERT_EQ(p6, Quaternion(2, 2, 2, 2));
+        auto p66 = 2 * p1;
+        ASSERT_EQ(p66, Quaternion(2, 2, 2, 2));
         auto p7 = p1 * 2.0;
         ASSERT_EQ(p7, Quaternion(2, 2, 2, 2));
 
