@@ -15,8 +15,23 @@
 ## License
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wentaojia2014/TaoJson/blob/master/LICENSE)
 
+## 简介
 
-just learn DirectX 11 - 12 programming
+这是一个用来学习DirectX11/12图形编程的项目，包含一个图形数学库。
+
+## 目录结构
+- TaoMath
+
+  图形数学库，包括二维、三维、四维向量、矩阵等相关的计算和功能封装
+
+- test
+
+  数学库的单元测试，使用GoogleTest框架。
+
+- HelloDx
+
+  DirectX的使用
+
 
 
 
