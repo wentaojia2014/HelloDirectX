@@ -3,37 +3,24 @@
 #include "PointF.hpp"
 #include "Vector3D.hpp"
 #include "Vector4D.hpp"
-namespace TaoMath {
-Vector2D::Vector2D(const Point& o)
-    : mX(o.x())
-    , mY(o.y())
+namespace TaoMath
 {
-}
-Vector2D::Vector2D(const PointF& o)
-    : mX(o.x())
-    , mY(o.y())
+Vector2D::Vector2D(const Point &o) : mX(o.x()), mY(o.y()) {}
+Vector2D::Vector2D(const PointF &o) : mX(o.x()), mY(o.y()) {}
+Vector2D::Vector2D(const Vector3D &o) : mX(o.x()), mY(o.y()) {}
+Vector2D::Vector2D(const Vector4D &o) : mX(o.x()), mY(o.y()) {}
+real Vector2D::distanceToLine(
+    const Vector2D &point, const Vector2D &direction) const
 {
-}
-Vector2D::Vector2D(const Vector3D& o)
-    : mX(o.x())
-    , mY(o.y())
-{
-}
-Vector2D::Vector2D(const Vector4D& o)
-    : mX(o.x())
-    , mY(o.y())
-{
-}
-real Vector2D::distanceToLine(const Vector2D& point, const Vector2D& direction) const
-{
-    if (direction.isNull()) {
+    if (direction.isNull())
+    {
         return (*this - point).length();
     }
     auto dir = direction.normalized();
-    auto p = point + dotProduct(*this - point, dir) * dir;
+    auto p   = point + dotProduct(*this - point, dir) * dir;
     return (*this - p).length();
 }
-real Vector2D::distanceToPoint(const Vector2D& point) const
+real Vector2D::distanceToPoint(const Vector2D &point) const
 {
     return (*this - point).length();
 }
@@ -52,23 +39,30 @@ real Vector2D::lengthSquared() const
 void Vector2D::normalize()
 {
     double len = lengthSquared();
-    if (isZero(len - 1.0) || isZero(len)) {
+    if (isZero(len - 1.0) || isZero(len))
+    {
         return;
     }
     len = std::sqrt(len);
-    mX = static_cast<real>(mX / len);
-    mY = static_cast<real>(mY / len);
+    mX  = static_cast<real>(mX / len);
+    mY  = static_cast<real>(mY / len);
 }
 Vector2D Vector2D::normalized() const
 {
     double len = lengthSquared();
-    if (isZero (len)) {
+    if (isZero(len))
+    {
         return {};
-    } else if (isZero(len - 1.0f)) {
+    }
+    else if (isZero(len - 1.0f))
+    {
         return *this;
-    } else {
+    }
+    else
+    {
         len = sqrt(len);
-        return Vector2D(static_cast<real>(mX / len), static_cast<real>(mY / len));
+        return Vector2D(
+            static_cast<real>(mX / len), static_cast<real>(mY / len));
     }
 }
 Point Vector2D::toPoint() const
@@ -88,4 +82,4 @@ Vector4D Vector2D::toVector4D() const
     return Vector4D(x(), y(), 0, 0);
 }
 
-}
+} // namespace TaoMath

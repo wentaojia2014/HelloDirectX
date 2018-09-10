@@ -1,24 +1,26 @@
 #include "Graphics.h"
 
-Graphics::Graphics () {}
+Graphics::Graphics() {}
 
+Graphics::~Graphics() {}
 
-Graphics::~Graphics () {}
+Graphics::Graphics(const Graphics &) {}
 
-Graphics::Graphics (const Graphics &) {}
+Graphics::Graphics(Graphics &&) {}
 
-Graphics::Graphics (Graphics &&) {}
-
-bool Graphics::Initialize (int screenWidth, int screenHeight, HWND hwnd) {
+bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd)
+{
     return true;
 }
 
-void Graphics::Shutdown () {}
+void Graphics::Shutdown() {}
 
-bool Graphics::Frame () {
+bool Graphics::Frame()
+{
     return true;
 }
 
-bool Graphics::Render () {
+bool Graphics::Render()
+{
     return true;
 }

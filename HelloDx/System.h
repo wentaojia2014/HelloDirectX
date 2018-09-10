@@ -1,34 +1,34 @@
 #pragma once
-#include "Input.h"
 #include "Graphics.h"
+#include "Input.h"
 
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
 
-class System {
+class System
+{
 public:
-    System ();
-    ~System ();
-    System (System &&);
-    System (const System &);
-    bool Initialize ();
-    void Shutdown ();
-    void Run ();
-    LRESULT CALLBACK Messagehandler (HWND hwnd, UINT message, WPARAM param, LPARAM lparam);
+    System();
+    ~System();
+    System(System &&);
+    System(const System &);
+    bool    Initialize();
+    void    Shutdown();
+    void    Run();
+    LRESULT CALLBACK
+            Messagehandler(HWND hwnd, UINT message, WPARAM param, LPARAM lparam);
 
 private:
-    bool Frame ();
-    void InitializeWindow (int &w, int &h);
+    bool Frame();
+    void InitializeWindow(int &w, int &h);
     void ShutdownWindow();
 
 private:
-    LPCSTR mApplicationName;
+    LPCSTR    mApplicationName;
     HINSTANCE mHinstance;
-    HWND mHwnd;
+    HWND      mHwnd;
 
-    Input *mInput = nullptr;
+    Input *   mInput    = nullptr;
     Graphics *mGraphics = nullptr;
-
 };
-

@@ -61,7 +61,7 @@ TEST(testVector2D, test3)
 {
     Vector2D p1(2, 2);
     Vector2D p2(3, 3);
-    auto p = Vector2D::dotProduct(p1, p2);
+    auto     p = Vector2D::dotProduct(p1, p2);
     ASSERT_EQ(p, 12);
 }
 TEST(testVector2D, test4)
@@ -106,14 +106,14 @@ TEST(testVector2D, test4)
     }
     {
         Vector2D v(1., 2);
-        auto v1 = v * 3;
-        auto v2 = 3 * v;
+        auto     v1 = v * 3;
+        auto     v2 = 3 * v;
         ASSERT_EQ(v1, Vector2D(3, 6));
         ASSERT_EQ(v2, Vector2D(3, 6));
     }
     {
         Vector2D v(12, 9);
-        auto v1 = v / 3;
+        auto     v1 = v / 3;
         ASSERT_EQ(v1, Vector2D(4., 3.));
         auto v0 = v / 1.0;
         ASSERT_EQ(v0, Vector2D(12, 9));
@@ -122,7 +122,7 @@ TEST(testVector2D, test4)
 TEST(testVector2D, test5)
 {
     Vector2D v(1.3f, 2.4f);
-    auto p = v.toPoint();
+    auto     p = v.toPoint();
     ASSERT_EQ(Point(1, 2), p);
 
     auto p2 = v.toPointF();
@@ -137,12 +137,12 @@ TEST(testVector2D, test5)
 TEST(testVector2D, test6)
 {
     {
-        Point p1(1, 2);
+        Point    p1(1, 2);
         Vector2D v(p1);
         ASSERT_EQ(v, Vector2D(1, 2));
     }
     {
-        PointF p1(1.1f, 2.2f);
+        PointF   p1(1.1f, 2.2f);
         Vector2D v(p1);
         ASSERT_EQ(v, Vector2D(1.1f, 2.2f));
     }
@@ -175,13 +175,13 @@ TEST(testVector2D, test7)
 TEST(testVector2D, test8)
 {
     Vector2D v(3.3f, 4.4f);
-    auto vn = v.normalized();
+    auto     vn = v.normalized();
     v.normalize();
     ASSERT_EQ(v, vn);
     ASSERT_EQ(Vector2D(0.6f, 0.8f), v);
     {
         Vector2D v2(0.6f, 0.8f);
-        auto vn2 = v2.normalized();
+        auto     vn2 = v2.normalized();
         ASSERT_EQ(v2, vn2);
     }
     {

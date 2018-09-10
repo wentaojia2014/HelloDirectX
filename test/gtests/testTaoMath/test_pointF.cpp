@@ -1,6 +1,6 @@
-﻿#include <gtest/gtest.h>
-#include "TaoMath/Point.hpp"
+﻿#include "TaoMath/Point.hpp"
 #include "TaoMath/PointF.hpp"
+#include <gtest/gtest.h>
 
 using namespace TaoMath;
 TEST(testPointF, test1)
@@ -21,28 +21,28 @@ TEST(testPointF, test1)
     p3.ry()++;
     ASSERT_EQ(p3.y(), 3);
 
-    p3.setX (p3.x () + 1.1f);
-    ASSERT_EQ (p3.x (), 3.1f);
-    p3.setY (p3.y () + 1.3f);
-    ASSERT_EQ (p3.y (), 4.3f);
+    p3.setX(p3.x() + 1.1f);
+    ASSERT_EQ(p3.x(), 3.1f);
+    p3.setY(p3.y() + 1.3f);
+    ASSERT_EQ(p3.y(), 4.3f);
 }
 TEST(testPointF, test2)
 {
     PointF p1(10, 4);
     p1 += 3;
-    ASSERT_TRUE (PointF(13, 7) == p1);
+    ASSERT_TRUE(PointF(13, 7) == p1);
     p1 += 1.5;
-    ASSERT_TRUE (PointF(14.5f, 8.5f) == p1);
+    ASSERT_TRUE(PointF(14.5f, 8.5f) == p1);
     p1 += PointF(1, 2);
-    ASSERT_TRUE (PointF(15.5f, 10.5f) == p1);
+    ASSERT_TRUE(PointF(15.5f, 10.5f) == p1);
 
     p1 -= 3;
-    ASSERT_TRUE (PointF(12.5f, 7.5f)== p1);
+    ASSERT_TRUE(PointF(12.5f, 7.5f) == p1);
     p1 -= 2.1;
-    ASSERT_TRUE (PointF(10.4f, 5.4f) == p1);
+    ASSERT_TRUE(PointF(10.4f, 5.4f) == p1);
 
     p1 -= PointF(1, 2);
-   
+
     ASSERT_TRUE(PointF(9.4f, 3.4f) == p1);
 
     p1 *= 2;
@@ -62,7 +62,7 @@ TEST(testPointF, test3)
 {
     PointF p1(2, 2);
     PointF p2(3, 3);
-    auto p = PointF::dotProduct(p1, p2);
+    auto   p = PointF::dotProduct(p1, p2);
     ASSERT_EQ(p, 12);
 }
 TEST(testPointF, test4)
@@ -106,8 +106,9 @@ TEST(testPointF, test4)
         ASSERT_EQ(p, PointF(4, 4));
     }
 }
-TEST (testPointF, test5) {
-    PointF pf (1.3f, 2.4f);
-    auto p = pf.toPoint ();
-    ASSERT_EQ (Point (1, 2), p);
+TEST(testPointF, test5)
+{
+    PointF pf(1.3f, 2.4f);
+    auto   p = pf.toPoint();
+    ASSERT_EQ(Point(1, 2), p);
 }

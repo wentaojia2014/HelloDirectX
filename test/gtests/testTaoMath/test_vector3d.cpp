@@ -63,7 +63,7 @@ TEST(testVector3D, test3)
 {
     Vector3D p1(2, 2, 2);
     Vector3D p2(3, 3, 3);
-    auto p = Vector3D::dotProduct(p1, p2);
+    auto     p = Vector3D::dotProduct(p1, p2);
     ASSERT_EQ(p, 18);
     auto pp = Vector3D::crossProduct(p1, p2);
     ASSERT_TRUE(pp.isNull());
@@ -110,14 +110,14 @@ TEST(testVector3D, test4)
     }
     {
         Vector3D v(1, 2, 3);
-        auto v1 = v * 3;
-        auto v2 = 3 * v;
+        auto     v1 = v * 3;
+        auto     v2 = 3 * v;
         ASSERT_EQ(v1, Vector3D(3, 6, 9));
         ASSERT_EQ(v2, Vector3D(3, 6, 9));
     }
     {
         Vector3D v(12, 9, 6);
-        auto v1 = v / 3;
+        auto     v1 = v / 3;
         ASSERT_EQ(v1, Vector3D(4, 3, 2));
         auto v0 = v / 1.0;
         ASSERT_EQ(v0, Vector3D(12, 9, 6));
@@ -126,7 +126,7 @@ TEST(testVector3D, test4)
 TEST(testVector3D, test5)
 {
     Vector3D v(1.3, 2.4, 2.3);
-    auto p = v.toPoint();
+    auto     p = v.toPoint();
     ASSERT_EQ(Point(1, 2), p);
 
     auto p2 = v.toPointF();
@@ -141,12 +141,12 @@ TEST(testVector3D, test5)
 TEST(testVector3D, test6)
 {
     {
-        Point p1(1, 2);
+        Point    p1(1, 2);
         Vector3D v(p1);
         ASSERT_EQ(v, Vector3D(1, 2, 0));
     }
     {
-        PointF p1(1.1, 2.2);
+        PointF   p1(1.1, 2.2);
         Vector3D v(p1);
         ASSERT_EQ(v, Vector3D(1.1, 2.2, 0.0));
     }
@@ -164,49 +164,79 @@ TEST(testVector3D, test6)
 TEST(testVector3D, test7)
 {
     Vector3D v(3., 4., 5);
-    ASSERT_TRUE(fuzzyCompare(1.4142135623730951f, v.distanceToPoint({ 4., 4., 4 })));
-    ASSERT_TRUE(fuzzyCompare(1.4142135623730951f, v.distanceToLine({ 4., 4., 4. }, { 0.0, 1.0, 0.0 })));
-    ASSERT_TRUE(fuzzyCompare(7.071067811865475f, v.distanceToPoint(Vector3D())));
+    ASSERT_TRUE(
+        fuzzyCompare(1.4142135623730951f, v.distanceToPoint({ 4., 4., 4 })));
+    ASSERT_TRUE(fuzzyCompare(
+        1.4142135623730951f,
+        v.distanceToLine({ 4., 4., 4. }, { 0.0, 1.0, 0.0 })));
+    ASSERT_TRUE(
+        fuzzyCompare(7.071067811865475f, v.distanceToPoint(Vector3D())));
     Vector3D v0;
-    ASSERT_TRUE(fuzzyCompare(297.069015550259f, v0.distanceToLine({ 3., 4., 5. }, { 10.0, 0.0, 0. })));
+    ASSERT_TRUE(fuzzyCompare(
+        297.069015550259f,
+        v0.distanceToLine({ 3., 4., 5. }, { 10.0, 0.0, 0. })));
 
     Vector3D v3(1, 1, 1);
-    ASSERT_TRUE(fuzzyCompare(v3.distanceToLine({ 2, 2, 2 }, { -1, 1, 1 }), 2.f));
+    ASSERT_TRUE(
+        fuzzyCompare(v3.distanceToLine({ 2, 2, 2 }, { -1, 1, 1 }), 2.f));
     Vector3D v4(1, 1, 1);
-    ASSERT_TRUE(fuzzyCompare(v4.distanceToLine({ 2, 2, 2 }, {}), 1.732050807568877f));
+    ASSERT_TRUE(
+        fuzzyCompare(v4.distanceToLine({ 2, 2, 2 }, {}), 1.732050807568877f));
 
     Vector3D v5;
-    ASSERT_TRUE (fuzzyCompare (v5.distanceToPlane ({ 1, 1, 1 }, { 0, 1, 0 }), -1));
-    Vector3D v6(1,1,1);
-    ASSERT_TRUE (fuzzyCompare (v6.distanceToPlane ({ 2,2,2 }, { 3,3,3, }, { 4,4,4 }), 0));
+    ASSERT_TRUE(fuzzyCompare(v5.distanceToPlane({ 1, 1, 1 }, { 0, 1, 0 }), -1));
+    Vector3D v6(1, 1, 1);
+    ASSERT_TRUE(fuzzyCompare(
+        v6.distanceToPlane(
+            { 2, 2, 2 },
+            {
+                3,
+                3,
+                3,
+            },
+            { 4, 4, 4 }),
+        0));
 }
 TEST(testVector3D, test8)
 {
-     Vector3D v(3.3, 4.4, 5.5);
-     auto vn = v.normalized();
-     v.normalize();
-     ASSERT_EQ(v, vn);
-     ASSERT_EQ(Vector3D(0.42426406871192851464050661726291, 0.56568542494923801952067548968388, 0.70710678118654752440084436210485), v);
-     {
-         Vector3D v2(0.42426406871192851464050661726291, 0.56568542494923801952067548968388, 0.70710678118654752440084436210485);
-         auto vn2 = v2.normalized();
-         ASSERT_EQ(v2, vn2);
-     }
-     {
-         Vector3D v;
-         v = v.normalized();
-         ASSERT_TRUE(v.isNull());
-     }
-     {
-         Vector3D v;
-         v.normalize();
-         ASSERT_TRUE(v.isNull());
-     }
-     {
-         Vector3D v(1.2, 1.6, 1.8);
-         v.normalize();
-         ASSERT_EQ(v, Vector3D(0.44597648774829978951921830261338, 0.59463531699773305269229107015117, 0.66896473162244968427882745392007));
-     }
+    Vector3D v(3.3, 4.4, 5.5);
+    auto     vn = v.normalized();
+    v.normalize();
+    ASSERT_EQ(v, vn);
+    ASSERT_EQ(
+        Vector3D(
+            0.42426406871192851464050661726291,
+            0.56568542494923801952067548968388,
+            0.70710678118654752440084436210485),
+        v);
+    {
+        Vector3D v2(
+            0.42426406871192851464050661726291,
+            0.56568542494923801952067548968388,
+            0.70710678118654752440084436210485);
+        auto vn2 = v2.normalized();
+        ASSERT_EQ(v2, vn2);
+    }
+    {
+        Vector3D v;
+        v = v.normalized();
+        ASSERT_TRUE(v.isNull());
+    }
+    {
+        Vector3D v;
+        v.normalize();
+        ASSERT_TRUE(v.isNull());
+    }
+    {
+        Vector3D v(1.2, 1.6, 1.8);
+        v.normalize();
+        ASSERT_EQ(
+            v,
+            Vector3D(
+                0.44597648774829978951921830261338,
+                0.59463531699773305269229107015117,
+                0.66896473162244968427882745392007));
+    }
 }
 TEST(testVector3D, test9)
 {
@@ -214,8 +244,9 @@ TEST(testVector3D, test9)
     ASSERT_EQ(50, v.lengthSquared());
     ASSERT_TRUE(fuzzyCompare(7.071067811865475f, v.length()));
 }
-TEST (testVector3D, test10) {
-    auto v = Vector3D::normal (Vector3D (1, 1, 1), Vector3D (2, 2, 2), Vector3D (3, 3, 3));
-    ASSERT_EQ (v, Vector3D ());
-
+TEST(testVector3D, test10)
+{
+    auto v = Vector3D::normal(
+        Vector3D(1, 1, 1), Vector3D(2, 2, 2), Vector3D(3, 3, 3));
+    ASSERT_EQ(v, Vector3D());
 }

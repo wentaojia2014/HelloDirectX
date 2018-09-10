@@ -18,10 +18,10 @@ TEST(testPoint, test1)
     ASSERT_EQ(p3.x(), 2);
     p3.ry()++;
     ASSERT_EQ(p3.y(), 3);
-    p3.setX (4);
-    ASSERT_EQ (p3.x (), 4);
-    p3.setY (5);
-    ASSERT_EQ (p3.y (), 5);
+    p3.setX(4);
+    ASSERT_EQ(p3.x(), 4);
+    p3.setY(5);
+    ASSERT_EQ(p3.y(), 5);
 }
 TEST(testPoint, test2)
 {
@@ -58,7 +58,7 @@ TEST(testPoint, test3)
 {
     Point p1(2, 2);
     Point p2(3, 3);
-    auto p = Point::dotProduct(p1, p2);
+    auto  p = Point::dotProduct(p1, p2);
     ASSERT_EQ(p, 12);
 }
 TEST(testPoint, test4)

@@ -57,8 +57,8 @@ TEST(test_quaternion, test1)
 TEST(test_quaternion, test2)
 {
     Quaternion q(0.7, 1, 1, 1);
-    real angle;
-    Vector3D axis;
+    real       angle;
+    Vector3D   axis;
     q.getAxisAndAngle(axis, angle);
     ASSERT_EQ(angle, 91.1459961f);
     ASSERT_EQ(axis, Vector3D(0.535287738, 0.535287738, 0.535287738));
@@ -71,7 +71,7 @@ TEST(test_quaternion, test2)
     ASSERT_TRUE(fuzzyCompare(roll, 98.5307693f));
     {
         Quaternion q = Quaternion::fromAxisAndAngle(Vector3D(1, 1, 1), 90);
-        real pitch, yaw, roll;
+        real       pitch, yaw, roll;
         q.getEulerAngles(pitch, yaw, roll);
         ASSERT_EQ(pitch, 14.1237478f);
         ASSERT_EQ(yaw, 69.8960953f);
@@ -79,7 +79,7 @@ TEST(test_quaternion, test2)
     }
     {
         Quaternion q = Quaternion::fromAxisAndAngle(Vector3D(-14, -1, -1), 60);
-        real pitch, yaw, roll;
+        real       pitch, yaw, roll;
         q.getEulerAngles(pitch, yaw, roll);
         ASSERT_EQ(pitch, -59.7875748f);
         ASSERT_EQ(yaw, -2.98362422f);
@@ -87,15 +87,15 @@ TEST(test_quaternion, test2)
     }
     {
         Matrix3x3 m;
-        m (0, 0) = -10;
-        m (1, 1) = -8;
-        m (2, 2) = -5;
-        auto q = Quaternion::fromRotationMatrix (m);
-        ASSERT_EQ (q, Quaternion (0, 0, 0, 1.87082875));
+        m(0, 0) = -10;
+        m(1, 1) = -8;
+        m(2, 2) = -5;
+        auto q  = Quaternion::fromRotationMatrix(m);
+        ASSERT_EQ(q, Quaternion(0, 0, 0, 1.87082875));
     }
     {
         Quaternion q(0, 0, 0, 0);
-        real x, y, z, angle;
+        real       x, y, z, angle;
         q.getAxisAndAngle(x, y, z, angle);
         ASSERT_EQ(x, 0);
         ASSERT_EQ(y, 0);
@@ -122,26 +122,28 @@ TEST(test_quaternion, test2)
     }
     {
         Quaternion q;
-        auto nq = q.normalized ();
-        q.normalize ();
-        q.inverted ();
-        ASSERT_TRUE (q.isNull ());
+        auto       nq = q.normalized();
+        q.normalize();
+        q.inverted();
+        ASSERT_TRUE(q.isNull());
     }
     {
-        auto q = Quaternion::fromDirection (Vector3D (), Vector3D ());
-        ASSERT_TRUE (q.isNull ());
+        auto q = Quaternion::fromDirection(Vector3D(), Vector3D());
+        ASSERT_TRUE(q.isNull());
     }
     {
-        auto q = Quaternion::fromDirection (Vector3D (0, 0, 1), Vector3D ());
-        ASSERT_TRUE (q.scalar() == 1.0f);
+        auto q = Quaternion::fromDirection(Vector3D(0, 0, 1), Vector3D());
+        ASSERT_TRUE(q.scalar() == 1.0f);
     }
     {
-        auto q = Quaternion::rotationTo (Vector3D (0, 0, 1), Vector3D (0, 0, -1));
-        ASSERT_EQ (q, Quaternion (0, 0, -1, 0));
+        auto q = Quaternion::rotationTo(Vector3D(0, 0, 1), Vector3D(0, 0, -1));
+        ASSERT_EQ(q, Quaternion(0, 0, -1, 0));
     }
     {
-        auto q = Quaternion::rotationTo (Vector3D (-0.1, 1, 0), Vector3D (1, 0, 0));
-        ASSERT_TRUE (fuzzyCompare (q, Quaternion (0.671005368f, 0, 0, -0.741452575)));
+        auto q
+            = Quaternion::rotationTo(Vector3D(-0.1, 1, 0), Vector3D(1, 0, 0));
+        ASSERT_TRUE(
+            fuzzyCompare(q, Quaternion(0.671005368f, 0, 0, -0.741452575)));
     }
 }
 TEST(test_quaternion, test3)
@@ -157,47 +159,55 @@ TEST(test_quaternion, test3)
     {
 
         Quaternion q(0.7, 1, 1, 1);
-        auto iq = q.inverted();
-        ASSERT_TRUE(fuzzyCompare(Quaternion(0.7 / q.lengthSquared(),
-                                     1 / q.lengthSquared(),
-                                     1 / q.lengthSquared(),
-                                     1 / q.lengthSquared()),
+        auto       iq = q.inverted();
+        ASSERT_TRUE(fuzzyCompare(
+            Quaternion(
+                0.7 / q.lengthSquared(),
+                1 / q.lengthSquared(),
+                1 / q.lengthSquared(),
+                1 / q.lengthSquared()),
             iq));
     }
     {
         Quaternion q(0.7, 1, 1, 1);
-        auto cq = q.conjugated();
+        auto       cq = q.conjugated();
         ASSERT_EQ(cq, Quaternion(0.7, -1, -1, -1));
     }
 
     {
         Quaternion q(0.7, 1, 1, 1);
-        auto rv = q.rotatedVector(Vector3D(1, 1, 1));
+        auto       rv = q.rotatedVector(Vector3D(1, 1, 1));
         ASSERT_EQ(rv, Vector3D(-1, -1, -1));
     }
     {
 
         auto fq = Quaternion::fromAxisAndAngle(1, 1, 1, 30);
-        ASSERT_EQ(fq, Quaternion(0.965925872, 0.149429262, 0.149429262, 0.149429262));
+        ASSERT_EQ(
+            fq, Quaternion(0.965925872, 0.149429262, 0.149429262, 0.149429262));
     }
     {
         Vector3D axis(1, 1, 1);
-        real angle = 30;
-        auto fq = Quaternion::fromAxisAndAngle(axis, angle);
+        real     angle = 30;
+        auto     fq    = Quaternion::fromAxisAndAngle(axis, angle);
 
-        ASSERT_EQ(fq, Quaternion(0.965925872, 0.149429262, 0.149429262, 0.149429262));
+        ASSERT_EQ(
+            fq, Quaternion(0.965925872, 0.149429262, 0.149429262, 0.149429262));
     }
     {
         auto q = Quaternion::fromEulerAngles(10, 10, 10);
-        ASSERT_EQ(q, Quaternion(0.989289582, 0.0940609127, 0.0789264739, 0.0789264739));
+        ASSERT_EQ(
+            q,
+            Quaternion(0.989289582, 0.0940609127, 0.0789264739, 0.0789264739));
     }
     {
         auto q = Quaternion::fromEulerAngles(Vector3D(10, 10, 10));
-        ASSERT_EQ(q, Quaternion(0.989289582, 0.0940609127, 0.0789264739, 0.0789264739));
+        ASSERT_EQ(
+            q,
+            Quaternion(0.989289582, 0.0940609127, 0.0789264739, 0.0789264739));
     }
     {
         Quaternion q(0.7, 1, 1, 1);
-        Vector3D v1, v2, v3;
+        Vector3D   v1, v2, v3;
         q.getAxes(v1, v2, v3);
         ASSERT_EQ(Vector3D(-3, 3.4, 0.6), v1);
         ASSERT_EQ(Vector3D(0.6, -3.0, 3.4), v2);
@@ -207,25 +217,32 @@ TEST(test_quaternion, test3)
         ASSERT_TRUE(fuzzyCompare(p, q));
     }
     {
-        auto q = Quaternion::fromDirection(Vector3D(1, 1, 1), Vector3D(0, 1, 0));
-        ASSERT_EQ(q, Quaternion(0.880476236, -0.279848158, 0.364705175, 0.115916893));
+        auto q
+            = Quaternion::fromDirection(Vector3D(1, 1, 1), Vector3D(0, 1, 0));
+        ASSERT_EQ(
+            q, Quaternion(0.880476236, -0.279848158, 0.364705175, 0.115916893));
     }
     {
         auto q = Quaternion::rotationTo(Vector3D(1, 1, 1), Vector3D(1, 3, 2));
-        ASSERT_EQ(q, Quaternion(0.981279790, -0.0786235183, -0.0786235183, 0.157247037));
+        ASSERT_EQ(
+            q,
+            Quaternion(0.981279790, -0.0786235183, -0.0786235183, 0.157247037));
     }
     {
-        auto q = Quaternion::slerp(Quaternion(1, 1, 1, 1), Quaternion(1, 0.1, 0.1, 0.1), 0.5);
+        auto q = Quaternion::slerp(
+            Quaternion(1, 1, 1, 1), Quaternion(1, 0.1, 0.1, 0.1), 0.5);
         ASSERT_EQ(q, Quaternion(1, 0.55, 0.55, 0.55));
     }
     {
-        auto q = Quaternion::nlerp(Quaternion(1, 1, 1, 1), Quaternion(1, 0.1, 0.1, 0.1), 0.5);
-        ASSERT_EQ(q, Quaternion(0.724048615, 0.398226768, 0.398226768, 0.398226768));
+        auto q = Quaternion::nlerp(
+            Quaternion(1, 1, 1, 1), Quaternion(1, 0.1, 0.1, 0.1), 0.5);
+        ASSERT_EQ(
+            q, Quaternion(0.724048615, 0.398226768, 0.398226768, 0.398226768));
     }
     {
         Quaternion p1(1, 1, 1, 1);
         Quaternion p2(1, 1, 1, 1);
-        real v = Quaternion::dotProduct(p1, p2);
+        real       v = Quaternion::dotProduct(p1, p2);
         ASSERT_EQ(4, v);
 
         p1 += p2;
