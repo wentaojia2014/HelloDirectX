@@ -141,14 +141,15 @@ void System::InitializeWindow(int &w, int &h)
     }
     else
     {
-        w = 1024;
-        h = 768;
+        w = 800;
+        h = 600;
 
-        posX = (GetSystemMetrics(SM_CXSCREEN) - w) / 2 - 200;
-        posY = (GetSystemMetrics(SM_CYSCREEN) - h) / 2 - 100;
+        posX = (GetSystemMetrics(SM_CXSCREEN) - w) / 2;
+        posY = (GetSystemMetrics(SM_CYSCREEN) - h) / 2;
     }
-
-    mHwnd = CreateWindowEx(WS_EX_APPWINDOW, mApplicationName, mApplicationName, WS_OVERLAPPEDWINDOW, posX, posY, w, h, nullptr, nullptr, mHinstance, nullptr);
+    RECT rect = { 0, 0, w, h };
+    AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+    mHwnd = CreateWindowEx(WS_EX_APPWINDOW, mApplicationName, mApplicationName, WS_OVERLAPPEDWINDOW, posX, posY, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, mHinstance, nullptr);
 
     ShowWindow(mHwnd, SW_SHOW);
     SetForegroundWindow(mHwnd);
