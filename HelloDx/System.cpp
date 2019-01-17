@@ -29,8 +29,8 @@ System::System(const System &) {}
 
 bool System::Initialize()
 {
-    int w = 0;
-    int h = 0;
+    int w = 1024;
+    int h = 768;
 
     InitializeWindow(w, h);
     mInput = new Input();
@@ -66,8 +66,8 @@ void System::Shutdown()
 
 void System::Run()
 {
-    MSG  msg    = { 0 };
-    bool done   = false;
+    MSG msg = { 0 };
+    bool done = false;
     bool result = false;
     while (!done)
     {
@@ -103,23 +103,23 @@ bool System::Frame()
 void System::InitializeWindow(int &w, int &h)
 {
     WNDCLASSEX wc;
-    DEVMODE    dmScreenSettings;
-    int        posX, posY;
-    D3DAPP           = this;
-    mHinstance       = GetModuleHandle(nullptr);
+    DEVMODE dmScreenSettings;
+    int posX, posY;
+    D3DAPP = this;
+    mHinstance = GetModuleHandle(nullptr);
     mApplicationName = "Engine";
-    wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    wc.lpfnWndProc   = WndProc;
-    wc.cbClsExtra    = 0;
-    wc.cbWndExtra    = 0;
-    wc.hInstance     = mHinstance;
-    wc.hIcon         = LoadIcon(nullptr, IDI_WINLOGO);
-    wc.hIconSm       = wc.hIcon;
-    wc.hCursor       = LoadCursor(nullptr, IDC_ARROW);
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    wc.lpfnWndProc = WndProc;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = mHinstance;
+    wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
+    wc.hIconSm = wc.hIcon;
+    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    wc.lpszMenuName  = nullptr;
+    wc.lpszMenuName = nullptr;
     wc.lpszClassName = mApplicationName;
-    wc.cbSize        = sizeof(WNDCLASSEX);
+    wc.cbSize = sizeof(WNDCLASSEX);
 
     RegisterClassEx(&wc);
 
@@ -129,12 +129,11 @@ void System::InitializeWindow(int &w, int &h)
     if (FULL_SCREEN)
     {
         memset(&dmScreenSettings, 0, sizeof dmScreenSettings);
-        dmScreenSettings.dmSize       = sizeof dmScreenSettings;
-        dmScreenSettings.dmPelsWidth  = (unsigned long)w;
+        dmScreenSettings.dmSize = sizeof dmScreenSettings;
+        dmScreenSettings.dmPelsWidth = (unsigned long)w;
         dmScreenSettings.dmPelsHeight = (unsigned long)h;
         dmScreenSettings.dmBitsPerPel = 32;
-        dmScreenSettings.dmFields
-            = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+        dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
         ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
 
@@ -149,19 +148,7 @@ void System::InitializeWindow(int &w, int &h)
         posY = (GetSystemMetrics(SM_CYSCREEN) - h) / 2 - 100;
     }
 
-    mHwnd = CreateWindowEx(
-        WS_EX_APPWINDOW,
-        mApplicationName,
-        mApplicationName,
-        WS_OVERLAPPEDWINDOW,
-        posX,
-        posY,
-        w,
-        h,
-        nullptr,
-        nullptr,
-        mHinstance,
-        nullptr);
+    mHwnd = CreateWindowEx(WS_EX_APPWINDOW, mApplicationName, mApplicationName, WS_OVERLAPPEDWINDOW, posX, posY, w, h, nullptr, nullptr, mHinstance, nullptr);
 
     ShowWindow(mHwnd, SW_SHOW);
     SetForegroundWindow(mHwnd);

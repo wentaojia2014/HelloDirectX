@@ -13,11 +13,10 @@ public:
     ~System();
     System(System &&);
     System(const System &);
-    bool    Initialize();
-    void    Shutdown();
-    void    Run();
-    LRESULT CALLBACK
-            Messagehandler(HWND hwnd, UINT message, WPARAM param, LPARAM lparam);
+    bool Initialize();
+    void Shutdown();
+    void Run();
+    LRESULT CALLBACK Messagehandler(HWND hwnd, UINT message, WPARAM param, LPARAM lparam);
 
 private:
     bool Frame();
@@ -25,10 +24,10 @@ private:
     void ShutdownWindow();
 
 private:
-    LPCSTR    mApplicationName;
+    LPCSTR mApplicationName;
     HINSTANCE mHinstance;
-    HWND      mHwnd;
+    HWND mHwnd;
 
-    Input *   mInput    = nullptr;
+    Input *mInput = nullptr;
     Graphics *mGraphics = nullptr;
 };
