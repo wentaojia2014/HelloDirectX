@@ -1,6 +1,5 @@
 ﻿#include <TaoMath/TaoMath>
 #include <gtest/gtest.h>
-#include <iostream>
 using namespace TaoMath;
 TEST(testVector4D, test1)
 {

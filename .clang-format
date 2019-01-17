@@ -177,10 +177,10 @@ PenaltyReturnTypeOnItsOwnLine: 60
 # 指针和引用的对齐: Left, Right, Middle
 PointerAlignment: Right
 
-RawStringFormats: 
-  - Delimiter:       pb
-    Language:        TextProto
-    BasedOnStyle:    google
+#RawStringFormats: 
+#  - Delimiter:       pb
+#    Language:        TextProto
+#    BasedOnStyle:    google
 # 允许重新排版注释
 ReflowComments:  true
 # 允许排序#include

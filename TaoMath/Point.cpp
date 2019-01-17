@@ -1,3 +1,4 @@
 ﻿#include "Point.hpp"
-namespace TaoMath {
+namespace TaoMath
+{
 }
