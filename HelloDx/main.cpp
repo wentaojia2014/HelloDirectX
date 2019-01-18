@@ -46,10 +46,13 @@ void InitD3D(HWND hWnd)
     ZeroMemory(&scd, sizeof scd);
     scd.BufferCount = 1;
     scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    scd.BufferDesc.Width = W;
+    scd.BufferDesc.Height = H;
     scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     scd.OutputWindow = hWnd;
     scd.SampleDesc.Count = 4;
     scd.Windowed = true;
+    scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
     D3D11CreateDeviceAndSwapChain(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0, D3D11_SDK_VERSION, &scd, &gSwapChain, &gDevice, nullptr, &gContext);
     // get the address of the back buffer
@@ -77,6 +80,7 @@ void RenderFrame()
 }
 void CleanD3D()
 {
+    gSwapChain->SetFullscreenState(false, nullptr);
     gSwapChain->Release();
     gTargetView->Release();
     gDevice->Release();
@@ -112,7 +116,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmd, in
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = hInstance;
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+    //wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.lpszClassName = u8"WindowClass1";
 
     RegisterClassEx(&wc);
