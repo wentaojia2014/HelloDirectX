@@ -13,14 +13,14 @@ public:
     ~System();
     System(System &&);
     System(const System &);
-    bool Initialize();
+    bool Initialize(LPSTR lpCmd, int nShowCmd);
     void Shutdown();
     void Run();
     LRESULT CALLBACK Messagehandler(HWND hwnd, UINT message, WPARAM param, LPARAM lparam);
 
 private:
     bool Frame();
-    void InitializeWindow(int &w, int &h);
+    void InitializeWindow(int w, int h, int nShowCmd);
     void ShutdownWindow();
 
 private:
@@ -30,4 +30,5 @@ private:
 
     Input *mInput = nullptr;
     Graphics *mGraphics = nullptr;
+    bool mFullScreen = false;
 };
