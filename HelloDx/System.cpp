@@ -35,33 +35,33 @@ bool System::Initialize(LPSTR lpCmd, int nShowCmd)
     int h = 768;
     
     InitializeWindow(w, h, nShowCmd);
-    mInput = new Input();
-    if (!mInput)
+    m_input = new Input();
+    if (!m_input)
     {
         return false;
     }
-    mInput->Initialize();
+    m_input->Initialize();
 
-    mGraphics = new Graphics();
-    if (!mGraphics)
+    m_graphics = new Graphics();
+    if (!m_graphics)
     {
         return false;
     }
-    return mGraphics->Initialize(w, h, mHwnd);
+    return m_graphics->Initialize(w, h, m_hwnd);
 }
 
 void System::Shutdown()
 {
-    if (mGraphics)
+    if (m_graphics)
     {
-        mGraphics->Shutdown();
-        delete mGraphics;
-        mGraphics = nullptr;
+        m_graphics->Shutdown();
+        delete m_graphics;
+        m_graphics = nullptr;
     }
-    if (mInput)
+    if (m_input)
     {
-        delete mInput;
-        mInput = nullptr;
+        delete m_input;
+        m_input = nullptr;
     }
     this->ShutdownWindow();
 }
@@ -95,11 +95,11 @@ void System::Run()
 
 bool System::Frame()
 {
-    if (mInput->IsKeyDown(VK_ESCAPE))
+    if (m_input->IsKeyDown(VK_ESCAPE))
     {
         return false;
     }
-    return mGraphics->Frame();
+    return m_graphics->Frame();
 }
 
 void System::InitializeWindow(int w, int h, int nShowCmd)
@@ -109,26 +109,26 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
     int posX, posY;
     D3DAPP = this;
     ZeroMemory(&wc, sizeof wc);
-    mHinstance = GetModuleHandle(nullptr);
-    mApplicationName = "Engine";
+    m_hInstance = GetModuleHandle(nullptr);
+    m_applicationName = "Engine";
 
     wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = WndProc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
-    wc.hInstance = mHinstance;
+    wc.hInstance = m_hInstance;
     wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
     wc.hIconSm = wc.hIcon;
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
     // wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszMenuName = nullptr;
-    wc.lpszClassName = mApplicationName;
+    wc.lpszClassName = m_applicationName;
     wc.cbSize = sizeof wc;
 
     RegisterClassEx(&wc);
     unsigned long screenW = GetSystemMetrics(SM_CXSCREEN);
     unsigned long screenH = GetSystemMetrics(SM_CYSCREEN);
-    if (mFullScreen)
+    if (m_fullScreen)
     {
         w = screenW;
         h = screenH;
@@ -151,10 +151,10 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
     }
     RECT rect = { 0, 0, w, h };
     AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
-    mHwnd = CreateWindowEx(
+    m_hwnd = CreateWindowEx(
         0,
-        mApplicationName,
-        mApplicationName,
+        m_applicationName,
+        m_applicationName,
         WS_OVERLAPPEDWINDOW,
         posX,
         posY,
@@ -162,25 +162,25 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
         rect.bottom - rect.top,
         nullptr,
         nullptr,
-        mHinstance,
+        m_hInstance,
         nullptr);
 
-    ShowWindow(mHwnd, nShowCmd);
+    ShowWindow(m_hwnd, nShowCmd);
     //SetForegroundWindow(mHwnd);
     //SetFocus(mHwnd);
 }
 
 void System::ShutdownWindow()
 {
-    if (mFullScreen)
+    if (m_fullScreen)
     {
         ChangeDisplaySettings(nullptr, 0);
     }
-    DestroyWindow(mHwnd);
-    mHwnd = nullptr;
+    DestroyWindow(m_hwnd);
+    m_hwnd = nullptr;
 
-    UnregisterClass(mApplicationName, mHinstance);
-    mHinstance = nullptr;
+    UnregisterClass(m_applicationName, m_hInstance);
+    m_hInstance = nullptr;
 
     D3DAPP = nullptr;
 }
@@ -192,14 +192,15 @@ System::Messagehandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
     {
         case WM_KEYDOWN:
         {
-            mInput->KeyDown((unsigned int)wparam);
+            m_input->KeyDown((unsigned int)wparam);
             return 0;
         }
         case WM_KEYUP:
         {
-            mInput->KeyRelease((unsigned int)wparam);
+            m_input->KeyRelease((unsigned int)wparam);
             return 0;
         }
+		
         default:
         {
             return DefWindowProc(hwnd, message, wparam, lparam);

@@ -78,17 +78,17 @@ bool Graphics::InitD3D(int screenWidth, int screenHeight, HWND hwnd)
 
     ThrowIfFailed(
         D3D11CreateDeviceAndSwapChain(
-            nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0, D3D11_SDK_VERSION, &scd, &gSwapChain, &gDevice, nullptr, &gContext),
+            nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0, D3D11_SDK_VERSION, &scd, &m_swapChain, &m_device, nullptr, &m_context),
         "D3D11CreateDeviceAndSwapChain ");
     // get the address of the back buffer
     ID3D11Texture2D *pBackBuffer;
-    ThrowIfFailed(gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID *)&pBackBuffer), "GetBuffer");
+    ThrowIfFailed(m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID *)&pBackBuffer), "GetBuffer");
     // create render target
-    ThrowIfFailed(gDevice->CreateRenderTargetView(pBackBuffer, nullptr, &gTargetView), "CreateRenderTargetView");
+    ThrowIfFailed(m_device->CreateRenderTargetView(pBackBuffer, nullptr, &m_targetView), "CreateRenderTargetView");
 
     pBackBuffer->Release();
     // set render target
-    gContext->OMSetRenderTargets(1, &gTargetView, nullptr);
+    m_context->OMSetRenderTargets(1, &m_targetView, nullptr);
     // set view port
     D3D11_VIEWPORT viewPort;
     ZeroMemory(&viewPort, sizeof viewPort);
@@ -96,7 +96,7 @@ bool Graphics::InitD3D(int screenWidth, int screenHeight, HWND hwnd)
     viewPort.TopLeftY = 0;
     viewPort.Width = screenWidth;
     viewPort.Height = screenHeight;
-    gContext->RSSetViewports(1, &viewPort);
+    m_context->RSSetViewports(1, &viewPort);
 
     return true;
 }
@@ -105,17 +105,17 @@ bool Graphics::InitPipeLine()
     ID3D10Blob *vs, *ps;
     ThrowIfFailed(D3DX11CompileFromFile(u8"shaders.shader", nullptr, nullptr, "VShader", "vs_4_0", 0, 0, 0, &vs, 0, 0), "D3DX11CompileFromFile");
     ThrowIfFailed(D3DX11CompileFromFile(u8"shaders.shader", nullptr, nullptr, "PShader", "ps_4_0", 0, 0, 0, &ps, 0, 0), "D3DX11CompileFromFile");
-    ThrowIfFailed(gDevice->CreateVertexShader(vs->GetBufferPointer(), vs->GetBufferSize(), nullptr, &gVs), "CreateVertexShader");
-    ThrowIfFailed(gDevice->CreatePixelShader(ps->GetBufferPointer(), ps->GetBufferSize(), nullptr, &gPs), "CreatePixelShader");
-    gContext->VSSetShader(gVs, nullptr, 0);
-    gContext->PSSetShader(gPs, nullptr, 0);
+    ThrowIfFailed(m_device->CreateVertexShader(vs->GetBufferPointer(), vs->GetBufferSize(), nullptr, &m_vs), "CreateVertexShader");
+    ThrowIfFailed(m_device->CreatePixelShader(ps->GetBufferPointer(), ps->GetBufferSize(), nullptr, &m_ps), "CreatePixelShader");
+    m_context->VSSetShader(m_vs, nullptr, 0);
+    m_context->PSSetShader(m_ps, nullptr, 0);
 
     D3D11_INPUT_ELEMENT_DESC ied[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
         { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, offsetof(Vertex, color), D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
-    ThrowIfFailed(gDevice->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]), vs->GetBufferPointer(), vs->GetBufferSize(), &gLayout),"CreateInputLayout");
-    gContext->IASetInputLayout(gLayout);
+    ThrowIfFailed(m_device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]), vs->GetBufferPointer(), vs->GetBufferSize(), &m_layout),"CreateInputLayout");
+    m_context->IASetInputLayout(m_layout);
     return true;
 }
 bool Graphics::InitGraphics()
@@ -133,25 +133,25 @@ bool Graphics::InitGraphics()
     bd.ByteWidth = sizeof vertexs;
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    ThrowIfFailed(gDevice->CreateBuffer(&bd, nullptr, &gVBuffer), "CreateBuffer");
+    ThrowIfFailed(m_device->CreateBuffer(&bd, nullptr, &m_vBuffer), "CreateBuffer");
 
     D3D11_MAPPED_SUBRESOURCE ms;
-    ThrowIfFailed(gContext->Map(gVBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms), "Map");
+    ThrowIfFailed(m_context->Map(m_vBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms), "Map");
     memcpy(ms.pData, vertexs, sizeof vertexs);
-    gContext->Unmap(gVBuffer, 0);
+    m_context->Unmap(m_vBuffer, 0);
     return true;
 }
 void Graphics::Shutdown()
 {
-    gVs->Release();
-    gPs->Release();
-    gSwapChain->SetFullscreenState(false, nullptr);
-    gLayout->Release();
-    gSwapChain->Release();
-    gVBuffer->Release();
-    gTargetView->Release();
-    gDevice->Release();
-    gContext->Release();
+    m_vs->Release();
+    m_ps->Release();
+    m_swapChain->SetFullscreenState(false, nullptr);
+    m_layout->Release();
+    m_swapChain->Release();
+    m_vBuffer->Release();
+    m_targetView->Release();
+    m_device->Release();
+    m_context->Release();
 }
 
 bool Graphics::Frame()
@@ -161,14 +161,14 @@ bool Graphics::Frame()
 
 bool Graphics::Render()
 {
-    gContext->ClearRenderTargetView(gTargetView, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+    m_context->ClearRenderTargetView(m_targetView, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
 
     UINT stride = sizeof(Vertex);
     UINT offset = 0;
-    gContext->IASetVertexBuffers(0, 1, &gVBuffer, &stride, &offset);
-    gContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    gContext->Draw(3, 0);
-	if (FAILED(gSwapChain->Present(0, 0))) 
+    m_context->IASetVertexBuffers(0, 1, &m_vBuffer, &stride, &offset);
+    m_context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    m_context->Draw(3, 0);
+	if (FAILED(m_swapChain->Present(0, 0))) 
 	{
         return false;
 	}

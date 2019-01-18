@@ -24,11 +24,11 @@ private:
     void ShutdownWindow();
 
 private:
-    LPCSTR mApplicationName;
-    HINSTANCE mHinstance;
-    HWND mHwnd;
+    LPCSTR m_applicationName;
+    HINSTANCE m_hInstance;
+    HWND m_hwnd;
 
-    Input *mInput = nullptr;
-    Graphics *mGraphics = nullptr;
-    bool mFullScreen = false;
+    Input *m_input = nullptr;
+    Graphics *m_graphics = nullptr;
+    bool m_fullScreen = false;
 };

@@ -14,5 +14,5 @@ public:
     bool IsKeyDown(unsigned int wParam);
 
 private:
-    bool mKey[KEY_COUNT];
+    bool m_key[KEY_COUNT];
 };

@@ -12,21 +12,21 @@ void Input::Initialize()
 {
     for (int i = 0; i < KEY_COUNT; ++i)
     {
-        mKey[i] = false;
+        m_key[i] = false;
     }
 }
 
 void Input::KeyDown(unsigned int wParam)
 {
-    mKey[wParam] = true;
+    m_key[wParam] = true;
 }
 
 void Input::KeyRelease(unsigned int wParam)
 {
-    mKey[wParam] = false;
+    m_key[wParam] = false;
 }
 
 bool Input::IsKeyDown(unsigned int wParam)
 {
-    return mKey[wParam];
+    return m_key[wParam];
 }
