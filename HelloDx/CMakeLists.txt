@@ -11,3 +11,5 @@ add_executable(${TAR} WIN32 ${SRC} ${CURRENT_HEADERS})
 target_link_libraries(${TAR} TaoMath)
 set_target_properties(${TAR} PROPERTIES FOLDER ${TAR})
 install(TARGETS ${TAR} DESTINATION bin)
+
+configure_file(shaders.shader ${CMAKE_BINARY_DIR}/${TAR}/shaders.shader)
