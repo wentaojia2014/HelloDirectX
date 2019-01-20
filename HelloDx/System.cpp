@@ -31,9 +31,9 @@ bool System::Initialize(LPSTR lpCmd, int nShowCmd)
 {
     (void)lpCmd;
 
-    int w = 1024;
-    int h = 768;
-    
+    int w = 800;
+    int h = 600;
+
     InitializeWindow(w, h, nShowCmd);
     m_input = new Input();
     if (!m_input)
@@ -47,7 +47,7 @@ bool System::Initialize(LPSTR lpCmd, int nShowCmd)
     {
         return false;
     }
-    return m_graphics->Initialize(w, h, m_hwnd);
+    return m_graphics->Initialize(w, h, m_hwnd, m_fullScreen);
 }
 
 void System::Shutdown()
@@ -104,24 +104,21 @@ bool System::Frame()
 
 void System::InitializeWindow(int w, int h, int nShowCmd)
 {
-    WNDCLASSEX wc;
+    WNDCLASSEX wc = { 0 };
     DEVMODE dmScreenSettings;
     int posX, posY;
     D3DAPP = this;
-    ZeroMemory(&wc, sizeof wc);
+
     m_hInstance = GetModuleHandle(nullptr);
     m_applicationName = "Engine";
 
     wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = WndProc;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
     wc.hInstance = m_hInstance;
     wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
     wc.hIconSm = wc.hIcon;
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
     // wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    wc.lpszMenuName = nullptr;
     wc.lpszClassName = m_applicationName;
     wc.cbSize = sizeof wc;
 
@@ -166,8 +163,8 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
         nullptr);
 
     ShowWindow(m_hwnd, nShowCmd);
-    //SetForegroundWindow(mHwnd);
-    //SetFocus(mHwnd);
+    // SetForegroundWindow(mHwnd);
+    // SetFocus(mHwnd);
 }
 
 void System::ShutdownWindow()
@@ -200,7 +197,7 @@ System::Messagehandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
             m_input->KeyRelease((unsigned int)wparam);
             return 0;
         }
-		
+
         default:
         {
             return DefWindowProc(hwnd, message, wparam, lparam);

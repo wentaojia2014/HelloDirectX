@@ -6,10 +6,10 @@ Graphics::Graphics() {}
 
 Graphics::~Graphics() {}
 
-bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd)
+bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)
 {
     m_render = new Render;
-    return m_render->Initialize(screenWidth, screenHeight, hwnd);
+    return m_render->Initialize(screenWidth, screenHeight, hwnd, fullScreen);
     
 }
 
@@ -22,6 +22,10 @@ void Graphics::Shutdown()
 
 bool Graphics::Frame()
 {
-    return m_render->render();
+    bool ret;
+    m_render->BeginScene(0.5f, 0.5f, 0.5f, 1.0f);
+    ret = m_render->render();
+    m_render->EndScene();
+    return ret;
 }
 

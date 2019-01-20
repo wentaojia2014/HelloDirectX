@@ -11,7 +11,7 @@ public:
     Graphics();
     ~Graphics();
 
-    bool Initialize(int screenWidth, int screenHeight, HWND hwnd);
+    bool Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen);
     void Shutdown();
     bool Frame();
 private:
