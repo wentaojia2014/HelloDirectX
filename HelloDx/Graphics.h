@@ -1,10 +1,11 @@
 #pragma once
 #include <Windows.h>
-
-const bool VSYNC_ENABLED = true;
-const float SCREEN_DEPTH = 1000.0f;
-const float SCREEN_NEAR = 0.1f;
-class Render;
+namespace TaoD3D
+{
+class D3D;
+class Model;
+class ColorShader;
+class Camera;
 class Graphics
 {
 public:
@@ -14,6 +15,11 @@ public:
     bool Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen);
     void Shutdown();
     bool Frame();
+
 private:
-    Render *m_render = nullptr;
+    D3D *m_d3d = nullptr;
+    Model *m_model = nullptr;
+    ColorShader *m_shader = nullptr;
+    Camera *m_camera = nullptr;
 };
+} // namespace TaoD3D

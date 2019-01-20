@@ -1,5 +1,6 @@
 #include "System.h"
-
+namespace TaoD3D
+{
 static System *D3DAPP = nullptr;
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
@@ -205,3 +206,4 @@ System::Messagehandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
     }
     return LRESULT();
 }
+} // namespace TaoD3D

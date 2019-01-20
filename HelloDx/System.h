@@ -5,7 +5,8 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
-
+namespace TaoD3D
+{
 class System
 {
 public:
@@ -32,3 +33,4 @@ private:
     Graphics *m_graphics = nullptr;
     bool m_fullScreen = false;
 };
+} // namespace TaoD3D

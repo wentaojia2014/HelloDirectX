@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+namespace TaoD3D
+{
 
 static std::string GetLastErrorAsString()
 {
@@ -32,9 +34,15 @@ void ThrowIfFailed(HRESULT hr, T &&msg)
     if (FAILED(hr))
     {
         OutputDebugStringA(GetLastErrorAsString().data());
-        throw std::system_error
-        {
-            hr, std::system_category(), std::forward<T>(msg)
-        };
-	}
+        throw std::system_error{ hr, std::system_category(), std::forward<T>(msg) };
+    }
 }
+
+template <typename T>
+void SafeShutdown(T *p)
+{
+    p->Shutdown();
+    delete p;
+    p = nullptr;
+}
+} // namespace TaoD3D

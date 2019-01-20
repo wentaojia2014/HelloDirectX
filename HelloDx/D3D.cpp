@@ -1,12 +1,8 @@
-#include "Render.h"
+#include "D3D.h"
 #include "Common.h"
-struct Vertex
+namespace TaoD3D
 {
-    float x, y, z;
-    D3DXCOLOR color;
-};
-
-bool Render::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)
+bool D3D::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)
 {
     m_screenWidth = screenWidth;
     m_screenHeight = screenHeight;
@@ -16,20 +12,26 @@ bool Render::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullS
     InitDepthStencilBuffer();
     InitRaster();
     InitRenderTarget();
-    InitPipeLine();
-    InitGraphics();
-    
+    InitMatrix();
+
     return true;
 }
-
-void Render::Shutdown()
+void D3D::GetProjectMatrix(D3DXMATRIX &mat)
+{
+    mat = m_projectMat;
+}
+void D3D::GetWorldMatrix(D3DXMATRIX &mat)
+{
+    mat = m_worldMat;
+}
+void D3D::GetOrthoMatrix(D3DXMATRIX &mat)
+{
+    mat = m_orthoMat;
+}
+void D3D::Shutdown()
 {
     m_swapChain->SetFullscreenState(false, nullptr);
-    m_vs->Release();
-    m_ps->Release();
-    m_layout->Release();
     m_swapChain->Release();
-    m_vBuffer->Release();
     m_targetView->Release();
     m_device->Release();
     m_context->Release();
@@ -38,7 +40,7 @@ void Render::Shutdown()
     m_depthStencilView->Release();
     m_rasterState->Release();
 }
-void Render::InitRefreshRate()
+void D3D::InitRefreshRate()
 {
     IDXGIFactory *factory;
     IDXGIAdapter *adapter;
@@ -71,13 +73,12 @@ void Render::InitRefreshRate()
     adapterOutput->Release();
     factory->Release();
 }
-void Render::InitDepthStencilBuffer()
+void D3D::InitDepthStencilBuffer()
 {
     // depth buffer
     D3D11_TEXTURE2D_DESC depthBufferDesc;
     D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
     D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-
 
     ZeroMemory(&depthBufferDesc, sizeof depthBufferDesc);
     depthBufferDesc.Width = m_screenWidth;
@@ -121,7 +122,7 @@ void Render::InitDepthStencilBuffer()
 
     ThrowIfFailed(m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView), "CreateDepthStencilView");
 }
-void Render::InitSwapChain(HWND hwnd, bool fullScreen)
+void D3D::InitSwapChain(HWND hwnd, bool fullScreen)
 {
     // Direct3D init
     DXGI_SWAP_CHAIN_DESC swapChainDesc;
@@ -157,7 +158,7 @@ void Render::InitSwapChain(HWND hwnd, bool fullScreen)
             nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, nullptr, &m_context),
         "D3D11CreateDeviceAndSwapChain ");
 }
-void Render::InitRenderTarget()
+void D3D::InitRenderTarget()
 {
     // get the address of the back buffer
     ID3D11Texture2D *pBackBuffer;
@@ -169,7 +170,7 @@ void Render::InitRenderTarget()
     // set render target
     m_context->OMSetRenderTargets(1, &m_targetView, m_depthStencilView);
 }
-void Render::InitRaster()
+void D3D::InitRaster()
 {
     D3D11_RASTERIZER_DESC rasterDesc;
     ZeroMemory(&rasterDesc, sizeof rasterDesc);
@@ -187,7 +188,7 @@ void Render::InitRaster()
     ThrowIfFailed(m_device->CreateRasterizerState(&rasterDesc, &m_rasterState), "CreateRasterizerState");
     m_context->RSSetState(m_rasterState);
 }
-void Render::InitViewPort()
+void D3D::InitViewPort()
 {
     // set view port
     D3D11_VIEWPORT viewPort;
@@ -200,46 +201,8 @@ void Render::InitViewPort()
     viewPort.MaxDepth = 1.0f;
     m_context->RSSetViewports(1, &viewPort);
 }
-void Render::InitPipeLine()
+void D3D::InitMatrix()
 {
-    ID3D10Blob *vs, *ps;
-    ThrowIfFailed(D3DX11CompileFromFile(u8"shaders.shader", nullptr, nullptr, "VShader", "vs_4_0", 0, 0, 0, &vs, 0, 0), "D3DX11CompileFromFile");
-    ThrowIfFailed(D3DX11CompileFromFile(u8"shaders.shader", nullptr, nullptr, "PShader", "ps_4_0", 0, 0, 0, &ps, 0, 0), "D3DX11CompileFromFile");
-    ThrowIfFailed(m_device->CreateVertexShader(vs->GetBufferPointer(), vs->GetBufferSize(), nullptr, &m_vs), "CreateVertexShader");
-    ThrowIfFailed(m_device->CreatePixelShader(ps->GetBufferPointer(), ps->GetBufferSize(), nullptr, &m_ps), "CreatePixelShader");
-    m_context->VSSetShader(m_vs, nullptr, 0);
-    m_context->PSSetShader(m_ps, nullptr, 0);
-
-    D3D11_INPUT_ELEMENT_DESC ied[] = {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, offsetof(Vertex, color), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-    };
-    ThrowIfFailed(m_device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]), vs->GetBufferPointer(), vs->GetBufferSize(), &m_layout), "CreateInputLayout");
-    m_context->IASetInputLayout(m_layout);
-}
-void Render::InitGraphics()
-{
-    // Vertex vertex = {0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)};
-    Vertex vertexs[] = {
-        { 0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) },
-        { 0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) },
-        { -0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f) },
-    };
-
-    D3D11_BUFFER_DESC bd;
-    ZeroMemory(&bd, sizeof bd);
-    bd.Usage = D3D11_USAGE_DYNAMIC;
-    bd.ByteWidth = sizeof vertexs;
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    ThrowIfFailed(m_device->CreateBuffer(&bd, nullptr, &m_vBuffer), "CreateBuffer");
-
-    D3D11_MAPPED_SUBRESOURCE ms;
-    ThrowIfFailed(m_context->Map(m_vBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms), "Map");
-    memcpy(ms.pData, vertexs, sizeof vertexs);
-    m_context->Unmap(m_vBuffer, 0);
-
-
     float fieldOfView = (float)D3DX_PI / 4.0f;
     float screenAspect = (float)m_screenWidth / m_screenHeight;
     float screenNear = 0.1f;
@@ -248,16 +211,8 @@ void Render::InitGraphics()
     D3DXMatrixIdentity(&m_worldMat);
     D3DXMatrixOrthoLH(&m_orthoMat, (float)m_screenWidth, (float)m_screenHeight, screenNear, screenFar);
 }
-bool Render::render()
-{
-    UINT stride = sizeof(Vertex);
-    UINT offset = 0;
-    m_context->IASetVertexBuffers(0, 1, &m_vBuffer, &stride, &offset);
-    m_context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    m_context->Draw(3, 0);
-    return true;
-}
-void Render::BeginScene(float r, float g, float b, float a) 
+
+void D3D::BeginScene(float r, float g, float b, float a)
 {
     float color[4];
     color[0] = r;
@@ -268,7 +223,7 @@ void Render::BeginScene(float r, float g, float b, float a)
     m_context->ClearRenderTargetView(m_targetView, color);
     m_context->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
-void Render::EndScene() 
+void D3D::EndScene()
 {
     if (m_vsyncEnabled)
     {
@@ -279,3 +234,4 @@ void Render::EndScene()
         m_swapChain->Present(0, 0);
     }
 }
+} // namespace TaoD3D

@@ -1,5 +1,6 @@
 #pragma once
-
+namespace TaoD3D
+{
 static const int KEY_COUNT = 256;
 class Input
 {
@@ -16,3 +17,4 @@ public:
 private:
     bool m_key[KEY_COUNT];
 };
+} // namespace TaoD3D

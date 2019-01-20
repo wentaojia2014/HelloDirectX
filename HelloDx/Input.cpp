@@ -1,5 +1,6 @@
 #include "Input.h"
-
+namespace TaoD3D
+{
 Input::Input() {}
 
 Input::Input(const Input &) {}
@@ -30,3 +31,4 @@ bool Input::IsKeyDown(unsigned int wParam)
 {
     return m_key[wParam];
 }
+} // namespace TaoD3D
