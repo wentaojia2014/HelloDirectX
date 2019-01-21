@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.2)
+﻿cmake_minimum_required(VERSION 3.10)
 project (HelloDx C CXX)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
@@ -31,7 +31,6 @@ if(WIN32 AND (NOT CYGWIN) AND (NOT MINGW))
 else()
     message("main porject 'HelloDx' use DirectX, it only support MSVC platform.")
 endif()
-
 
 if (NOT CMAKE_NO_BUILD_TEST) 
     add_subdirectory(test)
