@@ -5,10 +5,10 @@ bool Model::Initialize(ID3D11Device *device, const char *textureFile)
 {
     // Vertex vertex = {0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)};
     Vertex vertexs[] = {
-        { { -1.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } },
-        { { -1.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } },
-        { { 1.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } },
-        { { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f } },
+        { { -1.0f, -1.0f, 0.0f }, { 0.0f, 1.0f }, { 0.0f, 0.0f, -1.0f } },
+        { { -1.0f, 1.0f, 0.0f }, { 0.0f, 0.0f }, { 0.0f, 0.0f, -1.0f } },
+        { { 1.0f, 1.0f, 0.0f }, { 1.0f, 0.0f }, { 0.0f, 0.0f, -1.0f } },
+        { { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 0.0f, -1.0f } },
     };
     m_vertexCount = sizeof vertexs / sizeof vertexs[0];
     unsigned long indexs[] = { 0, 1, 2, 2, 3, 0 };
@@ -34,7 +34,7 @@ bool Model::Initialize(ID3D11Device *device, const char *textureFile)
     indexData.pSysMem = indexs;
     ThrowIfFailed(device->CreateBuffer(&indexDesc, &indexData, &m_indexBuffer), "CreateBuffer");
 
-	return m_texture.Initialize(device, textureFile);
+    return m_texture.Initialize(device, textureFile);
 }
 void Model::Shutdown()
 {

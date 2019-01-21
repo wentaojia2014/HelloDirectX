@@ -1,8 +1,8 @@
-#include "TextureShader.h"
 #include "Common.h"
+#include "Shader.h"
 namespace TaoD3D
 {
-bool TextureShader::Initialize(ID3D11Device *device, const char *vertexShaderFile, const char *pixelShaderFile)
+bool Shader::Initialize(ID3D11Device *device, const char *vertexShaderFile, const char *pixelShaderFile)
 {
     ID3D10Blob *vs = nullptr, *ps = nullptr, *errorMessage = nullptr;
     if (FAILED(D3DX11CompileFromFile(vertexShaderFile, nullptr, nullptr, "VShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, 0, &vs, &errorMessage, 0)))
@@ -35,6 +35,7 @@ bool TextureShader::Initialize(ID3D11Device *device, const char *vertexShaderFil
     D3D11_INPUT_ELEMENT_DESC inputElementDesc[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
         { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
     ThrowIfFailed(
         device->CreateInputLayout(
@@ -42,11 +43,11 @@ bool TextureShader::Initialize(ID3D11Device *device, const char *vertexShaderFil
         "CreateInputLayout");
     SafeRelease(vs);
     SafeRelease(ps);
-    
+
     D3D11_BUFFER_DESC matrixBufferDesc;
     ZeroMemory(&matrixBufferDesc, sizeof matrixBufferDesc);
     matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    matrixBufferDesc.ByteWidth = sizeof (MatBuffer);
+    matrixBufferDesc.ByteWidth = sizeof(MatBuffer);
     matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     ThrowIfFailed(device->CreateBuffer(&matrixBufferDesc, nullptr, &m_matBuffer), "CreateBuffer");
@@ -63,9 +64,19 @@ bool TextureShader::Initialize(ID3D11Device *device, const char *vertexShaderFil
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
     ThrowIfFailed(device->CreateSamplerState(&samplerDesc, &m_sampleState), "CreateSamplerState");
+
+    D3D11_BUFFER_DESC lightBufferDesc;
+    ZeroMemory(&lightBufferDesc, sizeof lightBufferDesc);
+    lightBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    lightBufferDesc.ByteWidth = sizeof LightBuffer;
+    lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    ThrowIfFailed(device->CreateBuffer(&lightBufferDesc, nullptr, &m_lightBuffer), "CreateBuffer");
+
     return true;
 }
-void TextureShader::Shutdown()
+void Shader::Shutdown()
 {
     SafeRelease(m_sampleState);
     SafeRelease(m_pixelShader);
@@ -73,7 +84,7 @@ void TextureShader::Shutdown()
     SafeRelease(m_layout);
     SafeRelease(m_matBuffer);
 }
-void TextureShader::Render(ID3D11DeviceContext *context, int indexCount, MatBuffer mats, ID3D11ShaderResourceView *texture)
+void Shader::Render(ID3D11DeviceContext *context, int indexCount, MatBuffer mats, ID3D11ShaderResourceView *texture, LightBuffer buf)
 {
     D3D11_MAPPED_SUBRESOURCE mappedResource;
 
@@ -91,6 +102,14 @@ void TextureShader::Render(ID3D11DeviceContext *context, int indexCount, MatBuff
 
     context->VSSetConstantBuffers(0, 1, &m_matBuffer);
     context->PSSetShaderResources(0, 1, &texture);
+
+    ThrowIfFailed(context->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
+    LightBuffer *pLightBuffer = (LightBuffer *)mappedResource.pData;
+    pLightBuffer->diffuseColor = buf.diffuseColor;
+    pLightBuffer->lightDirection = buf.lightDirection;
+    pLightBuffer->padding = buf.padding;
+    context->Unmap(m_lightBuffer, 0);
+    context->PSSetConstantBuffers(0, 1, &m_lightBuffer);
 
     context->IASetInputLayout(m_layout);
     context->VSSetShader(m_vertexShader, nullptr, 0);

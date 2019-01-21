@@ -4,8 +4,9 @@ namespace TaoD3D
 {
 class D3D;
 class Model;
-class TextureShader;
+class Shader;
 class Camera;
+class Light;
 class Graphics
 {
 public:
@@ -19,7 +20,8 @@ public:
 private:
     D3D *m_d3d = nullptr;
     Model *m_model = nullptr;
-    TextureShader *m_shader = nullptr;
+    Shader *m_shader = nullptr;
     Camera *m_camera = nullptr;
+    Light *m_light = nullptr;
 };
 } // namespace TaoD3D

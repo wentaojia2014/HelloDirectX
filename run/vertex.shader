@@ -8,12 +8,14 @@ struct VertexInput
 {
     float4 position : POSITION;
     float2 tex : TEXCOORD0;
+    float3 normal: NORMAL;
 };
 
 struct PixelInput
 {
     float4 position : SV_POSITION;
     float2 tex : TEXCOORD0;
+    float3 normal: NORMAL;
 };
 PixelInput VShader(VertexInput vertex)
 {
@@ -27,5 +29,7 @@ PixelInput VShader(VertexInput vertex)
 
     output.tex = vertex.tex;
 
+    output.normal = mul(vertex.normal, (float3x3)worldMatrix);
+    output.normal = normalize(output.normal);
 	return output;
 }

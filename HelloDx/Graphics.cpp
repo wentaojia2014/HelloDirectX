@@ -2,8 +2,9 @@
 
 #include "Camera.h"
 #include "D3D.h"
+#include "Light.h"
 #include "Model.h"
-#include "TextureShader.h"
+#include "Shader.h"
 namespace TaoD3D
 {
 Graphics::Graphics() {}
@@ -16,14 +17,17 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_d3d->Initialize(screenWidth, screenHeight, hwnd, fullScreen);
 
     m_camera = new Camera;
-    m_camera->SetPosition(0.0f, 0.0f, -7.0f);
-    
-	m_shader = new TextureShader;
+    m_camera->SetPosition(0.0f, 0.0f, -3.0f);
+
+    m_shader = new Shader;
     m_shader->Initialize(m_d3d->GetDevice(), u8"vertex.shader", u8"pixel.shader");
 
     m_model = new Model;
     m_model->Initialize(m_d3d->GetDevice(), u8"qingzhi.jpg");
 
+    m_light = new Light;
+    m_light->SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);
+    m_light->SetDirection(1.0f, -1.0f, 1.0f);
     return true;
 }
 
@@ -33,6 +37,7 @@ void Graphics::Shutdown()
     SafeShutdown(m_model);
     SafeShutdown(m_shader);
     SafeShutdown(m_camera);
+    SafeDelete(m_light);
 }
 
 bool Graphics::Frame()
@@ -41,14 +46,27 @@ bool Graphics::Frame()
     D3DXMATRIX view;
     D3DXMATRIX project;
     bool ret = true;
+    static float rotation = 0.0f;
 
+    rotation += (float)D3DX_PI * 0.001;
+    if (rotation > 360.0f)
+    {
+        rotation -= 360.0f;
+    }
     m_d3d->BeginScene(0.6f, 0.0f, 0.0f, 1.0f);
     m_camera->Render();
     m_camera->GetViewMatrix(view);
     m_d3d->GetWorldMatrix(world);
     m_d3d->GetProjectMatrix(project);
+
+    D3DXMatrixRotationY(&world, rotation);
     m_model->Render(m_d3d->GetDeviceContext());
-    m_shader->Render(m_d3d->GetDeviceContext(), m_model->GetIndexCount(), { world, view, project }, m_model->GetTexture());
+    m_shader->Render(
+        m_d3d->GetDeviceContext(),
+        m_model->GetIndexCount(),
+        { world, view, project },
+        m_model->GetTexture(),
+        { m_light->GetDiffuseColor(), m_light->GetDirection(), 0.0f });
 
     m_d3d->EndScene();
 

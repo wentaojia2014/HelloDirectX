@@ -43,10 +43,10 @@ void SafeShutdown(T *p)
 {
     if (p)
     {
-	    p->Shutdown();
-		delete p;
-		p = nullptr;
-	}
+        p->Shutdown();
+        delete p;
+        p = nullptr;
+    }
 }
 template <typename T>
 void SafeRelease(T *p)
@@ -55,6 +55,15 @@ void SafeRelease(T *p)
     {
         p->Release();
         p = nullptr;
-	}
+    }
+}
+template <typename T>
+void SafeDelete(T *p)
+{
+    if (p)
+    {
+        delete p;
+        p = nullptr;
+    }
 }
 } // namespace TaoD3D
