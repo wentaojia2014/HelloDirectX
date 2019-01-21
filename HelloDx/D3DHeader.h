@@ -2,7 +2,9 @@
 
 #include <windowsx.h>
 
+#if defined(_DEBUG)
 #define D3D_DEBUG_INFO
+#endif
 
 #include <D3D11.h>
 #include <D3DX11.h>

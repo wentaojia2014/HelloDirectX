@@ -41,8 +41,20 @@ void ThrowIfFailed(HRESULT hr, T &&msg)
 template <typename T>
 void SafeShutdown(T *p)
 {
-    p->Shutdown();
-    delete p;
-    p = nullptr;
+    if (p)
+    {
+	    p->Shutdown();
+		delete p;
+		p = nullptr;
+	}
+}
+template <typename T>
+void SafeRelease(T *p)
+{
+    if (p)
+    {
+        p->Release();
+        p = nullptr;
+	}
 }
 } // namespace TaoD3D

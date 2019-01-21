@@ -7,13 +7,13 @@ cbuffer MatrixBuffer
 struct VertexInput
 {
     float4 position : POSITION;
-    float4 color : COLOR;
+    float2 tex : TEXCOORD0;
 };
 
 struct PixelInput
 {
     float4 position : SV_POSITION;
-    float4 color : COLOR;
+    float2 tex : TEXCOORD0;
 };
 PixelInput VShader(VertexInput vertex)
 {
@@ -25,11 +25,7 @@ PixelInput VShader(VertexInput vertex)
     output.position = mul(output.position, viewMatrix);
     output.position = mul(output.position, projectMatrix);
 
-    output.color = vertex.color;
+    output.tex = vertex.tex;
 
 	return output;
-}
-float4 PShader(PixelInput pixel) : SV_TARGET
-{
-    return pixel.color;
 }

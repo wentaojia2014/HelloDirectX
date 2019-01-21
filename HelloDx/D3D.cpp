@@ -31,14 +31,14 @@ void D3D::GetOrthoMatrix(D3DXMATRIX &mat)
 void D3D::Shutdown()
 {
     m_swapChain->SetFullscreenState(false, nullptr);
-    m_swapChain->Release();
-    m_targetView->Release();
-    m_device->Release();
-    m_context->Release();
-    m_depthStencilBuffer->Release();
-    m_depthStencilState->Release();
-    m_depthStencilView->Release();
-    m_rasterState->Release();
+    SafeRelease(m_swapChain);
+    SafeRelease(m_targetView);
+    SafeRelease(m_device);
+    SafeRelease(m_context);
+    SafeRelease(m_depthStencilBuffer);
+    SafeRelease(m_depthStencilState);
+    SafeRelease(m_depthStencilView);
+    SafeRelease(m_rasterState);
 }
 void D3D::InitRefreshRate()
 {

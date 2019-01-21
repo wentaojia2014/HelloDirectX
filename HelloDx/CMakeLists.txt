@@ -12,4 +12,6 @@ target_link_libraries(${TAR} TaoMath)
 set_target_properties(${TAR} PROPERTIES FOLDER ${TAR})
 install(TARGETS ${TAR} DESTINATION bin)
 
-configure_file(shaders.shader ${CMAKE_BINARY_DIR}/${TAR}/shaders.shader)
+configure_file(vertex.shader ${CMAKE_BINARY_DIR}/${TAR}/vertex.shader)
+configure_file(pixel.shader ${CMAKE_BINARY_DIR}/${TAR}/pixel.shader)
+configure_file(seafloor.dds ${CMAKE_BINARY_DIR}/${TAR}/seafloor.dds)

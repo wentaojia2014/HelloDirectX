@@ -1,4 +1,5 @@
 #include "System.h"
+#include "Common.h"
 namespace TaoD3D
 {
 static System *D3DAPP = nullptr;
@@ -53,17 +54,8 @@ bool System::Initialize(LPSTR lpCmd, int nShowCmd)
 
 void System::Shutdown()
 {
-    if (m_graphics)
-    {
-        m_graphics->Shutdown();
-        delete m_graphics;
-        m_graphics = nullptr;
-    }
-    if (m_input)
-    {
-        delete m_input;
-        m_input = nullptr;
-    }
+    SafeShutdown(m_graphics);
+    SafeShutdown(m_input);
     ShutdownWindow();
 }
 
@@ -120,7 +112,7 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
     wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
     wc.hIconSm = wc.hIcon;
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    //wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    // wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszClassName = m_applicationName;
     wc.cbSize = sizeof wc;
 

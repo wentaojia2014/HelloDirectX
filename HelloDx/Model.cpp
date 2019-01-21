@@ -1,14 +1,14 @@
 #include "Model.h"
 namespace TaoD3D
 {
-bool Model::Initialize(ID3D11Device *device)
+bool Model::Initialize(ID3D11Device *device, const char *textureFile)
 {
     // Vertex vertex = {0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)};
     Vertex vertexs[] = {
-        { {-1.0f, -1.0f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
-        { { -1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
-        { {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
-        { {1.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
+        { { -1.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } },
+        { { -1.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } },
+        { { 1.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } },
+        { { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f } },
     };
     m_vertexCount = sizeof vertexs / sizeof vertexs[0];
     unsigned long indexs[] = { 0, 1, 2, 2, 3, 0 };
@@ -33,13 +33,16 @@ bool Model::Initialize(ID3D11Device *device)
     ZeroMemory(&indexData, sizeof indexData);
     indexData.pSysMem = indexs;
     ThrowIfFailed(device->CreateBuffer(&indexDesc, &indexData, &m_indexBuffer), "CreateBuffer");
-    return true;
+
+	return m_texture.Initialize(device, textureFile);
 }
-void Model::Shutdown() {
-    m_indexBuffer->Release();
-    m_vertexBuffer->Release();
+void Model::Shutdown()
+{
+    SafeRelease(m_indexBuffer);
+    SafeRelease(m_vertexBuffer);
+    m_texture.Shutdown();
 }
-void Model::Render(ID3D11DeviceContext *context) 
+void Model::Render(ID3D11DeviceContext *context)
 {
     UINT stride = sizeof(Vertex);
     UINT offset = 0;
@@ -50,5 +53,9 @@ void Model::Render(ID3D11DeviceContext *context)
 int Model::GetIndexCount()
 {
     return m_indexCount;
+}
+ID3D11ShaderResourceView *Model::GetTexture()
+{
+    return m_texture.GetTexture();
 }
 } // namespace TaoD3D

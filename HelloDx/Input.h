@@ -13,6 +13,7 @@ public:
     void KeyDown(unsigned int wParam);
     void KeyRelease(unsigned int wParam);
     bool IsKeyDown(unsigned int wParam);
+    void Shutdown() {}
 
 private:
     bool m_key[KEY_COUNT];
