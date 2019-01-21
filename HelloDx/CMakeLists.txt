@@ -14,4 +14,4 @@ install(TARGETS ${TAR} DESTINATION bin)
 
 configure_file(vertex.shader ${CMAKE_BINARY_DIR}/${TAR}/vertex.shader)
 configure_file(pixel.shader ${CMAKE_BINARY_DIR}/${TAR}/pixel.shader)
-configure_file(seafloor.dds ${CMAKE_BINARY_DIR}/${TAR}/seafloor.dds)
+configure_file(qingzhi.jpg ${CMAKE_BINARY_DIR}/${TAR}/qingzhi.jpg)
