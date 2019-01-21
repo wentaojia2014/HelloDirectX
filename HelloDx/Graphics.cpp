@@ -16,7 +16,7 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_d3d->Initialize(screenWidth, screenHeight, hwnd, fullScreen);
 
     m_camera = new Camera;
-    m_camera->SetPosition(0.0f, 0.0f, -10.0f);
+    m_camera->SetPosition(0.0f, 0.0f, -7.0f);
 
     m_model = new Model;
     m_model->Initialize(m_d3d->GetDevice());

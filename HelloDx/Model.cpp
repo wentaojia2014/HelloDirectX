@@ -6,11 +6,12 @@ bool Model::Initialize(ID3D11Device *device)
     // Vertex vertex = {0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)};
     Vertex vertexs[] = {
         { {-1.0f, -1.0f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
-        { {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+        { { -1.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
+        { {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
         { {1.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
     };
     m_vertexCount = sizeof vertexs / sizeof vertexs[0];
-    unsigned long indexs[] = { 0, 1, 2 };
+    unsigned long indexs[] = { 0, 1, 2, 2, 3, 0 };
     m_indexCount = sizeof(indexs) / sizeof(indexs[0]);
     D3D11_BUFFER_DESC bufferDesc, indexDesc;
     D3D11_SUBRESOURCE_DATA vertexData, indexData;
