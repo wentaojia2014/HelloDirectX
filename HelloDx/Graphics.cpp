@@ -23,10 +23,10 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_shader->Initialize(m_d3d->GetDevice(), u8"vertex.shader", u8"pixel.shader");
 
     m_model = new Model;
-    m_model->Initialize(m_d3d->GetDevice(), u8"qingzhi.jpg");
+    m_model->Initialize(m_d3d->GetDevice(), u8"qingzhi.jpg", u8"cube.txt");
 
     m_light = new Light;
-    m_light->SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);
+    m_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
     m_light->SetDirection(1.0f, -1.0f, 1.0f);
     return true;
 }

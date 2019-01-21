@@ -66,4 +66,13 @@ void SafeDelete(T *p)
         p = nullptr;
     }
 }
+template <typename T>
+void SafeDeleteArray(T *p)
+{
+    if (p)
+    {
+        delete [] p;
+        p = nullptr;
+    }
+}
 } // namespace TaoD3D
