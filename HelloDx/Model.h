@@ -8,8 +8,8 @@ namespace TaoD3D
 {
 struct Vertex
 {
-    float x, y, z;
-    D3DXCOLOR color;
+    D3DXVECTOR3 position;
+    D3DXVECTOR4 color;
 };
 class Model
 {

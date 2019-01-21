@@ -27,8 +27,8 @@ void Camera::Render()
     D3DXVECTOR3 position = { m_x, m_y, m_z };
     D3DXVECTOR3 lookAt = { 0.0f, 0.0f, 1.0f };
 
-    float yaw = m_rX * 0.0174532925f;
-    float pitch = m_rY * 0.0174532925f;
+    float pitch = m_rX * 0.0174532925f;
+    float yaw = m_rY * 0.0174532925f;
     float roll = m_rZ * 0.0174532925f;
     D3DXMATRIX rotationMat;
 

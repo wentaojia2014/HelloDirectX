@@ -8,10 +8,10 @@ bool D3D::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScre
     m_screenHeight = screenHeight;
     InitRefreshRate();
     InitSwapChain(hwnd, fullScreen);
-    InitViewPort();
     InitDepthStencilBuffer();
-    InitRaster();
     InitRenderTarget();
+    InitRaster();
+    InitViewPort();
     InitMatrix();
 
     return true;
@@ -73,6 +73,57 @@ void D3D::InitRefreshRate()
     adapterOutput->Release();
     factory->Release();
 }
+
+void D3D::InitSwapChain(HWND hwnd, bool fullScreen)
+{
+    // Direct3D init
+    DXGI_SWAP_CHAIN_DESC swapChainDesc;
+    ZeroMemory(&swapChainDesc, sizeof swapChainDesc);
+    swapChainDesc.BufferCount = 1;
+    swapChainDesc.BufferDesc.Width = m_screenWidth;
+    swapChainDesc.BufferDesc.Height = m_screenHeight;
+    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+    if (m_vsyncEnabled)
+    {
+        swapChainDesc.BufferDesc.RefreshRate.Numerator = m_numerator;
+        swapChainDesc.BufferDesc.RefreshRate.Denominator = m_denominator;
+    }
+    else
+    {
+        swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+        swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+    }
+    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    swapChainDesc.OutputWindow = hwnd;
+    swapChainDesc.SampleDesc.Count = 1;
+    swapChainDesc.SampleDesc.Quality = D3D11_STANDARD_MULTISAMPLE_PATTERN;
+    swapChainDesc.Windowed = !fullScreen;
+    swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+    swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+    UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+#if defined(_DEBUG)
+    creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+    ThrowIfFailed(
+        D3D11CreateDeviceAndSwapChain(
+            nullptr,
+            D3D_DRIVER_TYPE_HARDWARE,
+            nullptr,
+            creationFlags,
+            &featureLevel,
+            1,
+            D3D11_SDK_VERSION,
+            &swapChainDesc,
+            &m_swapChain,
+            &m_device,
+            nullptr,
+            &m_context),
+        "D3D11CreateDeviceAndSwapChain ");
+}
 void D3D::InitDepthStencilBuffer()
 {
     // depth buffer
@@ -87,11 +138,9 @@ void D3D::InitDepthStencilBuffer()
     depthBufferDesc.ArraySize = 1;
     depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     depthBufferDesc.SampleDesc.Count = 1;
-    depthBufferDesc.SampleDesc.Quality = 0;
+    depthBufferDesc.SampleDesc.Quality = D3D11_STANDARD_MULTISAMPLE_PATTERN;
     depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
     depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    depthBufferDesc.CPUAccessFlags = 0;
-    depthBufferDesc.MiscFlags = 0;
     ThrowIfFailed(m_device->CreateTexture2D(&depthBufferDesc, nullptr, &m_depthStencilBuffer), "CreateTexture2D");
 
     ZeroMemory(&depthStencilDesc, sizeof depthStencilDesc);
@@ -118,45 +167,8 @@ void D3D::InitDepthStencilBuffer()
     ZeroMemory(&depthStencilViewDesc, sizeof depthStencilViewDesc);
     depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-    depthStencilViewDesc.Texture2D.MipSlice = 0;
 
     ThrowIfFailed(m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView), "CreateDepthStencilView");
-}
-void D3D::InitSwapChain(HWND hwnd, bool fullScreen)
-{
-    // Direct3D init
-    DXGI_SWAP_CHAIN_DESC swapChainDesc;
-    ZeroMemory(&swapChainDesc, sizeof swapChainDesc);
-    swapChainDesc.BufferCount = 1;
-    swapChainDesc.BufferDesc.Width = m_screenWidth;
-    swapChainDesc.BufferDesc.Height = m_screenHeight;
-    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-    if (m_vsyncEnabled)
-    {
-        swapChainDesc.BufferDesc.RefreshRate.Numerator = m_numerator;
-        swapChainDesc.BufferDesc.RefreshRate.Denominator = m_denominator;
-    }
-    else
-    {
-        swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
-        swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-    }
-    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    swapChainDesc.OutputWindow = hwnd;
-    swapChainDesc.SampleDesc.Count = 8;
-    swapChainDesc.SampleDesc.Quality = D3D11_STANDARD_MULTISAMPLE_PATTERN;
-    swapChainDesc.Windowed = !fullScreen;
-    swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-    swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-    swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
-
-    ThrowIfFailed(
-        D3D11CreateDeviceAndSwapChain(
-            nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, nullptr, &m_context),
-        "D3D11CreateDeviceAndSwapChain ");
 }
 void D3D::InitRenderTarget()
 {
@@ -177,14 +189,11 @@ void D3D::InitRaster()
 
     rasterDesc.AntialiasedLineEnable = false;
     rasterDesc.CullMode = D3D11_CULL_BACK;
-    rasterDesc.DepthBias = 0;
-    rasterDesc.DepthBiasClamp = 0.0f;
     rasterDesc.DepthClipEnable = true;
     rasterDesc.FillMode = D3D11_FILL_SOLID;
     rasterDesc.FrontCounterClockwise = false;
     rasterDesc.MultisampleEnable = false;
     rasterDesc.ScissorEnable = false;
-    rasterDesc.SlopeScaledDepthBias = 0.0f;
     ThrowIfFailed(m_device->CreateRasterizerState(&rasterDesc, &m_rasterState), "CreateRasterizerState");
     m_context->RSSetState(m_rasterState);
 }
@@ -207,18 +216,14 @@ void D3D::InitMatrix()
     float screenAspect = (float)m_screenWidth / m_screenHeight;
     float screenNear = 0.1f;
     float screenFar = 1000.0f;
-    D3DXMatrixPerspectiveFovLH(&m_projectMat, fieldOfView, screenAspect, screenNear, screenNear);
+    D3DXMatrixPerspectiveFovLH(&m_projectMat, fieldOfView, screenAspect, screenNear, screenFar);
     D3DXMatrixIdentity(&m_worldMat);
     D3DXMatrixOrthoLH(&m_orthoMat, (float)m_screenWidth, (float)m_screenHeight, screenNear, screenFar);
 }
 
 void D3D::BeginScene(float r, float g, float b, float a)
 {
-    float color[4];
-    color[0] = r;
-    color[1] = g;
-    color[2] = b;
-    color[3] = a;
+    float color[4] = { r, g, b, a };
 
     m_context->ClearRenderTargetView(m_targetView, color);
     m_context->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);

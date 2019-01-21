@@ -1,34 +1,35 @@
-cbuffer MatrixBuffer 
+cbuffer MatrixBuffer
 {
-    matrix worldMat;
-    matrix viewMat;
-    matrix projectMat;
+    matrix worldMatrix;
+    matrix viewMatrix;
+    matrix projectMatrix;
 };
-struct VertexIn
+struct VertexInput
 {
     float4 position : POSITION;
     float4 color : COLOR;
 };
-struct PixelIn
+
+struct PixelInput
 {
     float4 position : SV_POSITION;
     float4 color : COLOR;
 };
-PixelIn VShader(VertexIn vertex)
+PixelInput VShader(VertexInput vertex)
 {
-    PixelIn output;
+    PixelInput output;
     
     vertex.position.w = 1.0f;
 
-    output.position = mul(vertex.position, worldMat);
-    output.position = mul(output.position, viewMat);
-    output.position = mul(output.position, projectMat);
+    output.position = mul(vertex.position, worldMatrix);
+    output.position = mul(output.position, viewMatrix);
+    output.position = mul(output.position, projectMatrix);
 
     output.color = vertex.color;
 
 	return output;
 }
-float4 PShader(PixelIn pixel) : SV_TARGET
+float4 PShader(PixelInput pixel) : SV_TARGET
 {
     return pixel.color;
 }

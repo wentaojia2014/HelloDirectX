@@ -40,9 +40,9 @@ bool Graphics::Frame()
     D3DXMATRIX world;
     D3DXMATRIX view;
     D3DXMATRIX project;
-    bool ret;
+    bool ret = true;
     
-    m_d3d->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
+    m_d3d->BeginScene(0.6f, 0.0f, 0.0f, 1.0f);
     m_camera->Render();
     m_camera->GetViewMatrix(view);
     m_d3d->GetWorldMatrix(world);

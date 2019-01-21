@@ -46,7 +46,7 @@ private:
 
     unsigned int m_numerator;
     unsigned int m_denominator;
-    bool m_vsyncEnabled = true;
+    bool m_vsyncEnabled = false;
     int m_videoCardMemory;
     char m_videoCardDescription[128];
     D3DXMATRIX m_projectMat;

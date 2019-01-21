@@ -5,20 +5,20 @@ bool Model::Initialize(ID3D11Device *device)
 {
     // Vertex vertex = {0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)};
     Vertex vertexs[] = {
-        { 0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) },
-        { 0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) },
-        { -0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f) },
+        { {-1.0f, -1.0f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
+        { {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+        { {1.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
     };
+    m_vertexCount = sizeof vertexs / sizeof vertexs[0];
     unsigned long indexs[] = { 0, 1, 2 };
     m_indexCount = sizeof(indexs) / sizeof(indexs[0]);
     D3D11_BUFFER_DESC bufferDesc, indexDesc;
     D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
     ZeroMemory(&bufferDesc, sizeof bufferDesc);
-    bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    bufferDesc.Usage = D3D11_USAGE_DEFAULT;
     bufferDesc.ByteWidth = sizeof vertexs;
     bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
     ZeroMemory(&vertexData, sizeof vertexData);
     vertexData.pSysMem = vertexs;

@@ -64,7 +64,7 @@ void System::Shutdown()
         delete m_input;
         m_input = nullptr;
     }
-    this->ShutdownWindow();
+    ShutdownWindow();
 }
 
 void System::Run()
@@ -76,12 +76,12 @@ void System::Run()
     {
         if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {
-            if (msg.message == WM_QUIT)
-            {
-                done = true;
-            }
             TranslateMessage(&msg);
             DispatchMessage(&msg);
+        }
+        if (msg.message == WM_QUIT)
+        {
+            done = true;
         }
         else
         {
@@ -108,6 +108,7 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
     WNDCLASSEX wc = { 0 };
     DEVMODE dmScreenSettings;
     int posX, posY;
+
     D3DAPP = this;
 
     m_hInstance = GetModuleHandle(nullptr);
@@ -119,11 +120,12 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
     wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
     wc.hIconSm = wc.hIcon;
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    // wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    //wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszClassName = m_applicationName;
     wc.cbSize = sizeof wc;
 
     RegisterClassEx(&wc);
+
     unsigned long screenW = GetSystemMetrics(SM_CXSCREEN);
     unsigned long screenH = GetSystemMetrics(SM_CYSCREEN);
     if (m_fullScreen)
@@ -131,7 +133,7 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
         w = screenW;
         h = screenH;
 
-        memset(&dmScreenSettings, 0, sizeof dmScreenSettings);
+        ZeroMemory(&dmScreenSettings, sizeof dmScreenSettings);
         dmScreenSettings.dmSize = sizeof dmScreenSettings;
         dmScreenSettings.dmPelsWidth = (unsigned long)w;
         dmScreenSettings.dmPelsHeight = (unsigned long)h;
@@ -170,6 +172,7 @@ void System::InitializeWindow(int w, int h, int nShowCmd)
 
 void System::ShutdownWindow()
 {
+    ShowCursor(true);
     if (m_fullScreen)
     {
         ChangeDisplaySettings(nullptr, 0);

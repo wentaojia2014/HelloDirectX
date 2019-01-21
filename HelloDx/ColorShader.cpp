@@ -47,7 +47,7 @@ bool ColorShader::Initialize(ID3D11Device *device)
     D3D11_BUFFER_DESC matrixBufferDesc;
     ZeroMemory(&matrixBufferDesc, sizeof matrixBufferDesc);
     matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    matrixBufferDesc.ByteWidth = sizeof matrixBufferDesc;
+    matrixBufferDesc.ByteWidth = sizeof MatBuffer;
     matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     ThrowIfFailed(device->CreateBuffer(&matrixBufferDesc, nullptr, &m_matBuffer), "CreateBuffer");
