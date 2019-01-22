@@ -17,13 +17,13 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_d3d->Initialize(screenWidth, screenHeight, hwnd, fullScreen);
 
     m_camera = new Camera;
-    m_camera->SetPosition(0.0f, 0.0f, -3.0f);
+    m_camera->SetPosition(0.0f, 0.0f, -8.0f);
 
     m_shader = new Shader;
     m_shader->Initialize(m_d3d->GetDevice(), u8"vertex.shader", u8"pixel.shader");
 
     m_model = new Model;
-    m_model->Initialize(m_d3d->GetDevice(), u8"qingzhi.jpg", u8"cube.txt");
+    m_model->Initialize(m_d3d->GetDevice(), u8"qingzhi.jpg", u8"cubecube.txt");
 
     m_light = new Light;
     m_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);

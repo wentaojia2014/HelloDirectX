@@ -28,6 +28,7 @@ add_subdirectory(TaoMath)
 
 if(WIN32 AND (NOT CYGWIN) AND (NOT MINGW))
     add_subdirectory(HelloDx)
+    add_subdirectory(ObjConvert)
 else()
     message("main porject 'HelloDx' use DirectX, it only support MSVC platform.")
 endif()

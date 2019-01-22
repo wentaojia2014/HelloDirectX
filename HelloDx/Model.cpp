@@ -8,7 +8,6 @@ bool Model::Initialize(ID3D11Device *device, const char *textureFile, const char
     {
         return false;
     }
-
     // Vertex vertex = {0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)};
     Vertex *vertexs = new Vertex[m_vertexCount];
     unsigned long *indexs = new unsigned long[m_indexCount];
@@ -40,7 +39,8 @@ bool Model::Initialize(ID3D11Device *device, const char *textureFile, const char
     ZeroMemory(&indexData, sizeof indexData);
     indexData.pSysMem = indexs;
     ThrowIfFailed(device->CreateBuffer(&indexDesc, &indexData, &m_indexBuffer), "CreateBuffer");
-
+    SafeDeleteArray(vertexs);
+    SafeDeleteArray(indexs);
     return m_texture.Initialize(device, textureFile);
 }
 void Model::Shutdown()
