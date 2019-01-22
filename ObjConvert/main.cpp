@@ -137,6 +137,7 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
                 {
                     vertex[vIndex].data[i] = nums[i];
                 }
+                vertex[vIndex].v.z *= -1.0f;
                 vIndex++;
             }
             else
@@ -153,6 +154,7 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
                 {
                     texture[tIndex].data[i] = nums[i];
                 }
+                texture[tIndex].v.y = 1.0f - texture[tIndex].v.y;
                 tIndex++;
             }
             else
@@ -169,6 +171,7 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
                 {
                     normal[nIndex].data[i] = nums[i];
                 }
+                normal[nIndex].v.z *= -1.0f;
                 nIndex++;
             }
             else
@@ -179,9 +182,12 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
         else if (0 == memcmp(line, "f ", 2))
         {
             parseLine2(line + 2, indexs);
+            int reverse[] = { 2, 0, -2 };
+            int reverseIndex = 0;
             for (int i = 0; i < indexSize; ++i)
             {
-                face[fIndex].data[i] = indexs[i];
+                face[fIndex].data[i] = indexs[i + reverse[reverseIndex]];
+                reverseIndex = (reverseIndex + 1) % 3;
             }
             fIndex++;
         }
@@ -204,7 +210,7 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
         nIndex = face[i].nIndex1 - 1;
         fout << vertex[vIndex].v.x << ' ' << vertex[vIndex].v.y << ' ' << vertex[vIndex].v.z << ' ' << texture[tIndex].v.x << ' ' << texture[tIndex].v.y << ' '
              << normal[nIndex].v.x << ' ' << normal[nIndex].v.y << ' ' << normal[nIndex].v.z << ' ' << endl;
-       
+
         vIndex = face[i].vIndex2 - 1;
         tIndex = face[i].tIndex2 - 1;
         nIndex = face[i].nIndex2 - 1;
