@@ -105,6 +105,7 @@ void Shader::Render(ID3D11DeviceContext *context, int indexCount, MatBuffer mats
 
     ThrowIfFailed(context->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
     LightBuffer *pLightBuffer = (LightBuffer *)mappedResource.pData;
+    pLightBuffer->ambientColor = buf.ambientColor;
     pLightBuffer->diffuseColor = buf.diffuseColor;
     pLightBuffer->lightDirection = buf.lightDirection;
     pLightBuffer->padding = buf.padding;

@@ -20,14 +20,15 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_camera->SetPosition(0.0f, 0.0f, -8.0f);
 
     m_shader = new Shader;
-    m_shader->Initialize(m_d3d->GetDevice(), u8"vertex.shader", u8"pixel.shader");
+    m_shader->Initialize(m_d3d->GetDevice(), u8"lightV.shader", u8"lightP.shader");
 
     m_model = new Model;
     m_model->Initialize(m_d3d->GetDevice(), u8"qingzhi.jpg", u8"cubecube.txt");
 
     m_light = new Light;
+    m_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
     m_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-    m_light->SetDirection(1.0f, -1.0f, 1.0f);
+    m_light->SetDirection(1.0f, 0.0f, 0.0f);
     return true;
 }
 
@@ -66,7 +67,7 @@ bool Graphics::Frame()
         m_model->GetIndexCount(),
         { world, view, project },
         m_model->GetTexture(),
-        { m_light->GetDiffuseColor(), m_light->GetDirection(), 0.0f });
+        { m_light->GetAmbientColor(), m_light->GetDiffuseColor(), m_light->GetDirection(), 0.0f });
 
     m_d3d->EndScene();
 
