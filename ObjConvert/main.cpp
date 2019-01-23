@@ -2,18 +2,16 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 using namespace std;
-struct Vector3
+
+struct Vertex
 {
     float x, y, z;
 };
-union Vertex {
-    Vector3 v;
-    float data[3];
-};
-union Face {
+struct Face
+{
     int vIndex1, vIndex2, vIndex3, tIndex1, tIndex2, tIndex3, nIndex1, nIndex2, nIndex3;
-    int data[9];
 };
 
 bool ReadFileCounts(const char *inputFileName, int &vertexCount, int &textureCount, int &normalCount, int &faceCount);
@@ -38,9 +36,8 @@ int main(int argc, char **argv)
     int textureCount;
     int normalCount;
     int faceCount;
-    char garbage;
-    strcpy(inputFileName, argv[1]);
-    strcpy(outputFileName, argv[2]);
+    strcpy_s(inputFileName, LINEMAX, argv[1]);
+    strcpy_s(outputFileName, LINEMAX, argv[2]);
 
     result = ReadFileCounts(inputFileName, vertexCount, textureCount, normalCount, faceCount);
     if (!result)
@@ -111,11 +108,6 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
     int nIndex = 0;
     int fIndex = 0;
     char line[LINEMAX];
-    const int numSize = 3;
-    float nums[numSize];
-    const int indexSize = 9;
-    float indexs[indexSize];
-    int numCount;
     ifstream fin;
 
     fin.open(inputFileName);
@@ -130,65 +122,35 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
         fin.getline(line, LINEMAX);
         if (0 == memcmp(line, "v ", 2))
         {
-            parseLine(line + 2, nums, numSize, numCount);
-            if (numCount == 3)
-            {
-                for (int i = 0; i < numCount; ++i)
-                {
-                    vertex[vIndex].data[i] = nums[i];
-                }
-                vertex[vIndex].v.z *= -1.0f;
-                vIndex++;
-            }
-            else
-            {
-                cout << "error " << __FUNCTION__ << " " << __LINE__ << endl;
-            }
+            stringstream ss(line + 2);
+            ss >> vertex[vIndex].x >> vertex[vIndex].y >> vertex[vIndex].z;
+            cout << "vertex " << vIndex << " : " << vertex[vIndex].x << " " << vertex[vIndex].y << " " << vertex[vIndex].z << endl;
+            vertex[vIndex].z = -vertex[vIndex].z;
+            vIndex++;
         }
         else if (0 == memcmp(line, "vt ", 3))
         {
-            parseLine(line + 3, nums, numSize, numCount);
-            if (numCount == 2)
-            {
-                for (int i = 0; i < numCount; ++i)
-                {
-                    texture[tIndex].data[i] = nums[i];
-                }
-                texture[tIndex].v.y = 1.0f - texture[tIndex].v.y;
-                tIndex++;
-            }
-            else
-            {
-                cout << "error " << __FUNCTION__ << " " << __LINE__ << endl;
-            }
+            stringstream ss(line + 3);
+            ss >> texture[tIndex].x >> texture[tIndex].y;
+            cout << "texture " << tIndex << " : " << texture[tIndex].x << " " << texture[tIndex].y << endl;
+            texture[tIndex].y = 1.0f - texture[tIndex].y;
+            tIndex++;
         }
         else if (0 == memcmp(line, "vn ", 3))
         {
-            parseLine(line + 3, nums, numSize, numCount);
-            if (numCount == 3)
-            {
-                for (int i = 0; i < numCount; ++i)
-                {
-                    normal[nIndex].data[i] = nums[i];
-                }
-                normal[nIndex].v.z *= -1.0f;
-                nIndex++;
-            }
-            else
-            {
-                cout << "error " << __FUNCTION__ << " " << __LINE__ << endl;
-            }
+            stringstream ss(line + 3);
+            ss >> normal[nIndex].x >> normal[nIndex].y >> normal[nIndex].z;
+            cout << "normal " << nIndex << " : " << normal[nIndex].x << " " << normal[nIndex].y << " " << normal[nIndex].z << endl;
+            normal[nIndex].z *= -1.0f;
+            nIndex++;
         }
         else if (0 == memcmp(line, "f ", 2))
         {
-            parseLine2(line + 2, indexs);
-            int reverse[] = { 2, 0, -2 };
-            int reverseIndex = 0;
-            for (int i = 0; i < indexSize; ++i)
-            {
-                face[fIndex].data[i] = indexs[i + reverse[reverseIndex]];
-                reverseIndex = (reverseIndex + 1) % 3;
-            }
+            char ignore;
+            stringstream ss(line + 2);
+            ss >> face[fIndex].vIndex3 >> ignore >> face[fIndex].tIndex3 >> ignore >> face[fIndex].nIndex3 >> face[fIndex].vIndex2 >> ignore
+                >> face[fIndex].tIndex2 >> ignore >> face[fIndex].nIndex2 >> face[fIndex].vIndex1 >> ignore >> face[fIndex].tIndex1 >> ignore
+                >> face[fIndex].nIndex1;
             fIndex++;
         }
     }
@@ -208,20 +170,20 @@ bool Convert(const char *inputFileName, const char *outputFileName, int vertexCo
         vIndex = face[i].vIndex1 - 1;
         tIndex = face[i].tIndex1 - 1;
         nIndex = face[i].nIndex1 - 1;
-        fout << vertex[vIndex].v.x << ' ' << vertex[vIndex].v.y << ' ' << vertex[vIndex].v.z << ' ' << texture[tIndex].v.x << ' ' << texture[tIndex].v.y << ' '
-             << normal[nIndex].v.x << ' ' << normal[nIndex].v.y << ' ' << normal[nIndex].v.z << ' ' << endl;
+        fout << vertex[vIndex].x << ' ' << vertex[vIndex].y << ' ' << vertex[vIndex].z << ' ' << texture[tIndex].x << ' ' << texture[tIndex].y << ' '
+             << normal[nIndex].x << ' ' << normal[nIndex].y << ' ' << normal[nIndex].z << ' ' << endl;
 
         vIndex = face[i].vIndex2 - 1;
         tIndex = face[i].tIndex2 - 1;
         nIndex = face[i].nIndex2 - 1;
-        fout << vertex[vIndex].v.x << ' ' << vertex[vIndex].v.y << ' ' << vertex[vIndex].v.z << ' ' << texture[tIndex].v.x << ' ' << texture[tIndex].v.y << ' '
-             << normal[nIndex].v.x << ' ' << normal[nIndex].v.y << ' ' << normal[nIndex].v.z << ' ' << endl;
+        fout << vertex[vIndex].x << ' ' << vertex[vIndex].y << ' ' << vertex[vIndex].z << ' ' << texture[tIndex].x << ' ' << texture[tIndex].y << ' '
+             << normal[nIndex].x << ' ' << normal[nIndex].y << ' ' << normal[nIndex].z << ' ' << endl;
 
         vIndex = face[i].vIndex3 - 1;
         tIndex = face[i].tIndex3 - 1;
         nIndex = face[i].nIndex3 - 1;
-        fout << vertex[vIndex].v.x << ' ' << vertex[vIndex].v.y << ' ' << vertex[vIndex].v.z << ' ' << texture[tIndex].v.x << ' ' << texture[tIndex].v.y << ' '
-             << normal[nIndex].v.x << ' ' << normal[nIndex].v.y << ' ' << normal[nIndex].v.z << ' ' << endl;
+        fout << vertex[vIndex].x << ' ' << vertex[vIndex].y << ' ' << vertex[vIndex].z << ' ' << texture[tIndex].x << ' ' << texture[tIndex].y << ' '
+             << normal[nIndex].x << ' ' << normal[nIndex].y << ' ' << normal[nIndex].z << ' ' << endl;
     }
     fout.close();
     delete[] vertex;
