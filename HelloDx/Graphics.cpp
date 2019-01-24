@@ -28,7 +28,9 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_light = new Light;
     m_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
     m_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
-    m_light->SetDirection(1.0f, 0.0f, 0.0f);
+    m_light->SetDirection(0.0f, 0.0f, 1.0f);
+    m_light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
+    m_light->SetSpecularPower(32.0f);
     return true;
 }
 
@@ -67,7 +69,8 @@ bool Graphics::Frame()
         m_model->GetIndexCount(),
         { world, view, project },
         m_model->GetTexture(),
-        { m_light->GetAmbientColor(), m_light->GetDiffuseColor(), m_light->GetDirection(), 0.0f });
+        { m_light->GetAmbientColor(), m_light->GetDiffuseColor(), m_light->GetDirection() },
+        { m_camera->GetPosition(), 0.0f });
 
     m_d3d->EndScene();
 

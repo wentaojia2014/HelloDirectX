@@ -73,7 +73,15 @@ bool Shader::Initialize(ID3D11Device *device, const char *vertexShaderFile, cons
     lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
     ThrowIfFailed(device->CreateBuffer(&lightBufferDesc, nullptr, &m_lightBuffer), "CreateBuffer");
-
+    
+    D3D11_BUFFER_DESC cameraBufferDesc;
+    ZeroMemory(&cameraBufferDesc, sizeof cameraBufferDesc);
+    cameraBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    cameraBufferDesc.ByteWidth = sizeof CameraBuffer;
+    cameraBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    cameraBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    ThrowIfFailed(device->CreateBuffer(&cameraBufferDesc, nullptr, &m_cameraBuffer), "CreateBuffer");
+    
     return true;
 }
 void Shader::Shutdown()
@@ -83,8 +91,14 @@ void Shader::Shutdown()
     SafeRelease(m_vertexShader);
     SafeRelease(m_layout);
     SafeRelease(m_matBuffer);
+    SafeRelease(m_cameraBuffer);
 }
-void Shader::Render(ID3D11DeviceContext *context, int indexCount, MatBuffer mats, ID3D11ShaderResourceView *texture, LightBuffer buf)
+void Shader::Render(ID3D11DeviceContext *context
+    , int indexCount
+    , MatBuffer mats
+    , ID3D11ShaderResourceView *texture
+    , LightBuffer lightBuf
+    , CameraBuffer cameraBuf)
 {
     D3D11_MAPPED_SUBRESOURCE mappedResource;
 
@@ -105,12 +119,20 @@ void Shader::Render(ID3D11DeviceContext *context, int indexCount, MatBuffer mats
 
     ThrowIfFailed(context->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
     LightBuffer *pLightBuffer = (LightBuffer *)mappedResource.pData;
-    pLightBuffer->ambientColor = buf.ambientColor;
-    pLightBuffer->diffuseColor = buf.diffuseColor;
-    pLightBuffer->lightDirection = buf.lightDirection;
-    pLightBuffer->padding = buf.padding;
+    pLightBuffer->ambientColor = lightBuf.ambientColor;
+    pLightBuffer->diffuseColor = lightBuf.diffuseColor;
+    pLightBuffer->speculatColor = lightBuf.speculatColor;
+    pLightBuffer->lightDirection = lightBuf.lightDirection;
+    pLightBuffer->specularPower = lightBuf.specularPower;
     context->Unmap(m_lightBuffer, 0);
     context->PSSetConstantBuffers(0, 1, &m_lightBuffer);
+
+    ThrowIfFailed(context->Map(m_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
+    CameraBuffer *pCameraBuffer = (CameraBuffer *)mappedResource.pData;
+    pCameraBuffer->cameraPosition = cameraBuf.cameraPosition;
+    pCameraBuffer->padding = cameraBuf.padding;
+    context->Unmap(m_cameraBuffer, 0);
+    context->PSSetConstantBuffers(1, 1, &m_cameraBuffer);
 
     context->IASetInputLayout(m_layout);
     context->VSSetShader(m_vertexShader, nullptr, 0);
