@@ -51,7 +51,7 @@ bool Graphics::Frame()
     bool ret = true;
     static float rotation = 0.0f;
 
-    rotation += (float)D3DX_PI * 0.001;
+    rotation += (float)D3DX_PI * 0.0001;
     if (rotation > 360.0f)
     {
         rotation -= 360.0f;
