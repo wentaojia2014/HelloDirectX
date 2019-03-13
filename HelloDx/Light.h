@@ -2,6 +2,7 @@
 #include "D3DHeader.h"
 namespace TaoD3D
 {
+using namespace DirectX;
 class Light
 {
 public:
@@ -10,16 +11,17 @@ public:
     void SetSpecularColor(float r, float g, float b, float a);
     void SetDirection(float x, float y, float z);
     void SetSpecularPower(float power);
-    D3DXVECTOR4 GetAmbientColor();
-    D3DXVECTOR4 GetDiffuseColor();
-    D3DXVECTOR4 GetSpecularColor();
-    D3DXVECTOR3 GetDirection();
+
+    XMFLOAT4 GetAmbientColor();
+    XMFLOAT4 GetDiffuseColor();
+    XMFLOAT4 GetSpecularColor();
+    XMFLOAT4 GetDirection();
     float GetSpecularPower();
 private:
-    D3DXVECTOR4 m_ambientColor;
-    D3DXVECTOR4 m_diffuseColor;
-    D3DXVECTOR4 m_specularColor;
-    D3DXVECTOR3 m_direction;
+    XMFLOAT4 m_ambientColor;
+    XMFLOAT4 m_diffuseColor;
+    XMFLOAT4 m_specularColor;
+    XMFLOAT4 m_direction;
     float m_specularPower;
 };
 } // namespace TaoD3D

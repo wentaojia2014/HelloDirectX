@@ -16,15 +16,15 @@ bool D3D::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScre
 
     return true;
 }
-void D3D::GetProjectMatrix(D3DXMATRIX &mat)
+void D3D::GetProjectMatrix(XMMATRIX &mat)
 {
     mat = m_projectMat;
 }
-void D3D::GetWorldMatrix(D3DXMATRIX &mat)
+void D3D::GetWorldMatrix(XMMATRIX &mat)
 {
     mat = m_worldMat;
 }
-void D3D::GetOrthoMatrix(D3DXMATRIX &mat)
+void D3D::GetOrthoMatrix(XMMATRIX &mat)
 {
     mat = m_orthoMat;
 }
@@ -55,7 +55,7 @@ void D3D::InitRefreshRate()
     ThrowIfFailed(adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, nullptr), "");
     modeList = new DXGI_MODE_DESC[numModes];
     ThrowIfFailed(adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, modeList), "");
-    for (int i = 0; i < numModes; ++i)
+    for (unsigned int i = 0; i < numModes; ++i)
     {
         if (modeList[i].Width == m_screenWidth && modeList[i].Height == m_screenHeight)
         {
@@ -204,21 +204,21 @@ void D3D::InitViewPort()
     ZeroMemory(&viewPort, sizeof viewPort);
     viewPort.TopLeftX = 0;
     viewPort.TopLeftY = 0;
-    viewPort.Width = m_screenWidth;
-    viewPort.Height = m_screenHeight;
+    viewPort.Width = static_cast<float>(m_screenWidth);
+    viewPort.Height = static_cast<float>(m_screenHeight);
     viewPort.MinDepth = 0.0f;
     viewPort.MaxDepth = 1.0f;
     m_context->RSSetViewports(1, &viewPort);
 }
 void D3D::InitMatrix()
 {
-    float fieldOfView = (float)D3DX_PI / 4.0f;
+    float fieldOfView = (float)XM_PI / 4.0f;
     float screenAspect = (float)m_screenWidth / m_screenHeight;
     float screenNear = 0.1f;
     float screenFar = 1000.0f;
-    D3DXMatrixPerspectiveFovLH(&m_projectMat, fieldOfView, screenAspect, screenNear, screenFar);
-    D3DXMatrixIdentity(&m_worldMat);
-    D3DXMatrixOrthoLH(&m_orthoMat, (float)m_screenWidth, (float)m_screenHeight, screenNear, screenFar);
+    m_projectMat = XMMatrixPerspectiveFovLH( fieldOfView, screenAspect, screenNear, screenFar);
+    m_worldMat = XMMatrixIdentity();
+    m_orthoMat = XMMatrixOrthographicLH((float)m_screenWidth, (float)m_screenHeight, screenNear, screenFar);
 }
 
 void D3D::BeginScene(float r, float g, float b, float a)

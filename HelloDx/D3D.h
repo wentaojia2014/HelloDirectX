@@ -1,9 +1,12 @@
 #pragma once
 #include "D3DHeader.h"
+
 namespace TaoD3D
 {
+using namespace DirectX;
 class D3D
 {
+    
 public:
     bool Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen);
     void Shutdown();
@@ -18,9 +21,9 @@ public:
     {
         return m_context;
     }
-    void GetProjectMatrix(D3DXMATRIX &mat);
-    void GetWorldMatrix(D3DXMATRIX &mat);
-    void GetOrthoMatrix(D3DXMATRIX &mat);
+    void GetProjectMatrix(XMMATRIX &mat);
+    void GetWorldMatrix(XMMATRIX &mat);
+    void GetOrthoMatrix(XMMATRIX &mat);
 
 protected:
     void InitSwapChain(HWND hwnd, bool fullScreen);
@@ -49,8 +52,9 @@ private:
     bool m_vsyncEnabled = false;
     int m_videoCardMemory;
     char m_videoCardDescription[128];
-    D3DXMATRIX m_projectMat;
-    D3DXMATRIX m_worldMat;
-    D3DXMATRIX m_orthoMat;
+    XMMATRIX m_projectMat;
+    XMMATRIX m_worldMat;
+    XMMATRIX m_orthoMat;
+    
 };
 } // namespace TaoD3D

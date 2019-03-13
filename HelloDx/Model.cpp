@@ -2,7 +2,7 @@
 #include <fstream>
 namespace TaoD3D
 {
-bool Model::Initialize(ID3D11Device *device, const char *textureFile, const char *modelFile)
+bool Model::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWSTR textureFile, const char *modelFile)
 {
     if (!loadModelData(modelFile))
     {
@@ -13,9 +13,9 @@ bool Model::Initialize(ID3D11Device *device, const char *textureFile, const char
     unsigned long *indexs = new unsigned long[m_indexCount];
     for (int i = 0; i < m_vertexCount; ++i)
     {
-        vertexs[i].position = D3DXVECTOR3(m_data[i].x, m_data[i].y, m_data[i].z);
-        vertexs[i].texture = D3DXVECTOR2(m_data[i].tu, m_data[i].tv);
-        vertexs[i].normal = D3DXVECTOR3(m_data[i].nx, m_data[i].ny, m_data[i].nz);
+        vertexs[i].position = XMFLOAT3(m_data[i].x, m_data[i].y, m_data[i].z);
+        vertexs[i].texture = XMFLOAT2(m_data[i].tu, m_data[i].tv);
+        vertexs[i].normal = XMFLOAT3(m_data[i].nx, m_data[i].ny, m_data[i].nz);
         indexs[i] = i;
     }
 
@@ -41,7 +41,7 @@ bool Model::Initialize(ID3D11Device *device, const char *textureFile, const char
     ThrowIfFailed(device->CreateBuffer(&indexDesc, &indexData, &m_indexBuffer), "CreateBuffer");
     SafeDeleteArray(vertexs);
     SafeDeleteArray(indexs);
-    return m_texture.Initialize(device, textureFile);
+    return m_texture.Initialize(device, context, textureFile);
 }
 void Model::Shutdown()
 {

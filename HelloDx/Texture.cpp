@@ -1,13 +1,12 @@
 #include "Texture.h"
 
 #include "Common.h"
-
+#include "WICTextureLoader.h"
 namespace TaoD3D
 {
-bool Texture::Initialize(ID3D11Device *device, const char *textureFile)
+bool Texture::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWSTR textureFile)
 {
-    HRESULT re;
-	if (FAILED(D3DX11CreateShaderResourceViewFromFile(device, textureFile, nullptr, nullptr, &m_texture, &re)))
+	if (FAILED(CreateWICTextureFromFile(device, context, textureFile, nullptr, &m_texture)))
 	{
         OutputDebugString("failed to load texture\n");
         return false;

@@ -5,7 +5,7 @@ namespace TaoD3D
 class Texture
 {
 public:
-    bool Initialize(ID3D11Device *device, const char *textureFile);
+    bool Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWSTR textureFile);
     void Shutdown();
     ID3D11ShaderResourceView *GetTexture();
 

@@ -3,16 +3,15 @@
 
 #include "Common.h"
 
-#include <D3D11.h>
-#include <D3DX10math.h>
 
 namespace TaoD3D
 {
+using namespace DirectX;
 struct Vertex
 {
-    D3DXVECTOR3 position;
-    D3DXVECTOR2 texture;
-    D3DXVECTOR3 normal;
+    XMFLOAT3 position;
+    XMFLOAT2 texture;
+    XMFLOAT3 normal;
 };
 struct ModelData
 {
@@ -23,7 +22,7 @@ struct ModelData
 class Model
 {
 public:
-    bool Initialize(ID3D11Device *device, const char *textureFile, const char *modelFile);
+    bool Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWSTR textureFile, const char *modelFile);
     void Shutdown();
     void Render(ID3D11DeviceContext *context);
 

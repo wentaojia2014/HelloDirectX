@@ -13,32 +13,33 @@ void Camera::SetRotation(float x, float y, float z)
     m_rY = y;
     m_rZ = z;
 }
-D3DXVECTOR3 Camera::GetPosition()
+XMFLOAT3 Camera::GetPosition()
 {
-    return D3DXVECTOR3(m_x, m_y, m_z);
+    return XMFLOAT3(m_x, m_y, m_z);
 }
-D3DXVECTOR3 Camera::GetRotation()
+XMFLOAT3 Camera::GetRotation()
 {
-    return D3DXVECTOR3(m_rX, m_rY, m_rZ);
+    return XMFLOAT3(m_rX, m_rY, m_rZ);
 }
 void Camera::Render()
 {
-    D3DXVECTOR3 up = { 0.0f, 1.0f, 0.0f };
-    D3DXVECTOR3 position = { m_x, m_y, m_z };
-    D3DXVECTOR3 lookAt = { 0.0f, 0.0f, 1.0f };
+    XMVECTOR up = { 0.0f, 1.0f, 0.0f };
+    XMVECTOR position = { m_x, m_y, m_z };
+    XMVECTOR lookAt = { 0.0f, 0.0f, 1.0f };
 
     float pitch = m_rX * 0.0174532925f;
     float yaw = m_rY * 0.0174532925f;
     float roll = m_rZ * 0.0174532925f;
-    D3DXMATRIX rotationMat;
+    XMMATRIX rotationMat;
 
-    D3DXMatrixRotationYawPitchRoll(&rotationMat, yaw, pitch, roll);
-    D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMat);
-    D3DXVec3TransformCoord(&up, &up, &rotationMat);
+    rotationMat = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
+
+    lookAt = XMVector3TransformCoord(lookAt, rotationMat);
+    up = XMVector3TransformCoord(up, rotationMat);
     lookAt = position + lookAt;
-    D3DXMatrixLookAtLH(&m_viewMat, &position, &lookAt, &up);
+    m_viewMat = XMMatrixLookAtLH(position, lookAt, up);
 }
-void Camera::GetViewMatrix(D3DXMATRIX &view)
+void Camera::GetViewMatrix(XMMATRIX &view)
 {
     view = m_viewMat;
 }

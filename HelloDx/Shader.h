@@ -3,30 +3,31 @@
 
 namespace TaoD3D
 {
+using namespace DirectX;
 struct MatBuffer
 {
-    D3DXMATRIX world;
-    D3DXMATRIX view;
-    D3DXMATRIX project;
+    XMMATRIX world;
+    XMMATRIX view;
+    XMMATRIX project;
 };
 struct CameraBuffer
 {
-    D3DXVECTOR3 cameraPosition;
+    XMFLOAT3 cameraPosition;
     float padding;
 };
 struct LightBuffer
 {
-    D3DXVECTOR4 ambientColor;
-    D3DXVECTOR4 diffuseColor;
-    D3DXVECTOR4 speculatColor;
-    D3DXVECTOR3 lightDirection;
+    XMFLOAT4 ambientColor;
+    XMFLOAT4 diffuseColor;
+    XMFLOAT4 speculatColor;
+    XMFLOAT3 lightDirection;
     float specularPower;
 };
 
 class Shader
 {
 public:
-    bool Initialize(ID3D11Device *device, const char *vertexShaderFile, const char *pixelShaderFile);
+    bool Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR pixelShaderFile);
     void Shutdown();
     void Render(ID3D11DeviceContext *context
         , int indexCount

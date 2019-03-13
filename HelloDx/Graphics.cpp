@@ -7,6 +7,7 @@
 #include "Shader.h"
 namespace TaoD3D
 {
+    using namespace DirectX;
 Graphics::Graphics() {}
 
 Graphics::~Graphics() {}
@@ -20,10 +21,10 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_camera->SetPosition(0.0f, 0.0f, -8.0f);
 
     m_shader = new Shader;
-    m_shader->Initialize(m_d3d->GetDevice(), u8"lightV.shader", u8"lightP.shader");
+    m_shader->Initialize(m_d3d->GetDevice(), L"lightV.shader", L"lightP.shader");
 
     m_model = new Model;
-    m_model->Initialize(m_d3d->GetDevice(), u8"qingzhi.jpg", u8"cubecube.txt");
+    m_model->Initialize(m_d3d->GetDevice(), m_d3d->GetDeviceContext(), L"qingzhi.jpg", u8"cubecube.txt");
 
     m_light = new Light;
     m_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
@@ -45,13 +46,13 @@ void Graphics::Shutdown()
 
 bool Graphics::Frame()
 {
-    D3DXMATRIX world;
-    D3DXMATRIX view;
-    D3DXMATRIX project;
+    XMMATRIX world;
+    XMMATRIX view;
+    XMMATRIX project;
     bool ret = true;
     static float rotation = 0.0f;
 
-    rotation += (float)D3DX_PI * 0.0001;
+    rotation += (float)XM_PI * 0.0001f;
     if (rotation > 360.0f)
     {
         rotation -= 360.0f;
@@ -61,8 +62,7 @@ bool Graphics::Frame()
     m_camera->GetViewMatrix(view);
     m_d3d->GetWorldMatrix(world);
     m_d3d->GetProjectMatrix(project);
-
-    D3DXMatrixRotationY(&world, rotation);
+    world = XMMatrixRotationY(rotation);
     m_model->Render(m_d3d->GetDeviceContext());
     m_shader->Render(
         m_d3d->GetDeviceContext(),

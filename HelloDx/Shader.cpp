@@ -2,10 +2,11 @@
 #include "Shader.h"
 namespace TaoD3D
 {
-bool Shader::Initialize(ID3D11Device *device, const char *vertexShaderFile, const char *pixelShaderFile)
+bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR pixelShaderFile)
 {
     ID3D10Blob *vs = nullptr, *ps = nullptr, *errorMessage = nullptr;
-    if (FAILED(D3DX11CompileFromFile(vertexShaderFile, nullptr, nullptr, "VShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, 0, &vs, &errorMessage, 0)))
+     
+    if (FAILED(D3DCompileFromFile(vertexShaderFile, nullptr, nullptr, "VShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, &vs, &errorMessage)))
     {
         if (errorMessage)
         {
@@ -17,7 +18,7 @@ bool Shader::Initialize(ID3D11Device *device, const char *vertexShaderFile, cons
         }
         return false;
     }
-    if (FAILED(D3DX11CompileFromFile(pixelShaderFile, nullptr, nullptr, "PShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, 0, &ps, &errorMessage, 0)))
+    if (FAILED(D3DCompileFromFile(pixelShaderFile, nullptr, nullptr, "PShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, &ps, &errorMessage)))
     {
         if (errorMessage)
         {
@@ -101,10 +102,9 @@ void Shader::Render(ID3D11DeviceContext *context
     , CameraBuffer cameraBuf)
 {
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-
-    D3DXMatrixTranspose(&mats.world, &mats.world);
-    D3DXMatrixTranspose(&mats.view, &mats.view);
-    D3DXMatrixTranspose(&mats.project, &mats.project);
+    mats.world = XMMatrixTranspose(mats.world);
+    mats.view = XMMatrixTranspose(mats.view);
+    mats.project = XMMatrixTranspose(mats.project);
 
     ThrowIfFailed(context->Map(m_matBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
 
