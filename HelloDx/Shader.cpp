@@ -5,7 +5,7 @@ namespace TaoD3D
 bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR pixelShaderFile)
 {
     ComPtr<ID3D10Blob> vs = nullptr, ps = nullptr, errorMessage = nullptr;
-     
+    
     if (FAILED(D3DCompileFromFile(vertexShaderFile, nullptr, nullptr, "VShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, vs.GetAddressOf(), errorMessage.GetAddressOf())))
     {
         if (errorMessage)

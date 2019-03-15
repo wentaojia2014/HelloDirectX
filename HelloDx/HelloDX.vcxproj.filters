@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{43c4aea2-4884-4059-8ed1-9d6c937a58f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -86,5 +89,19 @@
     <ClInclude Include="WICTextureLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\lightP.shader">
+      <Filter>Assets</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\lightV.shader">
+      <Filter>Assets</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\pixel.shader">
+      <Filter>Assets</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\vertex.shader">
+      <Filter>Assets</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
