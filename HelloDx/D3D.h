@@ -4,9 +4,10 @@
 namespace TaoD3D
 {
 using namespace DirectX;
+using Microsoft::WRL::ComPtr;
 class D3D
 {
-    
+
 public:
     bool Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen);
     void Shutdown();
@@ -15,11 +16,11 @@ public:
     void EndScene();
     ID3D11Device *GetDevice()
     {
-        return m_device;
+        return m_device.Get();
     }
     ID3D11DeviceContext *GetDeviceContext()
     {
-        return m_context;
+        return m_context.Get();
     }
     void GetProjectMatrix(XMMATRIX &mat);
     void GetWorldMatrix(XMMATRIX &mat);
@@ -38,15 +39,15 @@ private:
     int m_screenWidth;
     int m_screenHeight;
 
-    IDXGISwapChain *m_swapChain = nullptr;
-    ID3D11Device *m_device = nullptr;
-    ID3D11DeviceContext *m_context = nullptr;
-    ID3D11RenderTargetView *m_targetView = nullptr;
-    ID3D11Texture2D *m_depthStencilBuffer = nullptr;
-    ID3D11DepthStencilState *m_depthStencilState = nullptr;
-    ID3D11DepthStencilView *m_depthStencilView = nullptr;
-    ID3D11RasterizerState *m_rasterState = nullptr;
-
+    ComPtr<IDXGISwapChain> m_swapChain = nullptr;
+    ComPtr<ID3D11Device> m_device = nullptr;
+    ComPtr<ID3D11DeviceContext> m_context = nullptr;
+    ComPtr<ID3D11RenderTargetView> m_targetView = nullptr;
+    ComPtr<ID3D11Texture2D> m_depthStencilBuffer = nullptr;
+    ComPtr<ID3D11DepthStencilState> m_depthStencilState = nullptr;
+    ComPtr<ID3D11DepthStencilView> m_depthStencilView = nullptr;
+    ComPtr<ID3D11RasterizerState> m_rasterState = nullptr;
+    ComPtr < ID3D11Texture2D> m_backBuffer = nullptr;
     unsigned int m_numerator;
     unsigned int m_denominator;
     bool m_vsyncEnabled = false;
@@ -55,6 +56,5 @@ private:
     XMMATRIX m_projectMat;
     XMMATRIX m_worldMat;
     XMMATRIX m_orthoMat;
-    
 };
 } // namespace TaoD3D

@@ -4,9 +4,9 @@ namespace TaoD3D
 {
 bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR pixelShaderFile)
 {
-    ID3D10Blob *vs = nullptr, *ps = nullptr, *errorMessage = nullptr;
+    ComPtr<ID3D10Blob> vs = nullptr, ps = nullptr, errorMessage = nullptr;
      
-    if (FAILED(D3DCompileFromFile(vertexShaderFile, nullptr, nullptr, "VShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, &vs, &errorMessage)))
+    if (FAILED(D3DCompileFromFile(vertexShaderFile, nullptr, nullptr, "VShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, vs.GetAddressOf(), errorMessage.GetAddressOf())))
     {
         if (errorMessage)
         {
@@ -18,7 +18,7 @@ bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR 
         }
         return false;
     }
-    if (FAILED(D3DCompileFromFile(pixelShaderFile, nullptr, nullptr, "PShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, &ps, &errorMessage)))
+    if (FAILED(D3DCompileFromFile(pixelShaderFile, nullptr, nullptr, "PShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, ps.GetAddressOf(), errorMessage.GetAddressOf())))
     {
         if (errorMessage)
         {
@@ -30,8 +30,8 @@ bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR 
         }
         return false;
     }
-    ThrowIfFailed(device->CreateVertexShader(vs->GetBufferPointer(), vs->GetBufferSize(), nullptr, &m_vertexShader), "CreateVertexShader");
-    ThrowIfFailed(device->CreatePixelShader(ps->GetBufferPointer(), ps->GetBufferSize(), nullptr, &m_pixelShader), "CreatePixelShader");
+    ThrowIfFailed(device->CreateVertexShader(vs->GetBufferPointer(), vs->GetBufferSize(), nullptr, m_vertexShader.GetAddressOf()), "CreateVertexShader");
+    ThrowIfFailed(device->CreatePixelShader(ps->GetBufferPointer(), ps->GetBufferSize(), nullptr, m_pixelShader.GetAddressOf()), "CreatePixelShader");
 
     D3D11_INPUT_ELEMENT_DESC inputElementDesc[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -40,10 +40,8 @@ bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR 
     };
     ThrowIfFailed(
         device->CreateInputLayout(
-            inputElementDesc, sizeof(inputElementDesc) / sizeof(inputElementDesc[0]), vs->GetBufferPointer(), vs->GetBufferSize(), &m_layout),
+            inputElementDesc, _countof(inputElementDesc), vs->GetBufferPointer(), vs->GetBufferSize(), m_layout.GetAddressOf()),
         "CreateInputLayout");
-    SafeRelease(vs);
-    SafeRelease(ps);
 
     D3D11_BUFFER_DESC matrixBufferDesc;
     ZeroMemory(&matrixBufferDesc, sizeof matrixBufferDesc);
@@ -51,7 +49,7 @@ bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR 
     matrixBufferDesc.ByteWidth = sizeof(MatBuffer);
     matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    ThrowIfFailed(device->CreateBuffer(&matrixBufferDesc, nullptr, &m_matBuffer), "CreateBuffer");
+    ThrowIfFailed(device->CreateBuffer(&matrixBufferDesc, nullptr, m_matBuffer.GetAddressOf()), "CreateBuffer");
 
     D3D11_SAMPLER_DESC samplerDesc;
 
@@ -64,7 +62,7 @@ bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR 
     samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
     samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    ThrowIfFailed(device->CreateSamplerState(&samplerDesc, &m_sampleState), "CreateSamplerState");
+    ThrowIfFailed(device->CreateSamplerState(&samplerDesc, m_sampleState.GetAddressOf()), "CreateSamplerState");
 
     D3D11_BUFFER_DESC lightBufferDesc;
     ZeroMemory(&lightBufferDesc, sizeof lightBufferDesc);
@@ -73,7 +71,7 @@ bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR 
     lightBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-    ThrowIfFailed(device->CreateBuffer(&lightBufferDesc, nullptr, &m_lightBuffer), "CreateBuffer");
+    ThrowIfFailed(device->CreateBuffer(&lightBufferDesc, nullptr, m_lightBuffer.GetAddressOf()), "CreateBuffer");
     
     D3D11_BUFFER_DESC cameraBufferDesc;
     ZeroMemory(&cameraBufferDesc, sizeof cameraBufferDesc);
@@ -81,18 +79,12 @@ bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR 
     cameraBufferDesc.ByteWidth = sizeof CameraBuffer;
     cameraBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     cameraBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    ThrowIfFailed(device->CreateBuffer(&cameraBufferDesc, nullptr, &m_cameraBuffer), "CreateBuffer");
+    ThrowIfFailed(device->CreateBuffer(&cameraBufferDesc, nullptr, m_cameraBuffer.GetAddressOf()), "CreateBuffer");
     
     return true;
 }
 void Shader::Shutdown()
 {
-    SafeRelease(m_sampleState);
-    SafeRelease(m_pixelShader);
-    SafeRelease(m_vertexShader);
-    SafeRelease(m_layout);
-    SafeRelease(m_matBuffer);
-    SafeRelease(m_cameraBuffer);
 }
 void Shader::Render(ID3D11DeviceContext *context
     , int indexCount
@@ -106,39 +98,39 @@ void Shader::Render(ID3D11DeviceContext *context
     mats.view = XMMatrixTranspose(mats.view);
     mats.project = XMMatrixTranspose(mats.project);
 
-    ThrowIfFailed(context->Map(m_matBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
+    ThrowIfFailed(context->Map(m_matBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
 
     MatBuffer *pMatBuffer = (MatBuffer *)mappedResource.pData;
     pMatBuffer->world = mats.world;
     pMatBuffer->project = mats.project;
     pMatBuffer->view = mats.view;
-    context->Unmap(m_matBuffer, 0);
+    context->Unmap(m_matBuffer.Get(), 0);
 
-    context->VSSetConstantBuffers(0, 1, &m_matBuffer);
+    context->VSSetConstantBuffers(0, 1, m_matBuffer.GetAddressOf());
     context->PSSetShaderResources(0, 1, &texture);
 
-    ThrowIfFailed(context->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
+    ThrowIfFailed(context->Map(m_lightBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
     LightBuffer *pLightBuffer = (LightBuffer *)mappedResource.pData;
     pLightBuffer->ambientColor = lightBuf.ambientColor;
     pLightBuffer->diffuseColor = lightBuf.diffuseColor;
     pLightBuffer->speculatColor = lightBuf.speculatColor;
     pLightBuffer->lightDirection = lightBuf.lightDirection;
     pLightBuffer->specularPower = lightBuf.specularPower;
-    context->Unmap(m_lightBuffer, 0);
-    context->PSSetConstantBuffers(0, 1, &m_lightBuffer);
+    context->Unmap(m_lightBuffer.Get(), 0);
+    context->PSSetConstantBuffers(0, 1, m_lightBuffer.GetAddressOf());
 
-    ThrowIfFailed(context->Map(m_cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
+    ThrowIfFailed(context->Map(m_cameraBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
     CameraBuffer *pCameraBuffer = (CameraBuffer *)mappedResource.pData;
     pCameraBuffer->cameraPosition = cameraBuf.cameraPosition;
     pCameraBuffer->padding = cameraBuf.padding;
-    context->Unmap(m_cameraBuffer, 0);
-    context->PSSetConstantBuffers(1, 1, &m_cameraBuffer);
+    context->Unmap(m_cameraBuffer.Get(), 0);
+    context->PSSetConstantBuffers(1, 1, m_cameraBuffer.GetAddressOf());
 
-    context->IASetInputLayout(m_layout);
-    context->VSSetShader(m_vertexShader, nullptr, 0);
-    context->PSSetShader(m_pixelShader, nullptr, 0);
+    context->IASetInputLayout(m_layout.Get());
+    context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
+    context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
 
-    context->PSSetSamplers(0, 1, &m_sampleState);
+    context->PSSetSamplers(0, 1, m_sampleState.GetAddressOf());
     context->DrawIndexed(indexCount, 0, 0);
 }
 } // namespace TaoD3D

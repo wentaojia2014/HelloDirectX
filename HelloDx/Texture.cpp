@@ -6,7 +6,7 @@ namespace TaoD3D
 {
 bool Texture::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWSTR textureFile)
 {
-	if (FAILED(CreateWICTextureFromFile(device, context, textureFile, nullptr, &m_texture)))
+	if (FAILED(CreateWICTextureFromFile(device, context, textureFile, nullptr, m_texture.GetAddressOf())))
 	{
         OutputDebugString("failed to load texture\n");
         return false;
@@ -15,10 +15,9 @@ bool Texture::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPC
 }
 void Texture::Shutdown()
 {
-    SafeRelease(m_texture);
 }
 ID3D11ShaderResourceView *Texture::GetTexture()
 {
-    return m_texture;
+    return m_texture.Get();
 }
 } // namespace TaoD3D

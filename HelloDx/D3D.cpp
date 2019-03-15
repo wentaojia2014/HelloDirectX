@@ -31,27 +31,20 @@ void D3D::GetOrthoMatrix(XMMATRIX &mat)
 void D3D::Shutdown()
 {
     m_swapChain->SetFullscreenState(false, nullptr);
-    SafeRelease(m_swapChain);
-    SafeRelease(m_targetView);
-    SafeRelease(m_device);
-    SafeRelease(m_context);
-    SafeRelease(m_depthStencilBuffer);
-    SafeRelease(m_depthStencilState);
-    SafeRelease(m_depthStencilView);
-    SafeRelease(m_rasterState);
 }
 void D3D::InitRefreshRate()
 {
-    IDXGIFactory *factory;
-    IDXGIAdapter *adapter;
-    IDXGIOutput *adapterOutput;
+    ComPtr<IDXGIFactory> factory = nullptr;
+    ComPtr < IDXGIAdapter> adapter = nullptr;
+    ComPtr < IDXGIOutput> adapterOutput = nullptr;
+
     unsigned int numModes;
     DXGI_MODE_DESC *modeList;
     DXGI_ADAPTER_DESC adapterDesc;
-    ThrowIfFailed(CreateDXGIFactory(__uuidof(IDXGIFactory), (void **)&factory), "CreateDXGIFactory");
+    ThrowIfFailed(CreateDXGIFactory(__uuidof(IDXGIFactory), (void **)factory.GetAddressOf()), "CreateDXGIFactory");
 
-    ThrowIfFailed(factory->EnumAdapters(0, &adapter), "EnumAdapters");
-    ThrowIfFailed(adapter->EnumOutputs(0, &adapterOutput), "EnumOutputs");
+    ThrowIfFailed(factory->EnumAdapters(0, adapter.GetAddressOf()), "EnumAdapters");
+    ThrowIfFailed(adapter->EnumOutputs(0, adapterOutput.GetAddressOf()), "EnumOutputs");
     ThrowIfFailed(adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, nullptr), "");
     modeList = new DXGI_MODE_DESC[numModes];
     ThrowIfFailed(adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, modeList), "");
@@ -70,8 +63,6 @@ void D3D::InitRefreshRate()
     wcstombs_s(&strLen, m_videoCardDescription, 128, adapterDesc.Description, 128);
     delete[] modeList;
     modeList = nullptr;
-    adapterOutput->Release();
-    factory->Release();
 }
 
 void D3D::InitSwapChain(HWND hwnd, bool fullScreen)
@@ -118,10 +109,10 @@ void D3D::InitSwapChain(HWND hwnd, bool fullScreen)
             1,
             D3D11_SDK_VERSION,
             &swapChainDesc,
-            &m_swapChain,
-            &m_device,
+            m_swapChain.GetAddressOf(),
+            m_device.GetAddressOf(),
             nullptr,
-            &m_context),
+            m_context.GetAddressOf()),
         "D3D11CreateDeviceAndSwapChain ");
 }
 void D3D::InitDepthStencilBuffer()
@@ -141,7 +132,7 @@ void D3D::InitDepthStencilBuffer()
     depthBufferDesc.SampleDesc.Quality = D3D11_STANDARD_MULTISAMPLE_PATTERN;
     depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
     depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    ThrowIfFailed(m_device->CreateTexture2D(&depthBufferDesc, nullptr, &m_depthStencilBuffer), "CreateTexture2D");
+    ThrowIfFailed(m_device->CreateTexture2D(&depthBufferDesc, nullptr, m_depthStencilBuffer.GetAddressOf()), "CreateTexture2D");
 
     ZeroMemory(&depthStencilDesc, sizeof depthStencilDesc);
     depthStencilDesc.DepthEnable = true;
@@ -161,26 +152,25 @@ void D3D::InitDepthStencilBuffer()
     depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
     depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
     depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-    ThrowIfFailed(m_device->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState), "CreateDepthStencilState");
-    m_context->OMSetDepthStencilState(m_depthStencilState, 1);
+    ThrowIfFailed(m_device->CreateDepthStencilState(&depthStencilDesc, m_depthStencilState.GetAddressOf()), "CreateDepthStencilState");
+    m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 1);
 
     ZeroMemory(&depthStencilViewDesc, sizeof depthStencilViewDesc);
     depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 
-    ThrowIfFailed(m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView), "CreateDepthStencilView");
+    ThrowIfFailed(m_device->CreateDepthStencilView(m_depthStencilBuffer.Get(), &depthStencilViewDesc, m_depthStencilView.GetAddressOf()), "CreateDepthStencilView");
 }
 void D3D::InitRenderTarget()
 {
     // get the address of the back buffer
-    ID3D11Texture2D *pBackBuffer;
-    ThrowIfFailed(m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID *)&pBackBuffer), "GetBuffer");
+ 
+    ThrowIfFailed(m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID *)(m_backBuffer.GetAddressOf())), "GetBuffer");
     // create render target
-    ThrowIfFailed(m_device->CreateRenderTargetView(pBackBuffer, nullptr, &m_targetView), "CreateRenderTargetView");
+    ThrowIfFailed(m_device->CreateRenderTargetView(m_backBuffer.Get(), nullptr, m_targetView.GetAddressOf()), "CreateRenderTargetView");
 
-    pBackBuffer->Release();
     // set render target
-    m_context->OMSetRenderTargets(1, &m_targetView, m_depthStencilView);
+    m_context->OMSetRenderTargets(1, m_targetView.GetAddressOf(), m_depthStencilView.Get());
 }
 void D3D::InitRaster()
 {
@@ -194,8 +184,8 @@ void D3D::InitRaster()
     rasterDesc.FrontCounterClockwise = false;
     rasterDesc.MultisampleEnable = false;
     rasterDesc.ScissorEnable = false;
-    ThrowIfFailed(m_device->CreateRasterizerState(&rasterDesc, &m_rasterState), "CreateRasterizerState");
-    m_context->RSSetState(m_rasterState);
+    ThrowIfFailed(m_device->CreateRasterizerState(&rasterDesc, m_rasterState.GetAddressOf()), "CreateRasterizerState");
+    m_context->RSSetState(m_rasterState.Get());
 }
 void D3D::InitViewPort()
 {
@@ -225,8 +215,8 @@ void D3D::BeginScene(float r, float g, float b, float a)
 {
     float color[4] = { r, g, b, a };
 
-    m_context->ClearRenderTargetView(m_targetView, color);
-    m_context->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+    m_context->ClearRenderTargetView(m_targetView.Get(), color);
+    m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 void D3D::EndScene()
 {

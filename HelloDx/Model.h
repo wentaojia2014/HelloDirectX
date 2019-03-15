@@ -3,10 +3,10 @@
 
 #include "Common.h"
 
-
 namespace TaoD3D
 {
 using namespace DirectX;
+using Microsoft::WRL::ComPtr;
 struct Vertex
 {
     XMFLOAT3 position;
@@ -34,8 +34,8 @@ protected:
     bool loadModelData(const char *modelFile);
 
 private:
-    ID3D11Buffer *m_vertexBuffer = nullptr;
-    ID3D11Buffer *m_indexBuffer = nullptr;
+    ComPtr<ID3D11Buffer> m_vertexBuffer = nullptr;
+    ComPtr<ID3D11Buffer> m_indexBuffer = nullptr;
     int m_vertexCount = 0;
     int m_indexCount = 0;
     Texture m_texture;

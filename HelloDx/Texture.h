@@ -2,6 +2,7 @@
 #include "D3DHeader.h"
 namespace TaoD3D
 {
+using Microsoft::WRL::ComPtr;
 class Texture
 {
 public:
@@ -10,6 +11,6 @@ public:
     ID3D11ShaderResourceView *GetTexture();
 
 private:
-    ID3D11ShaderResourceView *m_texture = nullptr;
+    ComPtr<ID3D11ShaderResourceView> m_texture = nullptr;
 };
 } // namespace TaoD3D

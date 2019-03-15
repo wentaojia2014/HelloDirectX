@@ -4,6 +4,7 @@
 namespace TaoD3D
 {
 using namespace DirectX;
+using Microsoft::WRL::ComPtr;
 struct MatBuffer
 {
     XMMATRIX world;
@@ -29,22 +30,16 @@ class Shader
 public:
     bool Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR pixelShaderFile);
     void Shutdown();
-    void Render(ID3D11DeviceContext *context
-        , int indexCount
-        , MatBuffer mats
-        , ID3D11ShaderResourceView *texture
-        , LightBuffer lightBuf
-        , CameraBuffer cameraBuf);
+    void Render(ID3D11DeviceContext *context, int indexCount, MatBuffer mats, ID3D11ShaderResourceView *texture, LightBuffer lightBuf, CameraBuffer cameraBuf);
 
 private:
-    ID3D11VertexShader *m_vertexShader = nullptr;
-    ID3D11PixelShader *m_pixelShader = nullptr;
-    ID3D11InputLayout *m_layout = nullptr;
-    ID3D11Buffer *m_matBuffer = nullptr;
-    ID3D11SamplerState *m_sampleState = nullptr;
+    ComPtr<ID3D11VertexShader> m_vertexShader = nullptr;
+    ComPtr<ID3D11PixelShader> m_pixelShader = nullptr;
+    ComPtr<ID3D11InputLayout> m_layout = nullptr;
+    ComPtr<ID3D11Buffer> m_matBuffer = nullptr;
+    ComPtr<ID3D11SamplerState> m_sampleState = nullptr;
 
-    ID3D11Buffer *m_lightBuffer = nullptr;
-    ID3D11Buffer *m_cameraBuffer = nullptr;
-    
+    ComPtr<ID3D11Buffer> m_lightBuffer = nullptr;
+    ComPtr<ID3D11Buffer> m_cameraBuffer = nullptr;
 };
 } // namespace TaoD3D

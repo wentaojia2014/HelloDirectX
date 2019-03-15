@@ -30,7 +30,7 @@ bool Model::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWS
     ZeroMemory(&vertexData, sizeof vertexData);
     vertexData.pSysMem = vertexs;
 
-    ThrowIfFailed(device->CreateBuffer(&bufferDesc, &vertexData, &m_vertexBuffer), "CreateBuffer");
+    ThrowIfFailed(device->CreateBuffer(&bufferDesc, &vertexData, m_vertexBuffer.GetAddressOf()), "CreateBuffer");
 
     ZeroMemory(&indexDesc, sizeof indexDesc);
     indexDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -38,15 +38,13 @@ bool Model::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWS
     indexDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
     ZeroMemory(&indexData, sizeof indexData);
     indexData.pSysMem = indexs;
-    ThrowIfFailed(device->CreateBuffer(&indexDesc, &indexData, &m_indexBuffer), "CreateBuffer");
+    ThrowIfFailed(device->CreateBuffer(&indexDesc, &indexData, m_indexBuffer.GetAddressOf()), "CreateBuffer");
     SafeDeleteArray(vertexs);
     SafeDeleteArray(indexs);
     return m_texture.Initialize(device, context, textureFile);
 }
 void Model::Shutdown()
 {
-    SafeRelease(m_indexBuffer);
-    SafeRelease(m_vertexBuffer);
     SafeDeleteArray(m_data);
     m_texture.Shutdown();
 }
@@ -54,8 +52,8 @@ void Model::Render(ID3D11DeviceContext *context)
 {
     UINT stride = sizeof(Vertex);
     UINT offset = 0;
-    context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
-    context->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    context->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
+    context->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
     context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 int Model::GetIndexCount()
