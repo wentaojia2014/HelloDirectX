@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <string>
 using namespace std;
 
 struct Vertex
@@ -14,12 +15,17 @@ struct Face
     int vIndex1, vIndex2, vIndex3, tIndex1, tIndex2, tIndex3, nIndex1, nIndex2, nIndex3;
 };
 
-bool ReadFileCounts(const char *inputFileName, int &vertexCount, int &textureCount, int &normalCount, int &faceCount);
-bool Convert(const char *inputFileName, const char *outputFileName, int vertexCount, int textureCount, int normalCount, int faceCount);
-void usage(char *exeName)
+bool ReadFileCounts(const std::string &inputFileName, int &vertexCount, int &textureCount, int &normalCount, int &faceCount);
+bool Convert(const std::string &inputFileName, const std::string &outputFileName, int vertexCount, int textureCount, int normalCount, int faceCount);
+void usage(const std::string &exeName)
 {
     cout << "Usage: " << endl;
     cout << exeName << " inputFileName outputFileName" << endl;
+}
+std::string getApplicationDir(const std::string &appDir)
+{
+    const auto pos = appDir.find_last_of('\\');
+    return appDir.substr(0, pos + 1);
 }
 int main(int argc, char **argv)
 {
@@ -29,16 +35,16 @@ int main(int argc, char **argv)
         usage(argv[0]);
         return -1;
     }
-
+    std::string appDir = getApplicationDir(argv[0]);
     bool result;
-    char inputFileName[LINEMAX];
-    char outputFileName[LINEMAX];
+    string inputFileName = appDir;
+    string outputFileName = appDir;
     int vertexCount;
     int textureCount;
     int normalCount;
     int faceCount;
-    strcpy_s(inputFileName, LINEMAX, argv[1]);
-    strcpy_s(outputFileName, LINEMAX, argv[2]);
+    inputFileName += argv[1];
+    outputFileName += argv[2];
 
     result = ReadFileCounts(inputFileName, vertexCount, textureCount, normalCount, faceCount);
     if (!result)
@@ -59,7 +65,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-bool ReadFileCounts(const char *inputFileName, int &vertexCount, int &textureCount, int &normalCount, int &faceCount)
+bool ReadFileCounts(const std::string &inputFileName, int &vertexCount, int &textureCount, int &normalCount, int &faceCount)
 {
     ifstream fin;
     char line[LINEMAX];
@@ -98,7 +104,7 @@ bool ReadFileCounts(const char *inputFileName, int &vertexCount, int &textureCou
     fin.close();
     return true;
 }
-bool Convert(const char *inputFileName, const char *outputFileName, int vertexCount, int textureCount, int normalCount, int faceCount)
+bool Convert(const std::string &inputFileName, const std::string &outputFileName, int vertexCount, int textureCount, int normalCount, int faceCount)
 {
     Vertex *vertex = new Vertex[vertexCount];
     Vertex *texture = new Vertex[textureCount];

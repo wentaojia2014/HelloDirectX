@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.489
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloDX", "HelloDX\HelloDX.vcxproj", "{5D126280-8C53-4A1C-AF2A-40C17FCDC2B9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjConvert", "ObjConvert\ObjConvert.vcxproj", "{77176147-4010-453E-B262-5BAD58ADC2E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D126280-8C53-4A1C-AF2A-40C17FCDC2B9}.Debug|x64.ActiveCfg = Debug|x64
+		{5D126280-8C53-4A1C-AF2A-40C17FCDC2B9}.Debug|x64.Build.0 = Debug|x64
+		{5D126280-8C53-4A1C-AF2A-40C17FCDC2B9}.Release|x64.ActiveCfg = Release|x64
+		{5D126280-8C53-4A1C-AF2A-40C17FCDC2B9}.Release|x64.Build.0 = Release|x64
+		{77176147-4010-453E-B262-5BAD58ADC2E1}.Debug|x64.ActiveCfg = Debug|x64
+		{77176147-4010-453E-B262-5BAD58ADC2E1}.Debug|x64.Build.0 = Debug|x64
+		{77176147-4010-453E-B262-5BAD58ADC2E1}.Release|x64.ActiveCfg = Release|x64
+		{77176147-4010-453E-B262-5BAD58ADC2E1}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93889E8F-9CB2-4F3A-A3E3-AF31A6DA8C3A}
+	EndGlobalSection
+EndGlobal
