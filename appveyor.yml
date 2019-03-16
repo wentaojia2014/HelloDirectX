@@ -5,7 +5,7 @@ branches:
     - project/travis
 
 platform: 
-	- x64
+  - x64
 install:
   - vcpkg install directxtk:x64-windows
 build:
