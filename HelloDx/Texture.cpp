@@ -1,9 +1,10 @@
 #include "Texture.h"
 
 #include "Common.h"
-#include "WICTextureLoader.h"
+#include <DirectXTK/WICTextureLoader.h>
 namespace TaoD3D
 {
+using namespace DirectX;
 bool Texture::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWSTR textureFile)
 {
 	if (FAILED(CreateWICTextureFromFile(device, context, textureFile, nullptr, m_texture.GetAddressOf())))

@@ -24,7 +24,7 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_shader->Initialize(m_d3d->GetDevice(), L"lightV.cso", L"lightP.cso");
 
     m_model = new Model;
-    m_model->Initialize(m_d3d->GetDevice(), m_d3d->GetDeviceContext(), L"qingzhi.jpg", u8"cubecube.txt");
+    m_model->Initialize(m_d3d->GetDevice(), m_d3d->GetDeviceContext(), L"qingzhi.jpg", u8"cube.txt");
 
     m_light = new Light;
     m_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
