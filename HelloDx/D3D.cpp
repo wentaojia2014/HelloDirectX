@@ -1,6 +1,6 @@
 #include "D3D.h"
 #include "Common.h"
-namespace TaoD3D
+namespace Tao3D
 {
 bool D3D::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)
 {
@@ -229,4 +229,4 @@ void D3D::EndScene()
         m_swapChain->Present(0, 0);
     }
 }
-} // namespace TaoD3D
+} // namespace Tao3D

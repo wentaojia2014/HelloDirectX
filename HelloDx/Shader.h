@@ -1,7 +1,7 @@
 #pragma once
 #include "D3DHeader.h"
 
-namespace TaoD3D
+namespace Tao3D
 {
 using namespace DirectX;
 using Microsoft::WRL::ComPtr;
@@ -42,4 +42,4 @@ private:
     ComPtr<ID3D11Buffer> m_lightBuffer = nullptr;
     ComPtr<ID3D11Buffer> m_cameraBuffer = nullptr;
 };
-} // namespace TaoD3D
+} // namespace Tao3D

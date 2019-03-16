@@ -1,7 +1,7 @@
 #include "Common.h"
 #include "Shader.h"
 #include "DirectXTK/DirectXHelpers.h"
-namespace TaoD3D
+namespace Tao3D
 {
 bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderBindaryFile, LPCWSTR pixelShaderBinaryFile)
 {
@@ -112,4 +112,4 @@ void Shader::Render(ID3D11DeviceContext *context
     context->PSSetSamplers(0, 1, m_sampleState.GetAddressOf());
     context->DrawIndexed(indexCount, 0, 0);
 }
-} // namespace TaoD3D
+} // namespace Tao3D

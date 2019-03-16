@@ -6,7 +6,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <OutDir>$(SolutionDir)bin\$(BuildFolder)\</OutDir>
-    <IntDir>$(SolutionDir)build\$(BuildFolder)\</IntDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)\$(BuildFolder)\</IntDir>
     <LocalDebuggerWorkingDirectory>$(OutDir)</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <ItemDefinitionGroup>

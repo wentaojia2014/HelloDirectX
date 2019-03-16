@@ -1,5 +1,5 @@
 #include "Camera.h"
-namespace TaoD3D
+namespace Tao3D
 {
 void Camera::SetPosition(float x, float y, float z)
 {
@@ -43,4 +43,4 @@ void Camera::GetViewMatrix(XMMATRIX &view)
 {
     view = m_viewMat;
 }
-} // namespace TaoD3D
+} // namespace Tao3D

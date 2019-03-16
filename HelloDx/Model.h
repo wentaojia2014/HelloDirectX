@@ -3,7 +3,7 @@
 
 #include "Common.h"
 
-namespace TaoD3D
+namespace Tao3D
 {
 using namespace DirectX;
 using Microsoft::WRL::ComPtr;
@@ -41,4 +41,4 @@ private:
     Texture m_texture;
     ModelData *m_data = nullptr;
 };
-} // namespace TaoD3D
+} // namespace Tao3D

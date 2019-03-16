@@ -1,20 +1,21 @@
 #pragma once
 #include <Windows.h>
-namespace TaoD3D
+#include "Interface/IGraphics.h"
+namespace Tao3D
 {
 class D3D;
 class Model;
 class Shader;
 class Camera;
 class Light;
-class Graphics
+class Graphics : public IGraphics
 {
 public:
     Graphics();
     ~Graphics();
 
-    bool Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen);
-    void Shutdown();
+    bool Init(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen) override;
+    void Uninit() override;
     bool Frame();
 
 private:
@@ -24,4 +25,4 @@ private:
     Camera *m_camera = nullptr;
     Light *m_light = nullptr;
 };
-} // namespace TaoD3D
+} // namespace Tao3D

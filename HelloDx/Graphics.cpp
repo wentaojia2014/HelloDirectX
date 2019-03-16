@@ -5,14 +5,14 @@
 #include "Light.h"
 #include "Model.h"
 #include "Shader.h"
-namespace TaoD3D
+namespace Tao3D
 {
     using namespace DirectX;
 Graphics::Graphics() {}
 
 Graphics::~Graphics() {}
 
-bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)
+bool Graphics::Init(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)
 {
     m_d3d = new D3D;
     m_d3d->Initialize(screenWidth, screenHeight, hwnd, fullScreen);
@@ -35,7 +35,7 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     return true;
 }
 
-void Graphics::Shutdown()
+void Graphics::Uninit()
 {
     SafeShutdown(m_d3d);
     SafeShutdown(m_model);
@@ -76,4 +76,4 @@ bool Graphics::Frame()
 
     return ret;
 }
-} // namespace TaoD3D
+} // namespace Tao3D

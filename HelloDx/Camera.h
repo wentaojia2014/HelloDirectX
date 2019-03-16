@@ -1,7 +1,7 @@
 #pragma once
 #include "D3DHeader.h"
 
-namespace TaoD3D
+namespace Tao3D
 {
 using namespace DirectX;
 class Camera
@@ -21,4 +21,4 @@ private:
     float m_rX = 0.0f, m_rY = 0.0f, m_rZ = 0.0f;
     XMMATRIX m_viewMat;
 };
-} // namespace TaoD3D
+} // namespace Tao3D

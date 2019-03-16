@@ -1,6 +1,6 @@
 #pragma once
 #include "D3DHeader.h"
-namespace TaoD3D
+namespace Tao3D
 {
 using Microsoft::WRL::ComPtr;
 class Texture
@@ -13,4 +13,4 @@ public:
 private:
     ComPtr<ID3D11ShaderResourceView> m_texture = nullptr;
 };
-} // namespace TaoD3D
+} // namespace Tao3D

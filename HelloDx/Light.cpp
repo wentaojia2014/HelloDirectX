@@ -1,5 +1,5 @@
 #include "Light.h"
-namespace TaoD3D
+namespace Tao3D
 {
 void Light::SetAmbientColor(float r, float g, float b, float a)
 {
@@ -43,4 +43,4 @@ float Light::GetSpecularPower()
 {
     return m_specularPower;
 }
-} // namespace TaoD3D
+} // namespace Tao3D

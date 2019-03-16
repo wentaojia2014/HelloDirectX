@@ -1,6 +1,6 @@
 #pragma once
 #include "D3DHeader.h"
-namespace TaoD3D
+namespace Tao3D
 {
 using namespace DirectX;
 class Light
@@ -24,4 +24,4 @@ private:
     XMFLOAT4 m_direction;
     float m_specularPower;
 };
-} // namespace TaoD3D
+} // namespace Tao3D

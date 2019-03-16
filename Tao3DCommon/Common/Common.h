@@ -3,7 +3,6 @@
 #include <string>
 namespace Tao3D
 {
-
 static std::string GetLastErrorAsString()
 {
     // Get the error message, if any.

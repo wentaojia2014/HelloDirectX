@@ -1,6 +1,10 @@
+#include "stdafx.h"
+
 #include "System.h"
-#include "Common.h"
-namespace TaoD3D
+#include "../Common/Common.h"
+
+#include <cassert>
+namespace Tao3D
 {
 static System *D3DAPP = nullptr;
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
@@ -21,41 +25,30 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
             return D3DAPP->Messagehandler(hwnd, message, wparam, lparam);
     }
 }
-System::System() {}
+System::System(IInput *input, IGraphics *graphics) : m_input(input), m_graphics(graphics) 
+{
+    assert(input);
+    assert(graphics);
+}
 
 System::~System() {}
 
-System::System(System &&) {}
-
-System::System(const System &) {}
-
-bool System::Initialize(LPSTR lpCmd, int nShowCmd)
+bool System::Init(LPSTR lpCmd, int nShowCmd, int width, int height)
 {
     (void)lpCmd;
 
-    int w = 800;
-    int h = 600;
-
-    InitializeWindow(w, h, nShowCmd);
-    m_input = new Input();
-    if (!m_input)
+    InitializeWindow(width, height, nShowCmd);
+    
+    if (!m_input->Init()) 
     {
         return false;
     }
-    m_input->Initialize();
 
-    m_graphics = new Graphics();
-    if (!m_graphics)
-    {
-        return false;
-    }
-    return m_graphics->Initialize(w, h, m_hwnd, m_fullScreen);
+    return m_graphics->Init(width, height, m_hwnd, m_fullScreen);
 }
 
-void System::Shutdown()
+void System::Uninit()
 {
-    SafeShutdown(m_graphics);
-    SafeShutdown(m_input);
     ShutdownWindow();
 }
 
@@ -185,12 +178,12 @@ System::Messagehandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
     {
         case WM_KEYDOWN:
         {
-            m_input->KeyDown((unsigned int)wparam);
+            m_input->KeyDown((uint32_t)wparam);
             return 0;
         }
         case WM_KEYUP:
         {
-            m_input->KeyRelease((unsigned int)wparam);
+            m_input->KeyUp((uint32_t)wparam);
             return 0;
         }
 
@@ -201,4 +194,4 @@ System::Messagehandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
     }
     return LRESULT();
 }
-} // namespace TaoD3D
+} // namespace Tao3D

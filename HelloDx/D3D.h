@@ -1,7 +1,7 @@
 #pragma once
 #include "D3DHeader.h"
 
-namespace TaoD3D
+namespace Tao3D
 {
 using namespace DirectX;
 using Microsoft::WRL::ComPtr;
@@ -57,4 +57,4 @@ private:
     XMMATRIX m_worldMat;
     XMMATRIX m_orthoMat;
 };
-} // namespace TaoD3D
+} // namespace Tao3D

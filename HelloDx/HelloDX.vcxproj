@@ -38,10 +38,12 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PropertySheet.props" />
+    <Import Project="..\ExamplesSheet.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PropertySheet.props" />
+    <Import Project="..\ExamplesSheet.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -56,6 +58,9 @@
       <Command>xcopy /y $(ProjectDir)Assets\cube.txt $(Outdir)
 xcopy /y $(ProjectDir)Assets\qingzhi.jpg $(Outdir)</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -69,6 +74,7 @@ xcopy /y $(ProjectDir)Assets\qingzhi.jpg $(Outdir)</Command>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(ProjectDir)Assets\cube.txt $(Outdir)
@@ -79,12 +85,10 @@ xcopy /y $(ProjectDir)Assets\qingzhi.jpg $(Outdir)</Command>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="System.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,11 +97,9 @@ xcopy /y $(ProjectDir)Assets\qingzhi.jpg $(Outdir)</Command>
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DHeader.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Input.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="System.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>

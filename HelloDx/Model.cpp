@@ -1,6 +1,6 @@
 #include "Model.h"
 #include <fstream>
-namespace TaoD3D
+namespace Tao3D
 {
 bool Model::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWSTR textureFile, const char *modelFile)
 {
@@ -100,4 +100,4 @@ bool Model::loadModelData(const char *modelFile)
     fin.close();
     return true;
 }
-} // namespace TaoD3D
+} // namespace Tao3D
