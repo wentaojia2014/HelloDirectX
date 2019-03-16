@@ -36,42 +36,4 @@ void ThrowIfFailed(HRESULT hr, T &&msg)
         throw std::system_error{ hr, std::system_category(), std::forward<T>(msg) };
     }
 }
-
-template <typename T>
-void SafeShutdown(T *p)
-{
-    if (p)
-    {
-        p->Shutdown();
-        delete p;
-        p = nullptr;
-    }
-}
-template <typename T>
-void SafeRelease(T *p)
-{
-    if (p)
-    {
-        p->Release();
-        p = nullptr;
-    }
-}
-template <typename T>
-void SafeDelete(T *p)
-{
-    if (p)
-    {
-        delete p;
-        p = nullptr;
-    }
-}
-template <typename T>
-void SafeDeleteArray(T *p)
-{
-    if (p)
-    {
-        delete [] p;
-        p = nullptr;
-    }
-}
 } // namespace Tao3D

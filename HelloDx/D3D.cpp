@@ -1,5 +1,5 @@
 #include "D3D.h"
-#include "Common.h"
+#include "Common/Common.h"
 namespace Tao3D
 {
 bool D3D::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)

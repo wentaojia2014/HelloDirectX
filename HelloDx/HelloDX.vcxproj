@@ -82,7 +82,6 @@ xcopy /y $(ProjectDir)Assets\qingzhi.jpg $(Outdir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -92,8 +91,6 @@ xcopy /y $(ProjectDir)Assets\qingzhi.jpg $(Outdir)</Command>
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Common.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DHeader.h" />
     <ClInclude Include="Graphics.h" />

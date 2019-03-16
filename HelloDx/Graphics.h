@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "Interface/IGraphics.h"
+#include <memory>
 namespace Tao3D
 {
 class D3D;
@@ -19,10 +20,10 @@ public:
     bool Frame();
 
 private:
-    D3D *m_d3d = nullptr;
-    Model *m_model = nullptr;
-    Shader *m_shader = nullptr;
-    Camera *m_camera = nullptr;
-    Light *m_light = nullptr;
+    std::unique_ptr<D3D> m_d3d = nullptr;
+    std::unique_ptr < Model >m_model = nullptr;
+    std::unique_ptr < Shader >m_shader = nullptr;
+    std::unique_ptr < Camera >m_camera = nullptr;
+    std::unique_ptr < Light >m_light = nullptr;
 };
 } // namespace Tao3D

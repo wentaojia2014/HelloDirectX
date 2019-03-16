@@ -33,6 +33,9 @@
     <ClCompile Include="Implement\System.cpp">
       <Filter>Implement</Filter>
     </ClCompile>
+    <ClCompile Include="Implement\Camera.cpp">
+      <Filter>Implement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Tao3DCommon.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Implement\Camera.h">
+      <Filter>Implement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Implement\Camera.cpp" />
     <ClCompile Include="Implement\Input.cpp" />
     <ClCompile Include="Implement\System.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -20,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Common.h" />
+    <ClInclude Include="Implement\Camera.h" />
     <ClInclude Include="Implement\Input.h" />
     <ClInclude Include="Implement\System.h" />
     <ClInclude Include="Interface\IGraphics.h" />

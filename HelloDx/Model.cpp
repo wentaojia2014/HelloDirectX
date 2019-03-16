@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "Common/Common.h"
 #include <fstream>
 namespace Tao3D
 {
@@ -39,13 +40,13 @@ bool Model::Initialize(ID3D11Device *device, ID3D11DeviceContext *context, LPCWS
     ZeroMemory(&indexData, sizeof indexData);
     indexData.pSysMem = indexs;
     ThrowIfFailed(device->CreateBuffer(&indexDesc, &indexData, m_indexBuffer.GetAddressOf()), "CreateBuffer");
-    SafeDeleteArray(vertexs);
-    SafeDeleteArray(indexs);
+    delete [] vertexs;
+    delete[] indexs;
     return m_texture.Initialize(device, context, textureFile);
 }
 void Model::Shutdown()
 {
-    SafeDeleteArray(m_data);
+    delete[] m_data;
     m_texture.Shutdown();
 }
 void Model::Render(ID3D11DeviceContext *context)

@@ -49,6 +49,8 @@ bool System::Init(LPSTR lpCmd, int nShowCmd, int width, int height)
 
 void System::Uninit()
 {
+    m_input->Uninit();
+    m_graphics->Uninit();
     ShutdownWindow();
 }
 

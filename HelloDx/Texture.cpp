@@ -1,6 +1,5 @@
 #include "Texture.h"
 
-#include "Common.h"
 #include <DirectXTK/WICTextureLoader.h>
 namespace Tao3D
 {

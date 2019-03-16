@@ -1,32 +1,32 @@
 #include "Graphics.h"
 
-#include "Camera.h"
 #include "D3D.h"
+#include "Implement/Camera.h"
 #include "Light.h"
 #include "Model.h"
 #include "Shader.h"
 namespace Tao3D
 {
-    using namespace DirectX;
+using namespace DirectX;
 Graphics::Graphics() {}
 
 Graphics::~Graphics() {}
 
 bool Graphics::Init(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen)
 {
-    m_d3d = new D3D;
+    m_d3d = std::make_unique<D3D>();
     m_d3d->Initialize(screenWidth, screenHeight, hwnd, fullScreen);
 
-    m_camera = new Camera;
+    m_camera = std::make_unique<Camera>();
     m_camera->SetPosition(0.0f, 0.0f, -8.0f);
 
-    m_shader = new Shader;
+    m_shader = std::make_unique<Shader>();
     m_shader->Initialize(m_d3d->GetDevice(), L"lightV.cso", L"lightP.cso");
 
-    m_model = new Model;
+    m_model = std::make_unique<Model>();
     m_model->Initialize(m_d3d->GetDevice(), m_d3d->GetDeviceContext(), L"qingzhi.jpg", u8"cube.txt");
 
-    m_light = new Light;
+    m_light = std::make_unique<Light> ();
     m_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
     m_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
     m_light->SetDirection(0.0f, 0.0f, 1.0f);
@@ -37,11 +37,9 @@ bool Graphics::Init(int screenWidth, int screenHeight, HWND hwnd, bool fullScree
 
 void Graphics::Uninit()
 {
-    SafeShutdown(m_d3d);
-    SafeShutdown(m_model);
-    SafeShutdown(m_shader);
-    SafeShutdown(m_camera);
-    SafeDelete(m_light);
+    m_d3d->Shutdown();
+    m_shader->Shutdown();
+    m_model->Shutdown();
 }
 
 bool Graphics::Frame()

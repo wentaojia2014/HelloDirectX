@@ -1,5 +1,7 @@
-#include "Common.h"
+
 #include "Shader.h"
+
+#include "Common/Common.h"
 #include "DirectXTK/DirectXHelpers.h"
 namespace Tao3D
 {

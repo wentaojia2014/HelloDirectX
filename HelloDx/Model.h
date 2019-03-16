@@ -1,8 +1,6 @@
 #pragma once
 #include "Texture.h"
 
-#include "Common.h"
-
 namespace Tao3D
 {
 using namespace DirectX;
