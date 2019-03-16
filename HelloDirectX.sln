@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloDX", "HelloDx\HelloDX.vcxproj", "{5D126280-8C53-4A1C-AF2A-40C17FCDC2B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E37D32C2-14C4-4B3A-8F71-C26B11F7A88B} = {E37D32C2-14C4-4B3A-8F71-C26B11F7A88B}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjConvert", "ObjConvert\ObjConvert.vcxproj", "{77176147-4010-453E-B262-5BAD58ADC2E1}"
 EndProject

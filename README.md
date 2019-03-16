@@ -1,16 +1,12 @@
 # Hello Dx
 ## Build status
 
-| [Linux][lin-link] | [Windows][win-link] | [Coveralls][cov-link] |
-| :---------------: | :-----------------: | :-------------------: |
-| ![lin-badge]      | ![win-badge]        | ![cov-badge]          |
+|[Windows][win-link] |
+| :---------------: |
+| ![win-badge]      |
 
-[lin-badge]: https://travis-ci.org/wentaojia2014/HelloDirectX.svg?branch=master "Travis build status"
-[lin-link]: https://travis-ci.org/wentaojia2014/HelloDirectX "Travis build status"
 [win-badge]: https://ci.appveyor.com/api/projects/status/gup0dy0cc2d25m7o?svg=true "AppVeyor build status"
 [win-link]: https://ci.appveyor.com/project/jiawentao/hellodirectx "AppVeyor build status"
-[cov-badge]: https://coveralls.io/repos/github/wentaojia2014/HelloDirectX/badge.svg?branch=master "Coveralls coverage"
-[cov-link]: https://coveralls.io/github/wentaojia2014/HelloDirectX?branch=master "Coveralls coverage"
 
 ## License
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wentaojia2014/HelloDirectX/blob/master/LICENSE)
@@ -20,6 +16,10 @@
 用来学习DirectX11/12图形编程的一些项目。
 
 ## 目录结构
+- Base
+ 
+  公用的部分，单独的库
+
 - HelloDx
 
   DirectX的使用
