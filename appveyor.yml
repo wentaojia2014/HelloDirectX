@@ -4,10 +4,8 @@ branches:
   except:
     - project/travis
 
-environment:
-  matrix:
-  - name: win32
-    platform: amd64_x86
+platform: 
+	- x64
 install:
   - vcpkg install directxtk:x64-windows
 build:
