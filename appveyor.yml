@@ -12,4 +12,6 @@ install:
   - vcpkg install directxtk:x64-windows
 build:
   verbosity: normal
-  project: HelloDirectX\HelloDirectX.sln
+  project: HelloDirectX.sln
+
+test: off
