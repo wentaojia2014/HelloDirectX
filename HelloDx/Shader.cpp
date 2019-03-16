@@ -1,35 +1,14 @@
 #include "Common.h"
 #include "Shader.h"
+#include "DirectXTK/DirectXHelpers.h"
 namespace TaoD3D
 {
-bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR pixelShaderFile)
+bool Shader::Initialize(ID3D11Device *device, LPCWSTR vertexShaderBindaryFile, LPCWSTR pixelShaderBinaryFile)
 {
     ComPtr<ID3D10Blob> vs = nullptr, ps = nullptr, errorMessage = nullptr;
+    ThrowIfFailed(D3DReadFileToBlob(vertexShaderBindaryFile, vs.GetAddressOf()), "D3DReadFileToBlob");
+    ThrowIfFailed(D3DReadFileToBlob(pixelShaderBinaryFile, ps.GetAddressOf()), "D3DReadFileToBlob");
     
-    if (FAILED(D3DCompileFromFile(vertexShaderFile, nullptr, nullptr, "VShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, vs.GetAddressOf(), errorMessage.GetAddressOf())))
-    {
-        if (errorMessage)
-        {
-            OutputDebugString((const char *)errorMessage->GetBufferPointer());
-        }
-        else
-        {
-            OutputDebugString(GetLastErrorAsString().data());
-        }
-        return false;
-    }
-    if (FAILED(D3DCompileFromFile(pixelShaderFile, nullptr, nullptr, "PShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, ps.GetAddressOf(), errorMessage.GetAddressOf())))
-    {
-        if (errorMessage)
-        {
-            OutputDebugString((const char *)errorMessage->GetBufferPointer());
-        }
-        else
-        {
-            OutputDebugStringA(GetLastErrorAsString().data());
-        }
-        return false;
-    }
     ThrowIfFailed(device->CreateVertexShader(vs->GetBufferPointer(), vs->GetBufferSize(), nullptr, m_vertexShader.GetAddressOf()), "CreateVertexShader");
     ThrowIfFailed(device->CreatePixelShader(ps->GetBufferPointer(), ps->GetBufferSize(), nullptr, m_pixelShader.GetAddressOf()), "CreatePixelShader");
 

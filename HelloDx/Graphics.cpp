@@ -21,7 +21,7 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool ful
     m_camera->SetPosition(0.0f, 0.0f, -8.0f);
 
     m_shader = new Shader;
-    m_shader->Initialize(m_d3d->GetDevice(), L"lightV.shader", L"lightP.shader");
+    m_shader->Initialize(m_d3d->GetDevice(), L"lightV.cso", L"lightP.cso");
 
     m_model = new Model;
     m_model->Initialize(m_d3d->GetDevice(), m_d3d->GetDeviceContext(), L"qingzhi.jpg", u8"cubecube.txt");

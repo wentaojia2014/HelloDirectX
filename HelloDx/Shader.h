@@ -28,7 +28,7 @@ struct LightBuffer
 class Shader
 {
 public:
-    bool Initialize(ID3D11Device *device, LPCWSTR vertexShaderFile, LPCWSTR pixelShaderFile);
+    bool Initialize(ID3D11Device *device, LPCWSTR vertexShaderBindaryFile, LPCWSTR pixelShaderBinaryFile);
     void Shutdown();
     void Render(ID3D11DeviceContext *context, int indexCount, MatBuffer mats, ID3D11ShaderResourceView *texture, LightBuffer lightBuf, CameraBuffer cameraBuf);
 
