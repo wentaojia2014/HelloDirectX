@@ -7,10 +7,8 @@
 namespace Tao3D
 {
 class D3D;
-class Shader;
 class Camera;
-class Light;
-class Bitmap;
+class Text;
 class Graphics : public IGraphics
 {
 public:
@@ -23,9 +21,7 @@ public:
 
 private:
     std::unique_ptr<D3D> m_d3d = nullptr;
-    std::unique_ptr<Shader> m_shader = nullptr;
     std::unique_ptr<Camera> m_camera = nullptr;
-    std::unique_ptr<Light> m_light = nullptr;
-    std::unique_ptr<Bitmap> m_bitmap = nullptr;
+    std::unique_ptr<Text> m_text = nullptr;
 };
 } // namespace Tao3D

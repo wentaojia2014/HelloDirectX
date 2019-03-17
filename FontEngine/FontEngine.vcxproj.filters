@@ -24,19 +24,16 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="Font.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="FontShader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Bitmap.cpp">
+    <ClCompile Include="Text.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,30 +47,26 @@
     <ClInclude Include="Graphics.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
+    <ClInclude Include="Font.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="FontShader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Bitmap.h">
+    <ClInclude Include="Text.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Assets\lightP.shader">
-      <Filter>Assets</Filter>
-    </FxCompile>
-    <FxCompile Include="Assets\lightV.shader">
-      <Filter>Assets</Filter>
-    </FxCompile>
+    <FxCompile Include="Assets\fontP.hlsl" />
+    <FxCompile Include="Assets\fontV.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\seafloor.dds">
+    <CopyFileToFolders Include="Assets\fontdata.txt">
       <Filter>Assets</Filter>
-    </Image>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Assets\font.dds">
+      <Filter>Assets</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

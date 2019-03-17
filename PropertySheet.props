@@ -11,6 +11,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile />
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="BuildFolder">

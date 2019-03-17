@@ -30,6 +30,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Others", "Others", "{C0EF1D
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2DRender", "2DRender\2DRender.vcxproj", "{B1951DBA-4E2A-4C49-8296-8A0A4F965388}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FontEngine", "FontEngine\FontEngine.vcxproj", "{4FB4D22F-3A21-454A-A466-C6258E0B3CA0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E37D32C2-14C4-4B3A-8F71-C26B11F7A88B} = {E37D32C2-14C4-4B3A-8F71-C26B11F7A88B}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -52,6 +57,10 @@ Global
 		{B1951DBA-4E2A-4C49-8296-8A0A4F965388}.Debug|x64.Build.0 = Debug|x64
 		{B1951DBA-4E2A-4C49-8296-8A0A4F965388}.Release|x64.ActiveCfg = Release|x64
 		{B1951DBA-4E2A-4C49-8296-8A0A4F965388}.Release|x64.Build.0 = Release|x64
+		{4FB4D22F-3A21-454A-A466-C6258E0B3CA0}.Debug|x64.ActiveCfg = Debug|x64
+		{4FB4D22F-3A21-454A-A466-C6258E0B3CA0}.Debug|x64.Build.0 = Debug|x64
+		{4FB4D22F-3A21-454A-A466-C6258E0B3CA0}.Release|x64.ActiveCfg = Release|x64
+		{4FB4D22F-3A21-454A-A466-C6258E0B3CA0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +70,7 @@ Global
 		{77176147-4010-453E-B262-5BAD58ADC2E1} = {7262A84C-B66E-4706-BF2F-CADFD30934F1}
 		{E37D32C2-14C4-4B3A-8F71-C26B11F7A88B} = {76E478D4-E1B6-45E5-8BE3-0616E781861E}
 		{B1951DBA-4E2A-4C49-8296-8A0A4F965388} = {CF05FA25-BCF9-4767-B72B-9EBF58887CBE}
+		{4FB4D22F-3A21-454A-A466-C6258E0B3CA0} = {CF05FA25-BCF9-4767-B72B-9EBF58887CBE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93889E8F-9CB2-4F3A-A3E3-AF31A6DA8C3A}

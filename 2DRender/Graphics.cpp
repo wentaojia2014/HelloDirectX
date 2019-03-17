@@ -4,7 +4,6 @@
 #include "D3D.h"
 #include "Implement/Camera.h"
 #include "Light.h"
-#include "Model.h"
 #include "Shader.h"
 namespace Tao3D
 {
@@ -24,9 +23,6 @@ bool Graphics::Init(int screenWidth, int screenHeight, HWND hwnd, bool fullScree
     m_shader = std::make_unique<Shader>();
     m_shader->Initialize(m_d3d->GetDevice(), L"lightV.cso", L"lightP.cso");
 
-    m_model = std::make_unique<Model>();
-    m_model->Initialize(m_d3d->GetDevice(), m_d3d->GetDeviceContext(), L"qingzhi.jpg", u8"cube.txt");
-
     m_light = std::make_unique<Light>();
     m_light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
     m_light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -43,7 +39,6 @@ void Graphics::Uninit()
 {
     m_d3d->Shutdown();
     m_shader->Shutdown();
-    m_model->Shutdown();
 }
 
 bool Graphics::Frame()
@@ -68,8 +63,6 @@ bool Graphics::Frame()
     m_d3d->GetOrthoMatrix(ortho);
     m_d3d->TurnZBufferOff();
 
-    //world = XMMatrixRotationY(rotation);
-
     m_bitmap->Render(m_d3d->GetDeviceContext(), 100, 100);
     m_shader->Render(
         m_d3d->GetDeviceContext(),
@@ -78,14 +71,6 @@ bool Graphics::Frame()
         m_bitmap->GetTexture(),
         { m_light->GetAmbientColor(), m_light->GetDiffuseColor(), m_light->GetDirection() },
         { m_camera->GetPosition(), 0.0f });
-    // m_model->Render(m_d3d->GetDeviceContext());
-    // m_shader->Render(
-    //    m_d3d->GetDeviceContext(),
-    //    m_model->GetIndexCount(),
-    //    { world, view, project },
-    //    m_model->GetTexture(),
-    //    { m_light->GetAmbientColor(), m_light->GetDiffuseColor(), m_light->GetDirection() },
-    //    { m_camera->GetPosition(), 0.0f });
     m_d3d->TurnZBufferOn();
     m_d3d->EndScene();
 
