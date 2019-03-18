@@ -7,7 +7,7 @@ branches:
 platform: 
   - x64
 install:
-  - vcpkg install directxtk:x64-windows
+  - vcpkg install directxtk:x64-windows directxtex:x64-windows
 build:
   verbosity: normal
   project: HelloDirectX.sln
