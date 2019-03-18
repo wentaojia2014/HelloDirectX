@@ -16,9 +16,9 @@ void Text::Init(ID3D11Device *device, ID3D11DeviceContext *context, HWND hwnd, i
     m_shader = std::make_unique<FontShader>();
     m_shader->Init(device, hwnd);
     initSentence(&m_sentence1, 16, device);
-    updateSentence(m_sentence1, "Hello", 100, 100, 1.0f, 1.0f, 1.0f, context);
+    updateSentence(m_sentence1, "Hello", 100, 100, 0.0f, 1.0f, 1.0f, context);
     initSentence(&m_sentence2, 16, device);
-    updateSentence(m_sentence2, "Goodbye", 100, 200, 1.0f, 1.0f, 1.0f, context);
+    updateSentence(m_sentence2, "Goodbye", 100, 200, 1.0f, 0.0f, 1.0f, context);
 }
 void Text::Uninit()
 {
@@ -52,7 +52,7 @@ void Text::initSentence(SentenceType **sentence, int maxLength, ID3D11Device *de
     }
 
     vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-    vertexBufferDesc.ByteWidth = sizeof vertices;
+    vertexBufferDesc.ByteWidth = sizeof (VertexType) * (*sentence)->vertexCount;
     vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
     vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
@@ -60,7 +60,7 @@ void Text::initSentence(SentenceType **sentence, int maxLength, ID3D11Device *de
     ThrowIfFailed(device->CreateBuffer(&vertexBufferDesc, &vertexData, (*sentence)->vertexBuffer.GetAddressOf()), "CreateBuffer");
 
     indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    indexBufferDesc.ByteWidth = sizeof indices;
+    indexBufferDesc.ByteWidth = sizeof (unsigned long) * (*sentence)->indexCount;
     indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
     indexData.pSysMem = indices;
     ThrowIfFailed(device->CreateBuffer(&indexBufferDesc, &indexData, (*sentence)->indexBuffer.GetAddressOf()), "CreateBuffer");
@@ -81,13 +81,13 @@ void Text::updateSentence(SentenceType *sentence, const char *text, int posX, in
     sentence->green = green;
     sentence->blue = blue;
     VertexType *vertices = new VertexType[sentence->vertexCount];
-    ZeroMemory(vertices, sizeof vertices);
+    ZeroMemory(vertices, sizeof (VertexType) * sentence->vertexCount);
     float drawX = (float)((m_screenWidth / 2) * -1) + posX;
     float drawY = (float)((m_screenHeight / 2) - posY);
     m_font->BuildVertexArray((void *)vertices, text, drawX, drawY);
     ThrowIfFailed(context->Map(sentence->vertexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource), "Map");
     VertexType *verticesPtr = (VertexType *)mappedResource.pData;
-    memcpy(verticesPtr, (void *)vertices, sizeof vertices);
+    memcpy(verticesPtr, (void *)vertices, sizeof(VertexType) * sentence->vertexCount);
     context->Unmap(sentence->vertexBuffer.Get(), 0);
 
     delete[] vertices;

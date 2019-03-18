@@ -40,6 +40,11 @@
 
   命令行工具，用来转换obj格式模型文件为txt格式
 
+## 安装依赖
+
+  使用vcpkg
+  vcpkg install directxtk:x64-windows directxtex:x64-windows
+
 #### 联系方式:
 ***
 |作者|贾文涛|
