@@ -15,6 +15,10 @@
 
 用来学习DirectX11/12图形编程的一些项目。
 
+参考 http://www.rastertek.com/tutdx11.html
+
+将其中旧的功能换成新的,包括XMMath 取代 D3DXMath,ComPtr和std智能指针管理内存,使用DirectXTK和DirectXTEX,以及其它一些优化。
+
 ## 目录结构
 - Base
  
@@ -22,7 +26,15 @@
 
 - HelloDx
 
-  DirectX的使用
+  DirectX的基本功能使用
+
+- 2DRender
+
+  3D场景中渲染2D纹理
+
+- FontEngine
+  
+  字体渲染
 
 - ObjConvert
 

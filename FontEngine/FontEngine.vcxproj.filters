@@ -58,8 +58,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Assets\fontP.hlsl" />
-    <FxCompile Include="Assets\fontV.hlsl" />
+    <FxCompile Include="Assets\fontP.hlsl">
+      <Filter>Assets</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\fontV.hlsl">
+      <Filter>Assets</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Assets\fontdata.txt">
