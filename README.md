@@ -28,13 +28,19 @@
 
   DirectX的基本功能使用
 
+  ![](DemoImages/HelloDirectX.png)
+
 - 2DRender
 
   3D场景中渲染2D纹理
 
+  ![](DemoImages/2DRender.png)
+
 - FontEngine
   
   字体渲染
+
+  ![](DemoImages/FontEngine.png)
 
 - ObjConvert
 
