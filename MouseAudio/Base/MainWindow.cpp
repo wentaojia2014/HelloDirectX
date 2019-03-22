@@ -123,12 +123,11 @@ void MainWindow::resize(int width, int height)
 }
 void MainWindow::showFullScreen() 
 {
-
+    ShowWindow(m_hwnd, SHOW_FULLSCREEN);
 }
 void MainWindow::show() 
 {
     ShowWindow(m_hwnd, SHOW_OPENWINDOW);
-    UpdateWindow(m_hwnd);
 }
 void MainWindow::hide() 
 {
