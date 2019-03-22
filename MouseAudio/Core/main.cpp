@@ -6,7 +6,8 @@ using namespace Tao3D;
 int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR /*cmdParamarg*/, int /* cmdShow */)
 {
     Application app;
-    MainWindow window(1024, 768, "MouseAudio");
+    MainWindow window;
+    window.init(1024, 768, "MouseAudio");
     app.setWindow(&window);
     window.show();
     app.exec();

@@ -20,9 +20,6 @@ public:
     }
     void exec();
 
-public:
-    LRESULT Messagehandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
-
 private:
     static Application *self;
     IWindow *pWindow = nullptr;

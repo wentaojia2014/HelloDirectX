@@ -2,28 +2,32 @@
 #include "Application.h"
 namespace Tao3D
 {
-static MainWindow *pMainWindow = nullptr;
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK MainWindow::MessageRouter(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
-    switch (message)
+    MainWindow *me = (MainWindow *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    if (me == nullptr) 
     {
-        case WM_DESTROY:
+        if (message == WM_CREATE)
         {
-            PostQuitMessage(0);
-            return 0;
+            me = static_cast<MainWindow *>(((LPCREATESTRUCT)lparam)->lpCreateParams);
+            SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)me);
         }
-        case WM_CLOSE:
+        else
         {
-            PostQuitMessage(0);
-            return 0;
+            return DefWindowProc(hwnd, message, wparam, lparam);
         }
-        default:
-            return pMainWindow->messageHandler(hwnd, message, wparam, lparam);
     }
+    return me->messageHandler(hwnd, message, wparam, lparam);
 }
-MainWindow::MainWindow(int w, int h, LPCSTR title, bool fullScreen) : m_w(w), m_h(h), m_title(title), m_fullScreen(fullScreen)
+MainWindow::MainWindow() {}
+MainWindow::~MainWindow() {}
+void MainWindow::init(int width, int height, LPCSTR title, bool fullScreen)
 {
-    pMainWindow = this;
+    m_w = width;
+    m_h = height;
+    m_title = title;
+    m_fullScreen = fullScreen;
+
     WNDCLASSEX wc = { 0 };
     DEVMODE dmScreenSettings;
     int posX, posY;
@@ -31,7 +35,7 @@ MainWindow::MainWindow(int w, int h, LPCSTR title, bool fullScreen) : m_w(w), m_
     m_applicationName = title;
 
     wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc = WndProc;
+    wc.lpfnWndProc = MessageRouter;
     wc.hInstance = m_hInstance;
     wc.hIcon = LoadIcon(nullptr, IDI_WINLOGO);
     wc.hIconSm = wc.hIcon;
@@ -39,20 +43,20 @@ MainWindow::MainWindow(int w, int h, LPCSTR title, bool fullScreen) : m_w(w), m_
     // wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszClassName = m_applicationName;
     wc.cbSize = sizeof wc;
-    
+
     RegisterClassEx(&wc);
 
     unsigned long screenW = GetSystemMetrics(SM_CXSCREEN);
     unsigned long screenH = GetSystemMetrics(SM_CYSCREEN);
     if (m_fullScreen)
     {
-        w = screenW;
-        h = screenH;
+        width = screenW;
+        height = screenH;
 
         ZeroMemory(&dmScreenSettings, sizeof dmScreenSettings);
         dmScreenSettings.dmSize = sizeof dmScreenSettings;
-        dmScreenSettings.dmPelsWidth = (unsigned long)w;
-        dmScreenSettings.dmPelsHeight = (unsigned long)h;
+        dmScreenSettings.dmPelsWidth = (unsigned long)width;
+        dmScreenSettings.dmPelsHeight = (unsigned long)height;
         dmScreenSettings.dmBitsPerPel = 32;
         dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
@@ -62,10 +66,10 @@ MainWindow::MainWindow(int w, int h, LPCSTR title, bool fullScreen) : m_w(w), m_
     }
     else
     {
-        posX = (screenW - w) / 2;
-        posY = (screenH - h) / 2;
+        posX = (screenW - width) / 2;
+        posY = (screenH - height) / 2;
     }
-    RECT rect = { 0, 0, w, h };
+    RECT rect = { 0, 0, width, height };
     AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
     m_hwnd = CreateWindowEx(
         0,
@@ -79,34 +83,27 @@ MainWindow::MainWindow(int w, int h, LPCSTR title, bool fullScreen) : m_w(w), m_
         nullptr,
         nullptr,
         m_hInstance,
-        nullptr);
-
-}
-MainWindow::~MainWindow() 
-{
-    ShowCursor(true);
-    if (m_fullScreen)
-    {
-        ChangeDisplaySettings(nullptr, 0);
-    }
-    DestroyWindow(m_hwnd);
-    m_hwnd = nullptr;
-
-    UnregisterClass(m_applicationName, m_hInstance);
-    m_hInstance = nullptr;
+        this);
 }
 LRESULT MainWindow::messageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) 
 {
     switch (message)
     {
-        case WM_KEYDOWN:
+        case WM_CLOSE:
         {
-
+            if (m_fullScreen)
+            {
+                ChangeDisplaySettings(nullptr, 0);
+            }
+            DestroyWindow(m_hwnd);
+            m_hwnd = nullptr;
+            UnregisterClass(m_applicationName, m_hInstance);
+            m_hInstance = nullptr;
             return 0;
         }
-        case WM_KEYUP:
+        case WM_DESTROY:
         {
-
+            PostQuitMessage(0);
             return 0;
         }
 

@@ -6,8 +6,9 @@ namespace Tao3D
 class MainWindow : public IWindow
 {
 public:
-    MainWindow(int width, int height, LPCSTR title, bool fullScreen = false);
+    MainWindow();
     ~MainWindow();
+    void init(int width, int height, LPCSTR title, bool fullScreen = false) override;
     LRESULT messageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) override;
     void resize(int width, int height) override;
     void showFullScreen() override;
@@ -15,6 +16,7 @@ public:
     void hide() override;
     bool frame() override;
 
+    static LRESULT CALLBACK MessageRouter(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 private:
     int m_w;
     int m_h;

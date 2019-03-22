@@ -6,6 +6,7 @@ class IWindow
 {
 public:
     IWindow() {}
+    virtual void init(int width, int height, LPCSTR title, bool fullScreen = false) = 0;
     virtual LRESULT messageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) = 0;
     virtual void resize(int width, int height) = 0;
     virtual void showFullScreen() = 0;

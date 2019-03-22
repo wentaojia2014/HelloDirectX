@@ -40,14 +40,4 @@ void Application::exec()
         }
     }
 }
-
-LRESULT Application::Messagehandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) 
-{
-    if (pWindow)
-    {
-        return pWindow->messageHandler(hwnd, message, wparam, lparam);
-    }
-    return 0;
-}
-
 } // namespace Tao3D
