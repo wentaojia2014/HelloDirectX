@@ -22,6 +22,12 @@
     <ClCompile Include="Core\main.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Base\DXResources.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\TriangleRender.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Application.h">
@@ -32,6 +38,18 @@
     </ClInclude>
     <ClInclude Include="Base\MainWindow.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Common.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\DXResources.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\IRender.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\TriangleRender.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

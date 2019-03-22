@@ -5,7 +5,7 @@ namespace Tao3D
 LRESULT CALLBACK MainWindow::MessageRouter(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
     MainWindow *me = (MainWindow *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    if (me == nullptr) 
+    if (me == nullptr)
     {
         if (message == WM_CREATE)
         {
@@ -19,7 +19,10 @@ LRESULT CALLBACK MainWindow::MessageRouter(HWND hwnd, UINT message, WPARAM wpara
     }
     return me->messageHandler(hwnd, message, wparam, lparam);
 }
-MainWindow::MainWindow() {}
+MainWindow::MainWindow(IRender *render) : m_render(render) 
+{
+    assert(render);
+}
 MainWindow::~MainWindow() {}
 void MainWindow::init(int width, int height, LPCSTR title, bool fullScreen)
 {
@@ -85,7 +88,7 @@ void MainWindow::init(int width, int height, LPCSTR title, bool fullScreen)
         m_hInstance,
         this);
 }
-LRESULT MainWindow::messageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) 
+LRESULT MainWindow::messageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
     switch (message)
     {
@@ -106,7 +109,30 @@ LRESULT MainWindow::messageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARA
             PostQuitMessage(0);
             return 0;
         }
-
+        case WM_ACTIVATEAPP:
+            DirectX::Keyboard::ProcessMessage(message, wparam, lparam);
+            DirectX::Mouse::ProcessMessage(message, wparam, lparam);
+            break;
+        case WM_INPUT:
+        case WM_MOUSEMOVE:
+        case WM_LBUTTONDOWN:
+        case WM_LBUTTONUP:
+        case WM_RBUTTONDOWN:
+        case WM_RBUTTONUP:
+        case WM_MBUTTONDOWN:
+        case WM_MBUTTONUP:
+        case WM_MOUSEWHEEL:
+        case WM_XBUTTONDOWN:
+        case WM_XBUTTONUP:
+        case WM_MOUSEHOVER:
+            DirectX::Mouse::ProcessMessage(message, wparam, lparam);
+            break;
+        case WM_KEYDOWN:
+        case WM_SYSKEYDOWN:
+        case WM_KEYUP:
+        case WM_SYSKEYUP:
+            DirectX::Keyboard::ProcessMessage(message, wparam, lparam);
+            break;
         default:
         {
             return DefWindowProc(hwnd, message, wparam, lparam);
@@ -114,24 +140,21 @@ LRESULT MainWindow::messageHandler(HWND hwnd, UINT message, WPARAM wparam, LPARA
     }
     return 0;
 }
-void MainWindow::resize(int width, int height) 
-{
-
-}
-void MainWindow::showFullScreen() 
+void MainWindow::resize(int width, int height) {}
+void MainWindow::showFullScreen()
 {
     ShowWindow(m_hwnd, SHOW_FULLSCREEN);
 }
-void MainWindow::show() 
+void MainWindow::show()
 {
     ShowWindow(m_hwnd, SHOW_OPENWINDOW);
 }
-void MainWindow::hide() 
+void MainWindow::hide()
 {
     ShowWindow(m_hwnd, HIDE_WINDOW);
 }
-bool MainWindow::frame() 
+bool MainWindow::frame()
 {
-    return true;
+    return m_render->render();
 }
 } // namespace Tao3D

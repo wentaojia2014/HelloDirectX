@@ -73,13 +73,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Base\Application.cpp" />
+    <ClCompile Include="Base\DXResources.cpp" />
     <ClCompile Include="Base\MainWindow.cpp" />
     <ClCompile Include="Core\main.cpp" />
+    <ClCompile Include="Core\TriangleRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Application.h" />
+    <ClInclude Include="Base\Common.h" />
+    <ClInclude Include="Base\DXResources.h" />
+    <ClInclude Include="Base\IRender.h" />
     <ClInclude Include="Base\IWindow.h" />
     <ClInclude Include="Base\MainWindow.h" />
+    <ClInclude Include="Core\TriangleRender.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

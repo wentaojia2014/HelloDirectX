@@ -8,6 +8,12 @@ Application::Application()
 {
     self = this;
 }
+void Application::init(int width, int height, LPCSTR title, bool fullScreen)
+{
+    pWindow->init(width, height, title, fullScreen);
+    m_resources.init(width, height, pWindow->getHwnd(), fullScreen);
+    m_mouse.SetWindow(pWindow->getHwnd());
+}
 void Application::setWindow(IWindow *window)
 {
     pWindow = window;

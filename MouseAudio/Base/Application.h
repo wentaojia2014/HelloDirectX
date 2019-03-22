@@ -1,9 +1,20 @@
 #pragma once
+#include "DXResources.h"
 #include "IWindow.h"
+#include <DirectXTK/Audio.h>
+#include <DirectXTK/Keyboard.h>
+#include <DirectXTK/Mouse.h>
 #include <Windows.h>
 namespace Tao3D
 {
+
 #define gApp (Application::Instance())
+#define gWindow (Application::Instance().getWindow())
+#define gMouse (Application::Instance().getMouse())
+#define gKeyboard (Application::Instance().getKeyboard())
+#define gResource (Application::Instance().getResources())
+#define gDevice (Application::Instance().getResources().getDevice())
+#define gContext (Application::Instance().getResouces().getDeviceContext())
 
 class Application
 {
@@ -13,16 +24,38 @@ public:
     {
         return *self;
     }
+
+    void init(int width, int height, LPCSTR title, bool fullScreen = false);
     void setWindow(IWindow *window);
-    IWindow *getWindow() const 
+    IWindow *getWindow() const
     {
         return pWindow;
+    }
+    DirectX::Mouse &getMouse()
+    {
+        return m_mouse;
+    }
+    DirectX::Keyboard &getKeyboard()
+    {
+        return m_keyboard;
+    }
+    // DirectX::AudioEngine &getAudioEngine()
+    //{
+    //    return m_audioEngine;
+    //}
+    DXResources &getResources()
+    {
+        return m_resources;
     }
     void exec();
 
 private:
     static Application *self;
     IWindow *pWindow = nullptr;
+    DirectX::Mouse m_mouse;
+    DirectX::Keyboard m_keyboard;
+    DXResources m_resources;
+    // DirectX::AudioEngine m_audioEngine;
 };
 
 } // namespace Tao3D
