@@ -1,10 +1,11 @@
 #pragma once
 #include "DXResources.h"
 #include "IWindow.h"
+#include "IRender.h"
 #include <DirectXTK/Audio.h>
 #include <DirectXTK/Keyboard.h>
 #include <DirectXTK/Mouse.h>
-#include <Windows.h>
+
 namespace Tao3D
 {
 
@@ -14,7 +15,7 @@ namespace Tao3D
 #define gKeyboard (Application::Instance().getKeyboard())
 #define gResource (Application::Instance().getResources())
 #define gDevice (Application::Instance().getResources().getDevice())
-#define gContext (Application::Instance().getResouces().getDeviceContext())
+#define gContext (Application::Instance().getResources().getDeviceContext())
 
 class Application
 {
@@ -27,9 +28,14 @@ public:
 
     void init(int width, int height, LPCSTR title, bool fullScreen = false);
     void setWindow(IWindow *window);
+    void setRender(IRender *render);
     IWindow *getWindow() const
     {
-        return pWindow;
+        return m_pWindow;
+    }
+    IRender *getRender() const
+    {
+        return m_pRender;
     }
     DirectX::Mouse &getMouse()
     {
@@ -48,10 +54,11 @@ public:
         return m_resources;
     }
     void exec();
-
+    void quit();
 private:
     static Application *self;
-    IWindow *pWindow = nullptr;
+    IWindow *m_pWindow = nullptr;
+    IRender *m_pRender = nullptr;
     DirectX::Mouse m_mouse;
     DirectX::Keyboard m_keyboard;
     DXResources m_resources;

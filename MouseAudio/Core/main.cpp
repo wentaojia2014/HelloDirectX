@@ -7,8 +7,9 @@ int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR /*cmdParamarg*/, int /* cmdShow
 {
     Application app;
     TriangleRender render;
-    MainWindow window(&render);
+    MainWindow window;
     app.setWindow(&window);
+    app.setRender(&render);
     app.init(1024, 768, "MouseAudio");
     
     window.show();

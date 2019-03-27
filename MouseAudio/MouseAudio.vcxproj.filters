@@ -11,6 +11,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{7e0ac50d-6233-4cd6-af01-b3309b99ad57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{5565bb36-4c72-4c84-969b-69a2ff3d112b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\Application.cpp">
@@ -51,5 +54,10 @@
     <ClInclude Include="Core\TriangleRender.h">
       <Filter>Core</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Assets\roomtexture.dds">
+      <Filter>Assets</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

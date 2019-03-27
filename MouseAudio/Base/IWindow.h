@@ -12,7 +12,6 @@ public:
     virtual void showFullScreen() = 0;
     virtual void show() = 0;
     virtual void hide() = 0;
-    virtual bool frame() = 0;
     virtual HWND getHwnd() const = 0;
 public:
     virtual ~IWindow() {}

@@ -6,7 +6,8 @@ namespace Tao3D
     {
     public:
         virtual ~IRender() {}
-
+        virtual void init(int width, int height) = 0;
+        virtual void update() = 0;
         virtual bool render() = 0;
     };
 }

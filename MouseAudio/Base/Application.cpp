@@ -10,17 +10,22 @@ Application::Application()
 }
 void Application::init(int width, int height, LPCSTR title, bool fullScreen)
 {
-    pWindow->init(width, height, title, fullScreen);
-    m_resources.init(width, height, pWindow->getHwnd(), fullScreen);
-    m_mouse.SetWindow(pWindow->getHwnd());
+    m_pWindow->init(width, height, title, fullScreen);
+    m_resources.init(width, height, m_pWindow->getHwnd(), fullScreen);
+    m_pRender->init(width, height);
+    m_mouse.SetWindow(m_pWindow->getHwnd());
 }
 void Application::setWindow(IWindow *window)
 {
-    pWindow = window;
+    m_pWindow = window;
+}
+void Application::setRender(IRender *render)
+{
+    m_pRender = render;
 }
 void Application::exec()
 {
-    assert(pWindow != nullptr);
+    assert(m_pWindow != nullptr);
 
     MSG msg = { 0 };
     bool done = false;
@@ -38,12 +43,17 @@ void Application::exec()
         }
         else
         {
-            result = pWindow->frame();
+            m_pRender->update();
+            result = m_pRender->render();
             if (!result)
             {
                 done = true;
             }
         }
     }
+}
+void Application::quit()
+{
+    PostQuitMessage(0);
 }
 } // namespace Tao3D

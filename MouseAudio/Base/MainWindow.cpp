@@ -19,9 +19,8 @@ LRESULT CALLBACK MainWindow::MessageRouter(HWND hwnd, UINT message, WPARAM wpara
     }
     return me->messageHandler(hwnd, message, wparam, lparam);
 }
-MainWindow::MainWindow(IRender *render) : m_render(render) 
+MainWindow::MainWindow() 
 {
-    assert(render);
 }
 MainWindow::~MainWindow() {}
 void MainWindow::init(int width, int height, LPCSTR title, bool fullScreen)
@@ -153,8 +152,5 @@ void MainWindow::hide()
 {
     ShowWindow(m_hwnd, HIDE_WINDOW);
 }
-bool MainWindow::frame()
-{
-    return m_render->render();
-}
+
 } // namespace Tao3D

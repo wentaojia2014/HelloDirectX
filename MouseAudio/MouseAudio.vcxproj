@@ -87,6 +87,9 @@
     <ClInclude Include="Base\MainWindow.h" />
     <ClInclude Include="Core\TriangleRender.h" />
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Assets\roomtexture.dds" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
