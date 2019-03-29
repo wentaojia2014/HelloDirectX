@@ -5,53 +5,53 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Base">
-      <UniqueIdentifier>{aa4f5cde-2032-4f36-bf9a-5904d41c58ab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{7e0ac50d-6233-4cd6-af01-b3309b99ad57}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>{5565bb36-4c72-4c84-969b-69a2ff3d112b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tao3DCore">
+      <UniqueIdentifier>{aa4f5cde-2032-4f36-bf9a-5904d41c58ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Base\Application.cpp">
-      <Filter>Base</Filter>
+    <ClCompile Include="..\Tao3DCore\Application.cpp">
+      <Filter>Tao3DCore</Filter>
     </ClCompile>
-    <ClCompile Include="Base\MainWindow.cpp">
-      <Filter>Base</Filter>
+    <ClCompile Include="..\Tao3DCore\DXResources.cpp">
+      <Filter>Tao3DCore</Filter>
     </ClCompile>
-    <ClCompile Include="Core\main.cpp">
+    <ClCompile Include="..\Tao3DCore\MainWindow.cpp">
+      <Filter>Tao3DCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\main.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Base\DXResources.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\TriangleRender.cpp">
+    <ClCompile Include="Src\TriangleRender.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base\Application.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="..\Tao3DCore\Application.h">
+      <Filter>Tao3DCore</Filter>
     </ClInclude>
-    <ClInclude Include="Base\IWindow.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="..\Tao3DCore\Common.h">
+      <Filter>Tao3DCore</Filter>
     </ClInclude>
-    <ClInclude Include="Base\MainWindow.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="..\Tao3DCore\DXResources.h">
+      <Filter>Tao3DCore</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Common.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="..\Tao3DCore\IRender.h">
+      <Filter>Tao3DCore</Filter>
     </ClInclude>
-    <ClInclude Include="Base\DXResources.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="..\Tao3DCore\IWindow.h">
+      <Filter>Tao3DCore</Filter>
     </ClInclude>
-    <ClInclude Include="Base\IRender.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="..\Tao3DCore\MainWindow.h">
+      <Filter>Tao3DCore</Filter>
     </ClInclude>
-    <ClInclude Include="Core\TriangleRender.h">
+    <ClInclude Include="Src\TriangleRender.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

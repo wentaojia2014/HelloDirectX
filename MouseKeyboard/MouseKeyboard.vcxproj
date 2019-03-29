@@ -38,10 +38,12 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PropertySheet.props" />
+    <Import Project="..\Examples2Sheet.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PropertySheet.props" />
+    <Import Project="..\Examples2Sheet.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -72,20 +74,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base\Application.cpp" />
-    <ClCompile Include="Base\DXResources.cpp" />
-    <ClCompile Include="Base\MainWindow.cpp" />
-    <ClCompile Include="Core\main.cpp" />
-    <ClCompile Include="Core\TriangleRender.cpp" />
+    <ClCompile Include="..\Tao3DCore\Application.cpp" />
+    <ClCompile Include="..\Tao3DCore\DXResources.cpp" />
+    <ClCompile Include="..\Tao3DCore\MainWindow.cpp" />
+    <ClCompile Include="Src\main.cpp" />
+    <ClCompile Include="Src\TriangleRender.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base\Application.h" />
-    <ClInclude Include="Base\Common.h" />
-    <ClInclude Include="Base\DXResources.h" />
-    <ClInclude Include="Base\IRender.h" />
-    <ClInclude Include="Base\IWindow.h" />
-    <ClInclude Include="Base\MainWindow.h" />
-    <ClInclude Include="Core\TriangleRender.h" />
+    <ClInclude Include="..\Tao3DCore\Application.h" />
+    <ClInclude Include="..\Tao3DCore\Common.h" />
+    <ClInclude Include="..\Tao3DCore\DXResources.h" />
+    <ClInclude Include="..\Tao3DCore\IRender.h" />
+    <ClInclude Include="..\Tao3DCore\IWindow.h" />
+    <ClInclude Include="..\Tao3DCore\MainWindow.h" />
+    <ClInclude Include="Src\TriangleRender.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Assets\roomtexture.dds" />

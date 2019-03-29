@@ -15,9 +15,13 @@
 
 用来学习DirectX11/12图形编程的一些项目。
 
-参考 http://www.rastertek.com/tutdx11.html
+参考
 
-将其中旧的功能换成新的,包括XMMath 取代 D3DXMath,ComPtr和std智能指针管理内存,使用DirectXTK和DirectXTEX,以及其它一些优化。
+* http://www.rastertek.com/tutdx11.html
+
+* https://github.com/Microsoft/DirectXTK/wiki
+
+tutdx11网站中有些功能太旧了，俺都顺手给换新的。特别是ComPtr和std智能指针管理内存, D3DXMath 用 DirectXTK 中的SimpleMath。当然还有一些写的比较差的代码，诸如频繁内存分配的，都给优化掉。
 
 ## 目录结构
 - Base

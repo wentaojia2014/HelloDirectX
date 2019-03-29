@@ -1,6 +1,6 @@
 #pragma once
-#include "../Base/DXResources.h"
-#include "../Base/IRender.h"
+#include "DXResources.h"
+#include "IRender.h"
 #include <DirectXTK/GeometricPrimitive.h>
 #include <DirectXTK/SimpleMath.h>
 namespace Tao3D

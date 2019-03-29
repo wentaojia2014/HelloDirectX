@@ -1,14 +1,14 @@
 #include "TriangleRender.h"
 
-#include "../Base/Application.h"
-#include "../Base/Common.h"
+#include "Application.h"
+#include "Common.h"
 
-#include <algorithm>
 #include <DirectXTK/DDSTextureLoader.h>
+#include <algorithm>
 
 namespace Tao3D
 {
-TriangleRender::TriangleRender() 
+TriangleRender::TriangleRender()
 {
     m_cameraPos = START_POSITION.v;
 }
@@ -23,17 +23,17 @@ void TriangleRender::init(int width, int height)
 void TriangleRender::update()
 {
     auto kb = gKeyboard.GetState();
-    if (kb.Escape) 
+    if (kb.Escape)
     {
         gApp.quit();
     }
-    if (kb.Home) 
+    if (kb.Home)
     {
         m_cameraPos = START_POSITION.v;
         m_pitch = m_yaw = 0;
     }
     Vector3 move = Vector3::Zero;
-    if (kb.Up || kb.W) 
+    if (kb.Up || kb.W)
     {
         move.y += m_cameraSpeed;
     }
@@ -66,7 +66,7 @@ void TriangleRender::update()
     m_cameraPos = Vector3::Max(m_cameraPos, -halfBound);
 
     auto mouse = gMouse.GetState();
-    if (mouse.positionMode == Mouse::MODE_RELATIVE) 
+    if (mouse.positionMode == Mouse::MODE_RELATIVE)
     {
         Vector3 delta = Vector3(float(mouse.x), float(mouse.y), 0.f) * ROTATION_GAIN;
         m_pitch -= delta.y;
@@ -76,7 +76,7 @@ void TriangleRender::update()
 
         m_pitch = (std::max)(-limit, m_pitch);
         m_pitch = (std::min)(limit, m_pitch);
-        if (m_yaw > XM_PI) 
+        if (m_yaw > XM_PI)
         {
             m_yaw -= XM_PI * 2.0f;
         }
