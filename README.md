@@ -46,13 +46,13 @@
 
   命令行工具，用来转换obj格式模型文件为txt格式
 
-- MouseAudio
+- MouseKeyboard
 
   场景贴图，使用键盘可以上下左右移动、鼠标控制相机视口。
   
   重写的代码框架，与前面的都不一样。
 
-  ![](DemoImages/MouseAudio.png)
+  ![](DemoImages/MouseKeyboard.png)
 
 ## 安装依赖
 

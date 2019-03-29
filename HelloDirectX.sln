@@ -37,7 +37,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FontEngine", "FontEngine\Fo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples2", "Examples2", "{9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseAudio", "MouseAudio\MouseAudio.vcxproj", "{DFA948BE-6DBA-4793-AB02-24B0C1D76BAD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseKeyboard", "MouseKeyboard\MouseKeyboard.vcxproj", "{DFA948BE-6DBA-4793-AB02-24B0C1D76BAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
