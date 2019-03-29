@@ -30,8 +30,8 @@ class DXResources
 public:
     bool init(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen);
     void uninit();
-
-    void beginScene(float r, float g, float b, float a);
+    void setClearColor(float r, float g, float b, float a);
+    void beginScene();
     void endScene();
     ID3D11Device *getDevice()
     {
@@ -45,7 +45,7 @@ public:
     {
         return m_projection;
     }
-    const Matrix &getWorldMatrix() const 
+    const Matrix &getWorldMatrix() const
     {
         return m_world;
     }
@@ -59,6 +59,7 @@ public:
 
     void turnAlphaBlendingOn();
     void turnAlphaBlendingOff();
+
 protected:
     void initSwapChain(HWND hwnd, bool fullScreen);
     void initMatrix();
@@ -68,6 +69,7 @@ protected:
     void initRenderTarget();
     void initViewPort();
     void initBlend();
+
 private:
     int m_screenWidth;
     int m_screenHeight;
@@ -81,7 +83,7 @@ private:
     ComPtr<ID3D11DepthStencilState> m_depthDisabledStencilState = nullptr;
     ComPtr<ID3D11DepthStencilView> m_depthStencilView = nullptr;
     ComPtr<ID3D11RasterizerState> m_rasterState = nullptr;
-    ComPtr < ID3D11Texture2D> m_backBuffer = nullptr;
+    ComPtr<ID3D11Texture2D> m_backBuffer = nullptr;
 
     ComPtr<ID3D11BlendState> m_alphaEnabledBlendingState = nullptr;
     ComPtr<ID3D11BlendState> m_alphaDisabledBlendingState = nullptr;
@@ -93,6 +95,7 @@ private:
     Matrix m_projection;
     Matrix m_world;
     Matrix m_ortho;
+    float m_clearColor[4] = { 0.2f, 0.3f, 0.4f, 1.0f };
 };
 
 } // namespace Tao3D

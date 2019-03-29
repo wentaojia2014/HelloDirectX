@@ -20,11 +20,16 @@ namespace Tao3D
     {
         m_swapChain->SetFullscreenState(false, nullptr);
     }
-    void DXResources::beginScene(float r, float g, float b, float a)
+    void DXResources::setClearColor(float r, float g, float b, float a)
     {
-        float color[4] = { r, g, b, a };
-
-        m_context->ClearRenderTargetView(m_targetView.Get(), color);
+        m_clearColor[0] = r;
+        m_clearColor[1] = g;
+        m_clearColor[2] = b;
+        m_clearColor[3] = a;
+    }
+    void DXResources::beginScene()
+    {
+        m_context->ClearRenderTargetView(m_targetView.Get(), m_clearColor);
         m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 
     }

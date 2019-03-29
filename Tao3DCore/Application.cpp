@@ -43,8 +43,10 @@ void Application::exec()
         }
         else
         {
+            gResource.beginScene();
             m_pRender->update();
             result = m_pRender->render();
+            gResource.endScene();
             if (!result)
             {
                 done = true;

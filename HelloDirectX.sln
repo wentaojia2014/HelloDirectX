@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples2", "Examples2", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseKeyboard", "MouseKeyboard\MouseKeyboard.vcxproj", "{DFA948BE-6DBA-4793-AB02-24B0C1D76BAD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawText", "DrawText\DrawText.vcxproj", "{6BD8D0E9-3933-4165-9DF3-0867E6536522}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -83,6 +85,12 @@ Global
 		{DFA948BE-6DBA-4793-AB02-24B0C1D76BAD}.Release|x64.ActiveCfg = Release|x64
 		{DFA948BE-6DBA-4793-AB02-24B0C1D76BAD}.Release|x64.Build.0 = Release|x64
 		{DFA948BE-6DBA-4793-AB02-24B0C1D76BAD}.Release|x86.ActiveCfg = Release|x64
+		{6BD8D0E9-3933-4165-9DF3-0867E6536522}.Debug|x64.ActiveCfg = Debug|x64
+		{6BD8D0E9-3933-4165-9DF3-0867E6536522}.Debug|x64.Build.0 = Debug|x64
+		{6BD8D0E9-3933-4165-9DF3-0867E6536522}.Debug|x86.ActiveCfg = Debug|x64
+		{6BD8D0E9-3933-4165-9DF3-0867E6536522}.Release|x64.ActiveCfg = Release|x64
+		{6BD8D0E9-3933-4165-9DF3-0867E6536522}.Release|x64.Build.0 = Release|x64
+		{6BD8D0E9-3933-4165-9DF3-0867E6536522}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +102,7 @@ Global
 		{B1951DBA-4E2A-4C49-8296-8A0A4F965388} = {CF05FA25-BCF9-4767-B72B-9EBF58887CBE}
 		{4FB4D22F-3A21-454A-A466-C6258E0B3CA0} = {CF05FA25-BCF9-4767-B72B-9EBF58887CBE}
 		{DFA948BE-6DBA-4793-AB02-24B0C1D76BAD} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
+		{6BD8D0E9-3933-4165-9DF3-0867E6536522} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93889E8F-9CB2-4F3A-A3E3-AF31A6DA8C3A}

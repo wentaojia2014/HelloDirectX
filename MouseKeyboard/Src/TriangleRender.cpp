@@ -89,7 +89,6 @@ void TriangleRender::update()
 }
 bool TriangleRender::render()
 {
-    gResource.beginScene(0.2f, 0.3f, 0.4f, 1.0f);
     float y = sinf(m_pitch);
     float r = cosf(m_pitch);
     float z = r * cosf(m_yaw);
@@ -98,7 +97,6 @@ bool TriangleRender::render()
     XMMATRIX view = XMMatrixLookAtRH(m_cameraPos, lookAt, Vector3::Up);
 
     m_room->Draw(Matrix::Identity, view, m_proj, Colors::White, m_rootTex.Get());
-    gResource.endScene();
     return true;
 }
 } // namespace Tao3D

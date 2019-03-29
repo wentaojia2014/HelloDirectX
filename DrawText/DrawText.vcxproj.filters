@@ -2,13 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Assets">
-      <UniqueIdentifier>{5565bb36-4c72-4c84-969b-69a2ff3d112b}</UniqueIdentifier>
+      <UniqueIdentifier>{ddacb9c9-4cc5-4584-a136-c9fb3fc4b8ac}</UniqueIdentifier>
     </Filter>
     <Filter Include="Tao3DCore">
-      <UniqueIdentifier>{aa4f5cde-2032-4f36-bf9a-5904d41c58ab}</UniqueIdentifier>
+      <UniqueIdentifier>{1b4a760d-9144-4d6e-baf4-505bba231cb5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src">
-      <UniqueIdentifier>{7e0ac50d-6233-4cd6-af01-b3309b99ad57}</UniqueIdentifier>
+      <UniqueIdentifier>{9d12685c-c7fd-403e-a797-77c1ff8c9cfe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,7 +24,7 @@
     <ClCompile Include="Src\main.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\TriangleRender.cpp">
+    <ClCompile Include="Src\TextRender.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,13 +47,25 @@
     <ClInclude Include="..\Tao3DCore\MainWindow.h">
       <Filter>Tao3DCore</Filter>
     </ClInclude>
-    <ClInclude Include="Src\TriangleRender.h">
+    <ClInclude Include="Src\TextRender.h">
       <Filter>Src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Assets\roomtexture.dds">
+    <None Include="Assets\TaoFont.spritefont">
       <Filter>Assets</Filter>
-    </CopyFileToFolders>
+    </None>
+    <None Include="Assets\TaoFont-Bold.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\TaoFont-Italic.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\TaoFont-Strikeout.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\TaoFont-Underline.spritefont">
+      <Filter>Assets</Filter>
+    </None>
   </ItemGroup>
 </Project>
