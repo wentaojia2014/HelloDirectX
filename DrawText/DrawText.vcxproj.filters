@@ -52,20 +52,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\TaoFont.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="Assets\TaoFont-Bold.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="Assets\TaoFont-Italic.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="Assets\TaoFont-Strikeout.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="Assets\TaoFont-Underline.spritefont">
-      <Filter>Assets</Filter>
-    </None>
+    <CopyFileToFolders Include="Assets\TaoFont-Bold.spritefont" />
+    <CopyFileToFolders Include="Assets\TaoFont-Italic.spritefont" />
+    <CopyFileToFolders Include="Assets\TaoFont-Strikeout.spritefont" />
+    <CopyFileToFolders Include="Assets\TaoFont-Underline.spritefont" />
+    <CopyFileToFolders Include="Assets\TaoFont.spritefont" />
   </ItemGroup>
 </Project>
