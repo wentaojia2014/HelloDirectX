@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include <system_error>
+
 namespace Tao3D
 {
 static std::string GetLastErrorAsString()
