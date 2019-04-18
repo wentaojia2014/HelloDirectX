@@ -15,6 +15,9 @@ void TextureRender::init(int width, int height)
 {
     ThrowIfFailed(CoInitializeEx(nullptr, COINITBASE_MULTITHREADED), "CoInitializeEx");
     m_spriteBatch = std::make_unique<SpriteBatch>(gContext);
+    m_commanStates = std::make_unique<CommonStates>(gDevice);
+
+
     ComPtr<ID3D11Resource> resource;
     ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"cat.png", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
     ComPtr<ID3D11Texture2D> cat;
@@ -97,7 +100,8 @@ void TextureRender::update()
 }
 bool TextureRender::render()
 {
-    m_spriteBatch->Begin();
+    m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commanStates->NonPremultiplied());
+
     m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::PapayaWhip, 0.f, m_origin);
     m_spriteBatch->End();
     return true;

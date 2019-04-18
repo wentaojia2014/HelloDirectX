@@ -4,6 +4,7 @@
 #include <DirectXTK/GeometricPrimitive.h>
 #include <DirectXTK/SimpleMath.h>
 #include <DirectXTK/SpriteBatch.h>
+#include <DirectXTK/CommonStates.h>
 namespace Tao3D
 {
 const XMVECTORF32 START_POSITION = { 0.f, -1.5f, 0.f, 0.f };
@@ -22,6 +23,7 @@ public:
 
 private:
     std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch = nullptr;
+    std::unique_ptr<DirectX::CommonStates> m_commanStates = nullptr;
     ComPtr<ID3D11ShaderResourceView> m_texture;
     Vector2 m_screenPos;
     Vector2 m_origin;
