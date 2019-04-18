@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{5565bb36-4c72-4c84-969b-69a2ff3d112b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tao3DCore">
+      <UniqueIdentifier>{aa4f5cde-2032-4f36-bf9a-5904d41c58ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{7e0ac50d-6233-4cd6-af01-b3309b99ad57}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Tao3DCore\Application.cpp">
+      <Filter>Tao3DCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Tao3DCore\DXResources.cpp">
+      <Filter>Tao3DCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Tao3DCore\MainWindow.cpp">
+      <Filter>Tao3DCore</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\main.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TextureRender.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Tao3DCore\Application.h">
+      <Filter>Tao3DCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tao3DCore\Common.h">
+      <Filter>Tao3DCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tao3DCore\DXResources.h">
+      <Filter>Tao3DCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tao3DCore\IRender.h">
+      <Filter>Tao3DCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tao3DCore\IWindow.h">
+      <Filter>Tao3DCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Tao3DCore\MainWindow.h">
+      <Filter>Tao3DCore</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\TextureRender.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\cat.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

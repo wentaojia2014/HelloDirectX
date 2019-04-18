@@ -26,7 +26,7 @@ void TriangleRender::init(int width, int height)
     ThrowIfFailed(CreateDDSTextureFromFile(gDevice, L"roomtexture.dds", nullptr, m_rootTex.GetAddressOf()), "CreateDDSTextureFromFile");
     m_proj = Matrix::CreatePerspectiveFieldOfView(XMConvertToRadians(70.0f), (float)width / height, 0.01f, 100.f);
 
-    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+    ThrowIfFailed(CoInitializeEx(nullptr, COINIT_MULTITHREADED), "CoInitializeEx");
     AUDIO_ENGINE_FLAGS flags = AudioEngine_Default;
 #ifdef _DEBUG
     flags = flags | AudioEngine_Debug;
