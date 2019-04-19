@@ -57,8 +57,9 @@ bool TextureRender::render()
 #else
     m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commanStates->NonPremultiplied());
 #endif
-    // auto cost = std::chrono::high_resolution_clock::now() - m_point;
-    // auto seconds = std::chrono::duration_cast<std::chrono::milliseconds>(cost).count();
+     auto cost = std::chrono::high_resolution_clock::now() - m_point;
+     auto seconds = std::chrono::duration_cast<std::chrono::milliseconds>(cost).count();
+     
     static int degree = 0;
     static int acc = 0;
     float rotation = sinf((degree * 1.0f) * XM_PI / 180);
@@ -68,7 +69,8 @@ bool TextureRender::render()
         acc = 0;
         degree++;
     }
-    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::PapayaWhip, rotation, m_origin);
+    float scale = rotation + 2.0f;
+    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::PapayaWhip, rotation, m_origin, scale);
     m_spriteBatch->End();
     return true;
 }
