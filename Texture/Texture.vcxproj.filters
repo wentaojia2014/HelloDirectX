@@ -52,8 +52,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\cat.png">
+    <CopyFileToFolders Include="Assets\cat.png" />
+    <CopyFileToFolders Include="Assets\cat.DDS">
       <Filter>Assets</Filter>
-    </Image>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

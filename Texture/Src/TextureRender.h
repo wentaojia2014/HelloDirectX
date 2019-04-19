@@ -5,6 +5,7 @@
 #include <DirectXTK/SimpleMath.h>
 #include <DirectXTK/SpriteBatch.h>
 #include <DirectXTK/CommonStates.h>
+
 namespace Tao3D
 {
 const XMVECTORF32 START_POSITION = { 0.f, -1.5f, 0.f, 0.f };

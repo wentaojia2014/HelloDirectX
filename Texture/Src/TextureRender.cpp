@@ -3,7 +3,14 @@
 #include "Application.h"
 #include "Common.h"
 
+#define USE_DDS
+
+#ifdef USE_DDS
+#include <DirectXTK/DDSTextureLoader.h>
+#else
 #include <DirectXTK/WICTextureLoader.h>
+#endif
+
 #include <algorithm>
 
 namespace Tao3D
@@ -17,9 +24,12 @@ void TextureRender::init(int width, int height)
     m_spriteBatch = std::make_unique<SpriteBatch>(gContext);
     m_commanStates = std::make_unique<CommonStates>(gDevice);
 
-
     ComPtr<ID3D11Resource> resource;
+#ifdef USE_DDS
+    ThrowIfFailed(CreateDDSTextureFromFile(gDevice, L"cat.DDS", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
+#else
     ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"cat.png", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
+#endif
     ComPtr<ID3D11Texture2D> cat;
     ThrowIfFailed(resource.As(&cat), "As");
 
@@ -100,7 +110,11 @@ void TextureRender::update()
 }
 bool TextureRender::render()
 {
+#ifdef USE_DDS
+    m_spriteBatch->Begin();
+#else
     m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commanStates->NonPremultiplied());
+#endif
 
     m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::PapayaWhip, 0.f, m_origin);
     m_spriteBatch->End();
