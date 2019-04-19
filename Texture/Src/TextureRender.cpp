@@ -5,11 +5,8 @@
 
 #define USE_DDS
 
-#ifdef USE_DDS
 #include <DirectXTK/DDSTextureLoader.h>
-#else
 #include <DirectXTK/WICTextureLoader.h>
-#endif
 
 #include <algorithm>
 
@@ -30,16 +27,34 @@ void TextureRender::init(int width, int height)
 #else
     ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"cat.png", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
 #endif
+
+    ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"sunset.jpg", nullptr, m_background.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
+    ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"shipanimated.png", nullptr, m_shipTexture.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
+
+    m_ship = std::make_unique<AnimatedTexture>();
+    m_ship->Load(m_shipTexture.Get(), 4, 20);
+
     ComPtr<ID3D11Texture2D> cat;
     ThrowIfFailed(resource.As(&cat), "As");
 
     CD3D11_TEXTURE2D_DESC catDesc;
     cat->GetDesc(&catDesc);
+    m_screenRect.left = 0;
+    m_screenRect.top = 0;
+    m_screenRect.bottom = height;
+    m_screenRect.right = width;
+
     m_origin.x = static_cast<float>(catDesc.Width) / 2;
     m_origin.y = static_cast<float>(catDesc.Height) / 2;
-
+    m_tileRect.left = catDesc.Width * 2;
+    m_tileRect.right = catDesc.Width * 6;
+    m_tileRect.top = catDesc.Height * 2;
+    m_tileRect.bottom = catDesc.Height * 6;
     m_screenPos.x = static_cast<float>(width) / 2;
     m_screenPos.y = static_cast<float>(height) / 2;
+    m_shipPos.x = static_cast<float>(width) / 2;
+    m_shipPos.y = static_cast<float>(height) / 2 + height / 4;
+
     m_point = std::chrono::high_resolution_clock::now();
 }
 void TextureRender::update()
@@ -49,17 +64,18 @@ void TextureRender::update()
     {
         gApp.quit();
     }
+    auto cost = std::chrono::high_resolution_clock::now() - m_point;
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(cost).count();
+    m_ship->Update(elapsedTime);
 }
 bool TextureRender::render()
 {
 #ifdef USE_DDS
-    m_spriteBatch->Begin();
+    m_spriteBatch->Begin(SpriteSortMode_Deferred, nullptr, m_commanStates->LinearWrap());
 #else
     m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commanStates->NonPremultiplied());
 #endif
-     auto cost = std::chrono::high_resolution_clock::now() - m_point;
-     auto seconds = std::chrono::duration_cast<std::chrono::milliseconds>(cost).count();
-     
+
     static int degree = 0;
     static int acc = 0;
     float rotation = sinf((degree * 1.0f) * XM_PI / 180);
@@ -70,7 +86,12 @@ bool TextureRender::render()
         degree++;
     }
     float scale = rotation + 2.0f;
-    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::PapayaWhip, rotation, m_origin, scale);
+    //m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::ForestGreen, rotation, m_origin, scale);
+    //m_spriteBatch->Draw(m_texture.Get(), m_screenPos, &m_tileRect, Colors::White, 0.f, m_origin);
+
+    m_spriteBatch->Draw(m_background.Get(), m_screenRect);
+    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::White, rotation, m_origin, scale);
+    m_ship->Draw(m_spriteBatch.get(), m_shipPos);
     m_spriteBatch->End();
     return true;
 }

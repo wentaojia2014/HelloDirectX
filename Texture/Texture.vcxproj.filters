@@ -50,10 +50,19 @@
     <ClInclude Include="Src\TextureRender.h">
       <Filter>Src</Filter>
     </ClInclude>
+    <ClInclude Include="Src\AnimatedTexture.h">
+      <Filter>Src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Assets\cat.png" />
     <CopyFileToFolders Include="Assets\cat.DDS">
+      <Filter>Assets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Assets\sunset.jpg">
+      <Filter>Assets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Assets\shipanimated.png">
       <Filter>Assets</Filter>
     </CopyFileToFolders>
   </ItemGroup>

@@ -87,6 +87,7 @@
     <ClInclude Include="..\Tao3DCore\IRender.h" />
     <ClInclude Include="..\Tao3DCore\IWindow.h" />
     <ClInclude Include="..\Tao3DCore\MainWindow.h" />
+    <ClInclude Include="Src\AnimatedTexture.h" />
     <ClInclude Include="Src\TextureRender.h" />
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Assets\cat.DDS" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Assets\sunset.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Assets\shipanimated.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

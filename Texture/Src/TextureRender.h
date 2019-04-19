@@ -6,6 +6,8 @@
 #include <DirectXTK/SimpleMath.h>
 #include <DirectXTK/SpriteBatch.h>
 
+#include "AnimatedTexture.h"
+
 #include <chrono>
 namespace Tao3D
 {
@@ -26,9 +28,15 @@ public:
 private:
     std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch = nullptr;
     std::unique_ptr<DirectX::CommonStates> m_commanStates = nullptr;
+    std::unique_ptr<AnimatedTexture> m_ship = nullptr;
     ComPtr<ID3D11ShaderResourceView> m_texture;
+    ComPtr<ID3D11ShaderResourceView> m_background;
+    ComPtr<ID3D11ShaderResourceView> m_shipTexture;
     std::chrono::time_point<std::chrono::steady_clock> m_point;
+    Vector2 m_shipPos;
     Vector2 m_screenPos;
     Vector2 m_origin;
+    RECT m_tileRect = { 0 };
+    RECT m_screenRect = { 0 };
 };
 } // namespace Tao3D
