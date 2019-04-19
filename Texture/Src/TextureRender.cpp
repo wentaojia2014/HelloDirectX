@@ -28,9 +28,11 @@ void TextureRender::init(int width, int height)
     ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"cat.png", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
 #endif
 
-    ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"sunset.jpg", nullptr, m_background.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
+    ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"starfield.png", nullptr, m_background.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
     ThrowIfFailed(CreateWICTextureFromFile(gDevice, L"shipanimated.png", nullptr, m_shipTexture.ReleaseAndGetAddressOf()), "CreateWICTextureFromFile");
-
+    m_scrollBackground = std::make_unique<ScrollingBackground>();
+    m_scrollBackground->Load(m_background.Get());
+    m_scrollBackground->SetWindow(width, height);
     m_ship = std::make_unique<AnimatedTexture>();
     m_ship->Load(m_shipTexture.Get(), 4, 20);
 
@@ -67,6 +69,7 @@ void TextureRender::update()
     auto cost = std::chrono::high_resolution_clock::now() - m_point;
     auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(cost).count();
     m_ship->Update(elapsedTime);
+    m_scrollBackground->Update(elapsedTime);
 }
 bool TextureRender::render()
 {
@@ -88,9 +91,9 @@ bool TextureRender::render()
     float scale = rotation + 2.0f;
     //m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::ForestGreen, rotation, m_origin, scale);
     //m_spriteBatch->Draw(m_texture.Get(), m_screenPos, &m_tileRect, Colors::White, 0.f, m_origin);
-
-    m_spriteBatch->Draw(m_background.Get(), m_screenRect);
-    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::White, rotation, m_origin, scale);
+    //m_spriteBatch->Draw(m_background.Get(), m_screenRect);
+    m_scrollBackground->Draw(m_spriteBatch.get());
+    //m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::White, rotation, m_origin, scale);
     m_ship->Draw(m_spriteBatch.get(), m_shipPos);
     m_spriteBatch->End();
     return true;

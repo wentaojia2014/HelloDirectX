@@ -7,7 +7,7 @@
 #include <DirectXTK/SpriteBatch.h>
 
 #include "AnimatedTexture.h"
-
+#include "ScrollingBackground.h"
 #include <chrono>
 namespace Tao3D
 {
@@ -29,6 +29,7 @@ private:
     std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch = nullptr;
     std::unique_ptr<DirectX::CommonStates> m_commanStates = nullptr;
     std::unique_ptr<AnimatedTexture> m_ship = nullptr;
+    std::unique_ptr<ScrollingBackground> m_scrollBackground = nullptr;
     ComPtr<ID3D11ShaderResourceView> m_texture;
     ComPtr<ID3D11ShaderResourceView> m_background;
     ComPtr<ID3D11ShaderResourceView> m_shipTexture;

@@ -53,6 +53,9 @@
     <ClInclude Include="Src\AnimatedTexture.h">
       <Filter>Src</Filter>
     </ClInclude>
+    <ClInclude Include="Src\ScrollingBackground.h">
+      <Filter>Src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Assets\cat.png" />
@@ -63,6 +66,9 @@
       <Filter>Assets</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Assets\shipanimated.png">
+      <Filter>Assets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Assets\starfield.png">
       <Filter>Assets</Filter>
     </CopyFileToFolders>
   </ItemGroup>
