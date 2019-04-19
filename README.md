@@ -93,6 +93,11 @@ tutdx11网站中有些功能太旧了，俺都顺手给换新的。
   鼠标位置写出来，这个想法来自tutdx11 13章
 
 	![](DemoImages/DrawText.png)
+- Texture
+    
+    精灵渲染 一只猫
+    
+    ![](DemoImages/Texture.png)
 
 ## 安装依赖
 
