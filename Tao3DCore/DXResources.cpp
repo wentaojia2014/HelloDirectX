@@ -128,7 +128,7 @@ namespace Tao3D
         ComPtr < IDXGIAdapter> adapter = nullptr;
         ComPtr < IDXGIOutput> adapterOutput = nullptr;
 
-        unsigned int numModes;
+        unsigned int numModes = 0;
         DXGI_MODE_DESC *modeList;
         DXGI_ADAPTER_DESC adapterDesc;
         ThrowIfFailed(CreateDXGIFactory(__uuidof(IDXGIFactory), (void **)factory.GetAddressOf()), "CreateDXGIFactory");

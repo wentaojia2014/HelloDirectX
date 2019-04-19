@@ -1,11 +1,12 @@
 #pragma once
 #include "DXResources.h"
 #include "IRender.h"
+#include <DirectXTK/CommonStates.h>
 #include <DirectXTK/GeometricPrimitive.h>
 #include <DirectXTK/SimpleMath.h>
 #include <DirectXTK/SpriteBatch.h>
-#include <DirectXTK/CommonStates.h>
 
+#include <chrono>
 namespace Tao3D
 {
 const XMVECTORF32 START_POSITION = { 0.f, -1.5f, 0.f, 0.f };
@@ -26,6 +27,7 @@ private:
     std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch = nullptr;
     std::unique_ptr<DirectX::CommonStates> m_commanStates = nullptr;
     ComPtr<ID3D11ShaderResourceView> m_texture;
+    std::chrono::time_point<std::chrono::steady_clock> m_point;
     Vector2 m_screenPos;
     Vector2 m_origin;
 };

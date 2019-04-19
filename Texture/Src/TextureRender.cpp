@@ -40,6 +40,7 @@ void TextureRender::init(int width, int height)
 
     m_screenPos.x = static_cast<float>(width) / 2;
     m_screenPos.y = static_cast<float>(height) / 2;
+    m_point = std::chrono::high_resolution_clock::now();
 }
 void TextureRender::update()
 {
@@ -48,65 +49,6 @@ void TextureRender::update()
     {
         gApp.quit();
     }
-    // if (kb.Home)
-    //{
-    //    m_cameraPos = START_POSITION.v;
-    //    m_pitch = m_yaw = 0;
-    //}
-    // Vector3 move = Vector3::Zero;
-    // if (kb.Up || kb.W)
-    //{
-    //    move.y += m_cameraSpeed;
-    //}
-    // if (kb.Down || kb.S)
-    //{
-    //    move.y -= m_cameraSpeed;
-    //}
-    // if (kb.Left || kb.A)
-    //{
-    //    move.x += m_cameraSpeed;
-    //}
-    // if (kb.Right || kb.D)
-    //{
-    //    move.x -= m_cameraSpeed;
-    //}
-    // if (kb.PageUp || kb.Space)
-    //{
-    //    move.z += m_cameraSpeed;
-    //}
-    // if (kb.PageDown || kb.X)
-    //{
-    //    move.z -= m_cameraSpeed;
-    //}
-    // Quaternion q = Quaternion::CreateFromYawPitchRoll(m_yaw, m_pitch, 0.f);
-    // move = Vector3::Transform(move, q);
-    // move *= MOVEMENT_GAIN;
-    // m_cameraPos += move;
-    // Vector3 halfBound = (Vector3(ROOM_BOUNDS.v) / Vector3(2.f)) - Vector3(0.1f, 0.1f, 0.1f);
-    // m_cameraPos = Vector3::Min(m_cameraPos, halfBound);
-    // m_cameraPos = Vector3::Max(m_cameraPos, -halfBound);
-
-    // auto mouse = gMouse.GetState();
-    // if (mouse.positionMode == Mouse::MODE_RELATIVE)
-    //{
-    //    Vector3 delta = Vector3(float(mouse.x), float(mouse.y), 0.f) * ROTATION_GAIN;
-    //    m_pitch -= delta.y;
-    //    m_yaw -= delta.x;
-
-    //    float limit = XM_PI / 2.0f - 0.01f;
-
-    //    m_pitch = (std::max)(-limit, m_pitch);
-    //    m_pitch = (std::min)(limit, m_pitch);
-    //    if (m_yaw > XM_PI)
-    //    {
-    //        m_yaw -= XM_PI * 2.0f;
-    //    }
-    //    else if (m_yaw < -XM_PI)
-    //    {
-    //        m_yaw += XM_PI * 2.0f;
-    //    }
-    //}
-    // gMouse.SetMode(mouse.leftButton ? Mouse::MODE_RELATIVE : Mouse::MODE_ABSOLUTE);
 }
 bool TextureRender::render()
 {
@@ -115,8 +57,18 @@ bool TextureRender::render()
 #else
     m_spriteBatch->Begin(SpriteSortMode_Deferred, m_commanStates->NonPremultiplied());
 #endif
-
-    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::PapayaWhip, 0.f, m_origin);
+    // auto cost = std::chrono::high_resolution_clock::now() - m_point;
+    // auto seconds = std::chrono::duration_cast<std::chrono::milliseconds>(cost).count();
+    static int degree = 0;
+    static int acc = 0;
+    float rotation = sinf((degree * 1.0f) * XM_PI / 180);
+    acc++;
+    if (acc == 10)
+    {
+        acc = 0;
+        degree++;
+    }
+    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::PapayaWhip, rotation, m_origin);
     m_spriteBatch->End();
     return true;
 }
