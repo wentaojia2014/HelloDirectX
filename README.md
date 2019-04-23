@@ -70,6 +70,7 @@ tutdx11网站中有些功能太旧了，俺都顺手给换新的。
   
   (tutdx11教程的7、8章用到转换器)
 
+
 - MouseKeyboard
 
   场景贴图，使用键盘可以上下左右移动、鼠标控制相机视口。
@@ -81,6 +82,14 @@ tutdx11网站中有些功能太旧了，俺都顺手给换新的。
   自己重写的窗口渲染框架，与前面的Examples都不一样了。
 
   ![](DemoImages/MouseKeyboard.png)
+
+- Triangle
+
+  渲染三角形
+    
+  新框架，使用DirectXTK现有的功能，代码行数急剧下降。
+  
+  ![](DemoImages/Triangle.png)
 
 - DrawText
 

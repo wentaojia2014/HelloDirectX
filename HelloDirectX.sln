@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloDX", "HelloDx\HelloDX.vcxproj", "{5D126280-8C53-4A1C-AF2A-40C17FCDC2B9}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -44,6 +44,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Audio\Audio.vcxproj", "{EEB7CB3B-EE8C-47E1-A208-602482D0F644}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Texture", "Texture\Texture.vcxproj", "{9E58C448-38B3-4D38-8DC2-A69E78F22817}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Triangle", "Triangle\Triangle.vcxproj", "{16F93C86-8FCE-4636-A41C-EA8133BC91B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,12 @@ Global
 		{9E58C448-38B3-4D38-8DC2-A69E78F22817}.Release|x64.ActiveCfg = Release|x64
 		{9E58C448-38B3-4D38-8DC2-A69E78F22817}.Release|x64.Build.0 = Release|x64
 		{9E58C448-38B3-4D38-8DC2-A69E78F22817}.Release|x86.ActiveCfg = Release|x64
+		{16F93C86-8FCE-4636-A41C-EA8133BC91B3}.Debug|x64.ActiveCfg = Debug|x64
+		{16F93C86-8FCE-4636-A41C-EA8133BC91B3}.Debug|x64.Build.0 = Debug|x64
+		{16F93C86-8FCE-4636-A41C-EA8133BC91B3}.Debug|x86.ActiveCfg = Debug|x64
+		{16F93C86-8FCE-4636-A41C-EA8133BC91B3}.Release|x64.ActiveCfg = Release|x64
+		{16F93C86-8FCE-4636-A41C-EA8133BC91B3}.Release|x64.Build.0 = Release|x64
+		{16F93C86-8FCE-4636-A41C-EA8133BC91B3}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,6 +129,7 @@ Global
 		{6BD8D0E9-3933-4165-9DF3-0867E6536522} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
 		{EEB7CB3B-EE8C-47E1-A208-602482D0F644} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
 		{9E58C448-38B3-4D38-8DC2-A69E78F22817} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
+		{16F93C86-8FCE-4636-A41C-EA8133BC91B3} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93889E8F-9CB2-4F3A-A3E3-AF31A6DA8C3A}

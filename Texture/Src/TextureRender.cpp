@@ -93,7 +93,7 @@ bool TextureRender::render()
     //m_spriteBatch->Draw(m_texture.Get(), m_screenPos, &m_tileRect, Colors::White, 0.f, m_origin);
     //m_spriteBatch->Draw(m_background.Get(), m_screenRect);
     m_scrollBackground->Draw(m_spriteBatch.get());
-    //m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::White, rotation, m_origin, scale);
+    m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::White, rotation, m_origin, scale);
     m_ship->Draw(m_spriteBatch.get(), m_shipPos);
     m_spriteBatch->End();
     return true;
