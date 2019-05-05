@@ -10,7 +10,7 @@ int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR /*cmdParamarg*/, int /* cmdShow
     MainWindow window;
     app.setWindow(&window);
     app.setRender(&render);
-    app.init(1024, 768, "MouseAudio");
+    app.init(1024, 768, "MouseKeyBoard");
 
     window.show();
     app.exec();

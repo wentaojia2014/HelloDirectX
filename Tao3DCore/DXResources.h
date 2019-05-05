@@ -41,15 +41,15 @@ public:
     {
         return m_context.Get();
     }
-    const Matrix &getProjectionMatrix() const
+    Matrix &getProjectionMatrix()
     {
         return m_projection;
     }
-    const Matrix &getWorldMatrix() const
+    Matrix &getWorldMatrix()
     {
         return m_world;
     }
-    const Matrix &getOrthoMatrix() const
+    Matrix &getOrthoMatrix()
     {
         return m_ortho;
     }
