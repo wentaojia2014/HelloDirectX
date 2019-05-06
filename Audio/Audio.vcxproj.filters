@@ -55,10 +55,6 @@
     <CopyFileToFolders Include="Assets\roomtexture.dds">
       <Filter>Assets</Filter>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Assets\Alarm.wav">
-      <Filter>Assets</Filter>
-    </Media>
+    <CopyFileToFolders Include="Assets\Alarm.wav" />
   </ItemGroup>
 </Project>
