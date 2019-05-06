@@ -21,67 +21,21 @@
 
 * https://github.com/Microsoft/DirectXTK/wiki
 
-tutdx11网站中有些功能太旧了，俺都顺手给换新的。
+tutdx11网站中有些功能太旧了，只参考其中的思路，功能尽量用新的。
 
 特别是ComPtr和std智能指针管理内存, D3DXMath 用 DirectXTK 中的SimpleMath。
 
-当然还有一些写的比较差的代码，诸如频繁内存分配的，都给优化掉。
-
 ## 目录结构
-- Tao3DCommon
-	
-	(旧的)
-
-  公用的部分，单独的库，以dll的方式导出给Examples使用 
 
 - Tao3DCore
-	
-	(新的)
 
-  公用的部分，可复用的窗口渲染框架，由每个Examples直接添加源码到项目中使用
+  公用的部分，可复用的窗口渲染框架。
 
-- HelloDx
+  没有用微软那一套UWP框架, 自己重写的窗口渲染框架
 
-  DirectX的基本功能使用
-  
-  (tutdx11教程的前10章都在这里面了)
-
-  ![](DemoImages/HelloDirectX.png)
-
-- 2DRender
-
-  3D场景中渲染2D纹理
-
-  (tutdx11教程的11章)
-
-  ![](DemoImages/2DRender.png)
-
-- FontEngine
-  
-  字体渲染
-
-  (tutdx11教程的12章)
-
-  ![](DemoImages/FontEngine.png)
-
-- ObjConvert
-
-  命令行工具，用来转换obj格式模型文件为txt格式
-  
-  (tutdx11教程的7、8章用到转换器)
+  由每个Examples直接添加源码到项目中使用
 
 
-- MouseKeyboard
-
-  场景贴图，使用键盘可以上下左右移动、鼠标控制相机视口。
-  
-  参考 https://github.com/Microsoft/DirectXTK/wiki/Mouse-and-keyboard-input
-
-  功能一样，但是没有用微软那一套UWP框架
-
-  自己重写的窗口渲染框架，与前面的Examples都不一样了。
-
-  ![](DemoImages/MouseKeyboard.png)
 
 - Triangle
 
@@ -102,6 +56,15 @@ tutdx11网站中有些功能太旧了，俺都顺手给换新的。
   鼠标位置写出来，这个想法来自tutdx11 13章
 
 	![](DemoImages/DrawText.png)
+
+- MouseKeyboard
+
+  场景贴图，使用键盘可以上下左右移动、鼠标控制相机视口。
+  
+  参考 https://github.com/Microsoft/DirectXTK/wiki/Mouse-and-keyboard-input
+
+   ![](DemoImages/MouseKeyboard.png)
+
 - Texture
     
     精灵渲染 一只猫

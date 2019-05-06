@@ -68,8 +68,8 @@ void TextureRender::update()
     }
     auto cost = std::chrono::high_resolution_clock::now() - m_point;
     auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(cost).count();
-    m_ship->Update(elapsedTime);
-    m_scrollBackground->Update(elapsedTime);
+    m_ship->Update(static_cast<float>(elapsedTime));
+    m_scrollBackground->Update(static_cast<float>(elapsedTime));
 }
 bool TextureRender::render()
 {
