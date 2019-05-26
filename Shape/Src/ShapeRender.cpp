@@ -31,8 +31,8 @@ void ShapeRender::init(int width, int height)
         gDevice->CreateInputLayout(
             VertexPositionColor::InputElements, VertexPositionColor::InputElementCount, shaderByteCode, byteCodeLength, m_inputLayout.GetAddressOf()),
         "CreateInputLayout");
-    m_shape = GeometricPrimitive::CreateCube(gContext);
-    //m_shape = GeometricPrimitive::CreateBox(gContext, {10.f, 10.f, 1.f});
+    //m_shape = GeometricPrimitive::CreateCube(gContext);
+    m_shape = GeometricPrimitive::CreateBox(gContext, {10.f, 10.f, 1.f});
     //m_shape = GeometricPrimitive::CreateSphere(gContext);
     //m_shape = GeometricPrimitive::CreateGeoSphere(gContext);
     //m_shape = GeometricPrimitive::CreateCylinder(gContext);
