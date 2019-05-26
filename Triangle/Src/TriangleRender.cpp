@@ -40,7 +40,7 @@ bool TriangleRender::render()
 {
     gContext->OMSetBlendState(m_states->Opaque(), nullptr, 0xffffffff);
     gContext->OMSetDepthStencilState(m_states->DepthNone(), 0);
-    gContext->RSSetState(m_states->CullNone());
+    gContext->RSSetState(m_states->CullCounterClockwise());
 
     m_effect->Apply(gContext);
     gContext->IASetInputLayout(m_inputLayout.Get());
