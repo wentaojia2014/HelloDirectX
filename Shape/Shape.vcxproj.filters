@@ -51,4 +51,9 @@
       <Filter>Src</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Res\earth.bmp">
+      <Filter>Assets</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
 </Project>

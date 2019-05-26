@@ -89,6 +89,9 @@
     <ClInclude Include="..\Tao3DCore\MainWindow.h" />
     <ClInclude Include="Src\ShapeRender.h" />
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Res\earth.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
