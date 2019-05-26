@@ -12,8 +12,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{eeb7cb3b-ee8c-47e1-a208-602482d0f644}</ProjectGuid>
-    <RootNamespace>Audio</RootNamespace>
+    <ProjectGuid>{8aa482ce-3665-4c90-ab80-2726efa9ec10}</ProjectGuid>
+    <RootNamespace>Shape</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -53,12 +53,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DirectXTKd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -74,8 +71,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -83,7 +78,7 @@
     <ClCompile Include="..\Tao3DCore\DXResources.cpp" />
     <ClCompile Include="..\Tao3DCore\MainWindow.cpp" />
     <ClCompile Include="Src\main.cpp" />
-    <ClCompile Include="Src\TriangleRender.cpp" />
+    <ClCompile Include="Src\ShapeRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Tao3DCore\Application.h" />
@@ -92,15 +87,7 @@
     <ClInclude Include="..\Tao3DCore\IRender.h" />
     <ClInclude Include="..\Tao3DCore\IWindow.h" />
     <ClInclude Include="..\Tao3DCore\MainWindow.h" />
-    <ClInclude Include="Src\TriangleRender.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="Assets\roomtexture.dds" />
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="Assets\Alarm.wav">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
+    <ClInclude Include="Src\ShapeRender.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

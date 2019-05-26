@@ -41,15 +41,15 @@ tutdx11网站中有些功能太旧了，只参考其中的思路，功能尽量�
 
   渲染三角形
     
-  新框架，使用DirectXTK现有的功能，代码行数急剧下降。
+  使用DirectXTK现有的功能，代码行数很少。
   
   ![](DemoImages/Triangle.png)
 
 - DrawText
 
-	字体渲染
+  字体渲染
 
-  字体用DirectX提供的工具MakeSpriteFont.exe生成，引用的是系统字体，比前面那个自己做的强了很多。
+  字体用DirectX提供的工具MakeSpriteFont.exe生成，引用的是系统字体。
 
   可以通过这个脚本DrawText\Assets\GenFont.ps1生成字体文件
 
@@ -80,7 +80,10 @@ tutdx11网站中有些功能太旧了，只参考其中的思路，功能尽量�
 ## 安装依赖
 
   使用vcpkg
+
+  ```powershell
   vcpkg install directxtk:x64-windows directxtex:x64-windows
+  ```
 
 ### 联系方式:
 

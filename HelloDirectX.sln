@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Triangle", "Triangle\Triang
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Grid", "Grid\Grid.vcxproj", "{415E5E00-D28C-486D-96C4-B5F291975E44}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shape", "Shape\Shape.vcxproj", "{8AA482CE-3665-4C90-AB80-2726EFA9EC10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,12 @@ Global
 		{415E5E00-D28C-486D-96C4-B5F291975E44}.Release|x64.ActiveCfg = Release|x64
 		{415E5E00-D28C-486D-96C4-B5F291975E44}.Release|x64.Build.0 = Release|x64
 		{415E5E00-D28C-486D-96C4-B5F291975E44}.Release|x86.ActiveCfg = Release|x64
+		{8AA482CE-3665-4C90-AB80-2726EFA9EC10}.Debug|x64.ActiveCfg = Debug|x64
+		{8AA482CE-3665-4C90-AB80-2726EFA9EC10}.Debug|x64.Build.0 = Debug|x64
+		{8AA482CE-3665-4C90-AB80-2726EFA9EC10}.Debug|x86.ActiveCfg = Debug|x64
+		{8AA482CE-3665-4C90-AB80-2726EFA9EC10}.Release|x64.ActiveCfg = Release|x64
+		{8AA482CE-3665-4C90-AB80-2726EFA9EC10}.Release|x64.Build.0 = Release|x64
+		{8AA482CE-3665-4C90-AB80-2726EFA9EC10}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +90,7 @@ Global
 		{9E58C448-38B3-4D38-8DC2-A69E78F22817} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
 		{16F93C86-8FCE-4636-A41C-EA8133BC91B3} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
 		{415E5E00-D28C-486D-96C4-B5F291975E44} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
+		{8AA482CE-3665-4C90-AB80-2726EFA9EC10} = {9FFF8F93-71EB-4E01-B5B8-A0E9608B9E7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93889E8F-9CB2-4F3A-A3E3-AF31A6DA8C3A}
