@@ -21,7 +21,7 @@
 
 * https://github.com/Microsoft/DirectXTK/wiki
 
-tutdx11网站中有些功能太旧了，只参考其中的思路，功能尽量用新的。
+tutdx11网站中有些功能太旧了，只参考其中的思路，实现都用新的。
 
 特别是ComPtr和std智能指针管理内存, D3DXMath 用 DirectXTK 中的SimpleMath。
 
@@ -34,7 +34,6 @@ tutdx11网站中有些功能太旧了，只参考其中的思路，功能尽量�
   没有用微软那一套UWP框架, 自己重写的窗口渲染框架
 
   由每个Examples直接添加源码到项目中使用
-
 
 
 - Triangle
@@ -77,6 +76,11 @@ tutdx11网站中有些功能太旧了，只参考其中的思路，功能尽量�
 
 	![](DemoImages/Grid.png)
 
+- Shape
+
+	内置图元 球体，并贴上一个地球图片纹理
+
+	![](DemoImages/Shapes.png)
 ## 安装依赖
 
 需要安装这两个库
